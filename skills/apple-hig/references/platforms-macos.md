@@ -62,7 +62,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/the-menu-b
 ## Windows
 
 - [HIG] A window has a frame (title bar, window controls, toolbar; rarely a bottom bar) and a body. People move, resize, minimize and zoom windows constantly; design every window to adapt fluidly to size.
-- [HIG] Three states: main (an app's frontmost window, one per app), key (the window receiving input, one onscreen at a time; may be a panel) and inactive. The system draws them differently (colored versus gray window controls; inactive windows drop materials).
+- [HIG] Three states: main (an app's frontmost window, one per app), key (the window receiving input, one onscreen at a time; may be a panel) and inactive. The system draws them differently (colored versus gray window controls; inactive windows do not use vibrancy).
 - [HIG] Use system components so appearance follows window state automatically; custom views must implement the state appearances themselves.
 - [HIG] Do not create custom window frames or controls, and do not imitate the system ones.
 - [HIG] Avoid controls or critical information at the bottom of a window (or in a bottom bar, or at the bottom of a sidebar): people often move windows so the bottom edge is offscreen. For more detail than a small bottom bar holds, use an inspector on the trailing side of a split view.
@@ -124,7 +124,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/keyboards,
 - [HIG] Dark Mode is supported. The app accent color applies only when the person's accent setting is multicolor; otherwise their chosen accent wins. With the graphite accent, windows pick up desktop tinting, so include some transparency in custom component backgrounds.
 - [HIG] Use semantic `NSColor` values and system materials; choose materials by purpose and test vibrancy in several contexts.
 - [API] Liquid Glass (macOS 26+) arrives through standard components; `UIDesignRequiresCompatibility` is ignored when building for macOS 27 or later.
-- [HIG] Haptics exist only on trackpads that support them; never rely on them.
+- [HIG] Haptics: only when a Magic Trackpad is available, with three patterns (alignment, level change, generic) for drags and force clicks. Never rely on them.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/typography, https://developer.apple.com/design/human-interface-guidelines/accessibility, https://developer.apple.com/design/human-interface-guidelines/color, https://developer.apple.com/design/human-interface-guidelines/dark-mode, https://developer.apple.com/design/human-interface-guidelines/playing-haptics
 
@@ -146,9 +146,9 @@ Source: https://developer.apple.com/design/human-interface-guidelines/settings, 
 - [HIG] For repeated input with visible results (find and replace), use a panel, not a sheet.
 - [HIG] Popovers can be detachable: dragged away they become a panel that stays visible; keep the detached appearance close to the original.
 - [HIG] Panels float above the main window for tools and inspectors; consider Window menu items to show and hide them.
-- [HIG] Buttons that open another window or need more input end with an ellipsis.
+- [HIG] A push button that opens another window, view or app gets a trailing ellipsis in its title.
 
-Source: https://developer.apple.com/design/human-interface-guidelines/sheets, https://developer.apple.com/design/human-interface-guidelines/popovers, https://developer.apple.com/design/human-interface-guidelines/panels
+Source: https://developer.apple.com/design/human-interface-guidelines/buttons, https://developer.apple.com/design/human-interface-guidelines/sheets, https://developer.apple.com/design/human-interface-guidelines/popovers, https://developer.apple.com/design/human-interface-guidelines/panels
 
 ## Touch on a Mac with a touch display
 

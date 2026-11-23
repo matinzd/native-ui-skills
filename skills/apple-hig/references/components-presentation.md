@@ -97,7 +97,7 @@ Content:
 
 Buttons:
 - [HIG] One- or two-word titles describing the result, preferably verbs tied to the alert text ("Erase", "Delete", "View All").
-- [HIG] "OK" only in purely informational alerts; avoid "Yes" and "No".
+- [HIG] "OK" only in purely informational alerts; avoid "Yes" and "No". Button titles use title-style capitalization and no ending punctuation.
 - [HIG] Placement and roles: see the conventions table above.
 
 Platform notes:

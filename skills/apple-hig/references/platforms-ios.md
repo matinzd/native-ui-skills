@@ -79,7 +79,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/sheets, ht
 | Padding around bezeled / non-bezeled controls | about 12 pt / about 24 pt | [HIG] |
 | Body text style at the default (Large) size | 17 pt, 22 pt leading | [HIG] |
 | Large Title at the default size | 34 pt, 41 pt leading | [HIG] |
-| Text contrast | 4.5:1 up to 17 pt; 3:1 at 18 pt and larger or bold | [HIG] |
+| Minimum text contrast | 4.5:1 for text up to 17 pt; 3:1 for 18 pt text and for bold text of any size | [HIG] |
 | Text enlargement to support | at least 200% | [HIG] |
 | Image scale factors | @2x and @3x | [HIG] |
 | System font | SF Pro (New York also available) | [HIG] |

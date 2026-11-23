@@ -125,7 +125,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/apple-penc
 
 ## Drag and drop
 
-- [HIG] Support drag and drop widely, between and within apps, and always provide a non-drag alternative. Dragging between apps copies.
+- [HIG] Support drag and drop widely, between and within apps, and always provide a non-drag alternative. As a general rule a drop in the same container moves content and a drop in a different container copies it.
 - [HIG] Support multi-item drags: people add items to a drag in progress, so show flocking feedback and accept multiple simultaneous drops.
 - [HIG] Show valid and invalid destinations clearly and make drops undoable where possible.
 - [HIG] Supporting drag and drop on iPad also gives the Mac Catalyst version drag and drop.

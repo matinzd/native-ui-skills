@@ -105,7 +105,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/scroll-vie
 - [HIG] Prefer the automatic style. If you choose the soft style, test legibility in many contexts. (Styles named on the page: automatic, hard, soft; API `ScrollEdgeEffectStyle`.)
 - [HIG] Use it only where a scroll view sits behind floating interface elements. It is not decoration and does not dim like an overlay.
 - [HIG] One scroll edge effect per view. In split views each pane can have its own; keep their heights consistent.
-- [HIG] Do not put a solid or semi-opaque background under controls instead (Layout page; see the foundations layout reference linked from `SKILL.md`).
+- [HIG] Do not put a solid or semi-opaque background under controls instead (Layout page; see `references/foundations-layout.md`).
 
 Source: https://developer.apple.com/design/human-interface-guidelines/scroll-views, https://developer.apple.com/design/human-interface-guidelines/layout
 

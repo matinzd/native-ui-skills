@@ -47,19 +47,14 @@ Source: https://developer.apple.com/documentation/swiftui/navigationsplitview, h
 
 ```swift
 // iOS 16+, macOS 13+, tvOS 16+, watchOS 9+, visionOS 1+
-struct RecipeList: View {
-    let recipes: [Recipe]                      // Recipe: Identifiable, Hashable
-    @State private var path = NavigationPath()
-    var body: some View {
-        NavigationStack(path: $path) {
-            List(recipes) { recipe in
-                NavigationLink(recipe.name, value: recipe)
-            }
-            .navigationTitle("Recipes")
-            .navigationDestination(for: Recipe.self) { recipe in
-                RecipeDetail(recipe: recipe)
-            }
-        }
+// State: @State private var path = NavigationPath(); Recipe is Identifiable and Hashable.
+NavigationStack(path: $path) {
+    List(recipes) { recipe in
+        NavigationLink(recipe.name, value: recipe)
+    }
+    .navigationTitle("Recipes")
+    .navigationDestination(for: Recipe.self) { recipe in
+        RecipeDetail(recipe: recipe)
     }
 }
 ```
@@ -74,23 +69,18 @@ Source: https://developer.apple.com/documentation/swiftui/navigationstack, https
 ## NavigationSplitView
 
 ```swift
-// iOS 16+, macOS 13+, visionOS 1+ (also tvOS 16+ and watchOS 9+, where it shows as a stack)
-struct LibraryView: View {
-    let folders: [Folder]                      // Folder: Identifiable, Hashable
-    @State private var selectedID: Folder.ID?
-    var body: some View {
-        NavigationSplitView {
-            List(folders, selection: $selectedID) { folder in
-                Label(folder.name, systemImage: "folder")
-            }
-            .navigationTitle("Library")
-        } detail: {
-            if let folder = folders.first(where: { $0.id == selectedID }) {
-                FolderDetail(folder: folder)
-            } else {
-                Text("Select a folder").foregroundStyle(.secondary)
-            }
-        }
+// iOS 16+, macOS 13+, tvOS 16+, visionOS 1+ (the split view is also watchOS 9+, but not this List selection initializer)
+// State: @State private var selectedID: Folder.ID?; Folder is Identifiable and Hashable.
+NavigationSplitView {
+    List(folders, selection: $selectedID) { folder in
+        Label(folder.name, systemImage: "folder")
+    }
+    .navigationTitle("Library")
+} detail: {
+    if let folder = folders.first(where: { $0.id == selectedID }) {
+        FolderDetail(folder: folder)
+    } else {
+        Text("Select a folder").foregroundStyle(.secondary)
     }
 }
 ```
@@ -99,7 +89,8 @@ struct LibraryView: View {
 - [API] When collapsed, choose the column shown on top with `init(preferredCompactColumn:sidebar:detail:)`.
 - [API] `navigationSplitViewColumnWidth(_:)` and `navigationSplitViewStyle(_:)` are iOS 16+, macOS 13+, tvOS 16+, watchOS 9+, visionOS 1+.
 - [API] `List` selection initializers list no watchOS availability; on watchOS use `NavigationLink` rows instead.
-- [HIG] Always show a placeholder in an empty detail column rather than a blank pane.
+- [Conv] Show a placeholder in an empty detail column rather than a blank pane.
+- [HIG] Keep the current selection highlighted in each pane that leads to the detail view; a selection-bound `List` does this.
 
 Source: https://developer.apple.com/documentation/swiftui/navigationsplitview, https://developer.apple.com/design/human-interface-guidelines/split-views
 
@@ -107,22 +98,19 @@ Source: https://developer.apple.com/documentation/swiftui/navigationsplitview, h
 
 ```swift
 // Tab: iOS 18+, macOS 15+, tvOS 18+, watchOS 11+, visionOS 2+. Older systems take the else branch.
-struct RootView: View {
-    var body: some View {
-        if #available(iOS 18, macOS 15, tvOS 18, watchOS 11, visionOS 2, *) {
-            TabView {
-                Tab("Home", systemImage: "house") { HomeView() }
-                Tab("Library", systemImage: "books.vertical") { LibraryView() }
-                Tab("Search", systemImage: "magnifyingglass", role: .search) { SearchView() }
-            }
-        } else {
-            TabView {
-                // Fallback for iOS 17 and earlier: tabItem is deprecated but correct here.
-                HomeView().tabItem { Label("Home", systemImage: "house") }
-                LibraryView().tabItem { Label("Library", systemImage: "books.vertical") }
-                SearchView().tabItem { Label("Search", systemImage: "magnifyingglass") }
-            }
-        }
+// Inside `var body: some View { ... }` of the root view:
+if #available(iOS 18, macOS 15, tvOS 18, watchOS 11, visionOS 2, *) {
+    TabView {
+        Tab("Home", systemImage: "house") { HomeView() }
+        Tab("Library", systemImage: "books.vertical") { LibraryView() }
+        Tab("Search", systemImage: "magnifyingglass", role: .search) { SearchView() }
+    }
+} else {
+    TabView {
+        // Fallback for iOS 17 and earlier: tabItem is deprecated but correct here.
+        HomeView().tabItem { Label("Home", systemImage: "house") }
+        LibraryView().tabItem { Label("Library", systemImage: "books.vertical") }
+        SearchView().tabItem { Label("Search", systemImage: "magnifyingglass") }
     }
 }
 ```
@@ -139,16 +127,7 @@ struct RootView: View {
 | `tabViewBottomAccessory(content:)` | iOS 26+ only; `isEnabled:` variant iOS 26.1+ | Accessory above the tab bar; inline when the bar is minimized. Read `\.tabViewBottomAccessoryPlacement` to adapt. |
 | `badge(_:)` on a tab | iOS 18+, macOS 15+, visionOS 2+ | |
 
-```swift
-// iOS 26+ only: wrap in #if os(iOS) and #available(iOS 26, *) in multiplatform code.
-TabView {
-    Tab("Feed", systemImage: "list.bullet") { FeedView() }
-    Tab("Saved", systemImage: "bookmark") { SavedView() }
-}
-.tabBarMinimizeBehavior(.onScrollDown)
-.tabViewBottomAccessory { NowPlayingBar() }
-```
-
+- [API] iOS 26+ usage, applied to the `TabView`: `.tabBarMinimizeBehavior(.onScrollDown)` and `.tabViewBottomAccessory { NowPlayingBar() }`. Both need `#available(iOS 26, *)`, and `#if os(iOS)` in multiplatform code.
 - [HIG] Do not hide or disable tabs, and avoid overflowing into a More tab. The HIG gives no fixed tab count.
 - [Conv] Do not build a tab bar from an `HStack` of buttons: `TabView` supplies the OS 26 glass appearance, sidebar adaptation, the search role and accessibility traits.
 
@@ -179,9 +158,9 @@ List(messages) { MessageRow(message: $0) }
                 Label("Compose", systemImage: "square.and.pencil")
             }
         }
-        ToolbarItemGroup(placement: .secondaryAction) {   // iOS 16+, macOS 13+
-            Button("Select", systemImage: "checkmark.circle") { isSelecting = true }
-            Button("Filter", systemImage: "line.3.horizontal.decrease") { showsFilter = true }
+        ToolbarItemGroup(placement: .secondaryAction) {   // iOS 16+, macOS 13+, visionOS 1+
+            Button("Select") { isSelecting = true }
+            Button("Filter") { showsFilter = true }
         }
     }
 ```
@@ -191,7 +170,7 @@ List(messages) { MessageRow(message: $0) }
 - [API] `ToolbarSpacer(_:placement:)` with `.fixed` or `.flexible` sizing is iOS 26+, macOS 26+ only; it separates groups of bar items. `DefaultToolbarItem(kind:placement:)` is OS 26+ on all platforms.
 - [API] Titles: `navigationTitle(_:)` is iOS 14+, macOS 11+, tvOS 14+, watchOS 7+. `navigationBarTitleDisplayMode(_:)` is iOS 14+, watchOS 8+, visionOS 1+ and does not exist on macOS or tvOS. `toolbarTitleDisplayMode(_:)` is iOS 17+, macOS 14+, tvOS 17+, watchOS 10+, visionOS 1+; its `.large` value is not on macOS or tvOS and `.inlineLarge` is not on tvOS or watchOS. `navigationSubtitle(_:)` is macOS 13+ and iOS 26+.
 - [API] Hide a bar with `toolbarVisibility(_:for:)` (iOS 18+, macOS 15+, tvOS 18+, watchOS 11+, visionOS 2+). Below that, the deprecated `toolbar(_:for:)` visibility form (iOS 16+) is the fallback.
-- [HIG] Reduce custom toolbar backgrounds and tinted bar items (OS 26+, Liquid Glass); keep the title short and use standard Back and Close buttons.
+- [HIG] Reduce custom toolbar backgrounds and tinted bar items (OS 26+, Liquid Glass); write a concise title (the HIG suggests under 15 characters) and use the standard Back and Close buttons.
 
 Source: https://developer.apple.com/documentation/swiftui/toolbaritemplacement, https://developer.apple.com/documentation/swiftui/toolbaritem, https://developer.apple.com/documentation/swiftui/toolbarspacer, https://developer.apple.com/documentation/swiftui/toolbartitledisplaymode, https://developer.apple.com/design/human-interface-guidelines/toolbars
 
@@ -220,7 +199,7 @@ List(results) { Text($0.name) }
 - [API] `searchable(text:isPresented:placement:prompt:)` is iOS 17+, macOS 14+, visionOS 1+. `\.isSearching` and `\.dismissSearch` are iOS 15+, macOS 12+, tvOS 15+, watchOS 8+, visionOS 1+.
 - [API] Search tab: give one tab `role: .search` and make the tab view searchable; the tab view prefers the first search-role tab to implement search. `searchToolbarBehavior(_:)` (OS 26+) adjusts a toolbar search field, for example `.minimized` on iPhone.
 - [Unverified] Whether `searchable` should sit on the `TabView` or inside the search tab's `NavigationStack` for a given layout; the documentation wording implies the tab view. Build and check both placements on the target OS.
-- [HIG] Use the standard search field rather than a `TextField` with a magnifier icon, and show a clear "no results" state.
+- [Conv] Use `searchable` rather than a `TextField` with a magnifier icon: it brings the Clear button, scopes, suggestions and platform placement. Show a clear "no results" state.
 
 Source: https://developer.apple.com/documentation/swiftui/searchfieldplacement, https://developer.apple.com/documentation/swiftui/tabrole, https://developer.apple.com/documentation/swiftui/contentunavailableview, https://developer.apple.com/design/human-interface-guidelines/search-fields
 
@@ -251,23 +230,18 @@ Source: https://developer.apple.com/documentation/swiftui/modal-presentations, h
 
 ```swift
 // iOS 16+, macOS 13+, tvOS 16+, watchOS 9+, visionOS 1+
-struct FilterSheet: View {
-    @Environment(\.dismiss) private var dismiss
-    @State private var onlyUnread = false
-    var body: some View {
-        NavigationStack {
-            Form { Toggle("Unread Only", isOn: $onlyUnread) }
-                .navigationTitle("Filters")
-                .toolbar {
-                    ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }
-                    ToolbarItem(placement: .confirmationAction) { Button("Done") { dismiss() } }
-                }
-        }
-        .presentationDetents([.medium, .large])
-        .presentationDragIndicator(.visible)
-    }
-}
+// Body of the sheet's root view; dismiss is @Environment(\.dismiss).
 // Present with: .sheet(isPresented: $showsFilters) { FilterSheet() }
+NavigationStack {
+    Form { Toggle("Unread Only", isOn: $onlyUnread) }
+        .navigationTitle("Filters")
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }
+            ToolbarItem(placement: .confirmationAction) { Button("Done") { applyAndDismiss() } }
+        }
+}
+.presentationDetents([.medium, .large])
+.presentationDragIndicator(.visible)
 ```
 
 - [API] `presentationDetents(_:)` takes a `Set<PresentationDetent>`: `.medium`, `.large`, `.fraction(_:)`, `.height(_:)`. Apply it to the sheet's content, not to the presenting view.
@@ -276,7 +250,7 @@ struct FilterSheet: View {
 - [API] `fullScreenCover` has no macOS availability; on macOS use a sheet or a separate window.
 - [API] Block swipe-to-dismiss while there are unsaved edits with `interactiveDismissDisabled(_:)`.
 - [HIG] In iOS and iPadOS put Cancel on the leading edge and Done on the trailing edge of the sheet's top toolbar; pair Done with Cancel or Back, and never show Cancel, Done and Back together.
-- [HIG] Reserve full-screen covers for immersive or multistep tasks and always give a visible way out.
+- [HIG] Consider a full-screen modal style for in-depth content or a complex multistep task, and always give people an obvious way to dismiss a modal view.
 
 Source: https://developer.apple.com/documentation/swiftui/presentationdetent, https://developer.apple.com/documentation/swiftui/presentationadaptation, https://developer.apple.com/design/human-interface-guidelines/sheets, https://developer.apple.com/design/human-interface-guidelines/popovers, https://developer.apple.com/design/human-interface-guidelines/modality
 
@@ -300,7 +274,7 @@ Button("Delete Draft", role: .destructive) { isConfirmingDelete = true }
 ```
 
 - [API] Every action dismisses the dialog after it runs. A button with `role: .cancel` replaces the default dismiss action. The system may reorder buttons by role.
-- [API] In regular size classes on iOS a confirmation dialog renders as a popover anchored to the view it is attached to, so attach it to the control that triggered it.
+- [API] In regular size classes on iOS a confirmation dialog renders as a popover that is dismissed by tapping outside it. [Conv] Attach the modifier to the control that triggered it.
 - [API] On iOS, tvOS and watchOS, confirmation dialogs support only controls whose labels are `Text`; other content is omitted.
 - [HIG] Use alerts sparingly; do not alert for common, undoable actions even when destructive. Never give a destructive button the default (primary) role, and include Cancel when a choice is destructive.
 - [HIG] Use a confirmation dialog (action sheet) for choices related to an action the person just started, not for general menus; use `Menu` for those.
@@ -321,4 +295,3 @@ Source: https://developer.apple.com/documentation/swiftui/buttonrole, https://de
 | Custom dimmed `ZStack` overlay as an alert or sheet | `alert`, `confirmationDialog`, `sheet`, `popover`. |
 | Sheet with Done but no Cancel, or no way out | `.cancellationAction` and `.confirmationAction` toolbar items. |
 | `fullScreenCover` or `popover` in code shared with macOS, tvOS or watchOS | Check the gap table; guard with `#if os(...)` and present a sheet instead. |
-| Custom search bar | `searchable`, a search-role tab, `ContentUnavailableView.search`. |
