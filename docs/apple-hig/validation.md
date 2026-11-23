@@ -103,6 +103,11 @@ notification prompt; in both the model answered directly without loading the ski
 Jetpack Compose, CSS, Flutter, React Native, Swift concurrency, App Store metadata, server-side Swift, and
 non-UI code review.
 
+**With `material-design` also installed.** The held-out queries were run again later with both skills in the
+project: 11 of 14 (all 7 negatives, 4 of 7 positives), against 12 of 14 alone. Neither skill fired on the
+other's queries. The extra miss was a SwiftUI badge-color question answered without a skill; one run per query
+cannot separate that from variance. Details are in [`../material-design/validation.md`](../material-design/validation.md).
+
 ## Task scenarios
 
 Method: `tools/run_evals.py tasks --skill apple-hig` ran eight scenarios twice each, once in a project containing the skill and

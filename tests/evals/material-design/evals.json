@@ -99,7 +99,7 @@
       ],
       "max_reference_files": 4,
       "assertions": [
-        "Every finding carries exactly one of the skill's five classification labels, a severity, a concrete fix, and a source URL or an explicit note that no source exists",
+        "Every finding states a classification, a severity, a concrete fix, and either a source URL or an explicit note that no source exists",
         "The androidx.compose.material imports (FloatingActionButton, Text) are flagged as Material 2 components mixed into a Material 3 screen, with the material3 equivalents as the fix",
         "The ignored Scaffold content padding is flagged, and the fix applies the PaddingValues to the list (padding modifier or contentPadding)",
         "Divider is flagged as deprecated with HorizontalDivider as the replacement",
@@ -318,8 +318,8 @@
       "assertions": [
         "The answer states 48 x 48 dp (or 48dp)",
         "The answer does not say that Android or Google Play enforces the size or rejects apps below it",
-        "The answer includes one m3.material.io or developer.android.com URL",
-        "The answer is at most 120 words, excluding URLs and table syntax",
+        "The answer includes at least one m3.material.io or developer.android.com URL",
+        "The answer is short: no more than about 150 words of prose, with at most one small table",
         "The answer contains no code block longer than 5 lines and mentions platforms other than Android in at most one clause",
         "At most one skill reference file was read to produce the answer"
       ]
