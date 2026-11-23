@@ -23,7 +23,7 @@ These exist because Material folklore is widespread and often describes Material
    and give the page to check. Never invent a composable, a parameter, a dp value, or a "Material rule".
 2. **Say how strong each rule is.** Most Material and Android design guidance is recommendation ("should",
    "consider", "avoid"). Reference files tag each rule bullet: `[Req]` something Google states as mandatory (a
-   quality guideline marked required, a Play target-API rule), `[MD]` Material or Android design recommendation,
+   quality guideline marked required, a Play target-API rule, or a Material page that says "must" or "requires"), `[MD]` Material or Android design recommendation,
    `[API]` documentation or platform fact (signature, stability, deprecation, behaviour tied to an API level,
    "not supported on this form factor"), `[Conv]` convention, interpretation, or this skill's own working rule,
    `[Unverified]`. Carry that strength into your answer; do not turn a recommendation into a violation.
@@ -123,7 +123,7 @@ All of these are recommendations unless a reference says otherwise (verified 202
 | Window width | Breakpoint | Navigation | Panes |
 |--------------|------------|------------|-------|
 | Under 600dp | Compact | Navigation bar | One |
-| 600 to 839dp | Medium | Navigation rail; a bar is allowed (pages disagree) | One |
+| 600 to 839dp | Medium | Navigation rail; a bar is allowed (pages disagree) | One (two only for low-density content) |
 | 840 to 1199dp | Expanded | Navigation rail | Up to two |
 | 1200 to 1599dp | Large | Navigation rail | Up to two |
 | 1600dp and wider | Extra-large | Navigation rail | Up to three |
@@ -145,7 +145,10 @@ size class.
 
 Sources: https://m3.material.io/foundations/layout/breakpoints/overview ,
 https://m3.material.io/foundations/designing/structure ,
+https://m3.material.io/foundations/layout/breakpoints/compact ,
 https://m3.material.io/components/navigation-bar/guidelines ,
+https://m3.material.io/components/navigation-rail/guidelines ,
+https://m3.material.io/components/dialogs/guidelines ,
 https://developer.android.com/docs/quality-guidelines/core-app-quality
 
 ## Outdated or invented lore to avoid
@@ -159,10 +162,13 @@ https://developer.android.com/docs/quality-guidelines/core-app-quality
   `references/implementation-availability.md` instead of guessing.
 - **Several familiar components are "no longer recommended"**: the navigation drawer (use the expanded
   navigation rail), segmented buttons (use a connected button group), and the baseline medium and large app bars.
-- **The 48dp touch target is a recommendation** in Material and the Android design docs. It is a stated
-  requirement only in specific quality guidelines such as Wear OS and widgets.
-- **Elevation overlays and surface tint are gone.** Tonal surface container roles replace them.
-- **Component motion uses spring-based motion schemes**, not easing-and-duration tokens.
+- **The 48dp touch target is a recommendation** in Material's foundations and the Android design docs. It is
+  worded as a requirement in the Wear OS and widget quality guidelines, and Material uses "must" or "need" for
+  48x48dp on some component pages (small icon buttons, chips, list slots, toolbars).
+- **Surface tint color is deprecated.** Elevation uses the level tokens (0 to 5), shown with tonal surface
+  container roles (which are not tied to elevation) and shadows only where needed.
+- **Component motion uses spring-based motion schemes**, not easing-and-duration tokens. Easing and duration are
+  still used for transitions.
 - **Do not set status bar or navigation bar colors, lock orientation on large screens, or override
   `onBackPressed`.** Edge-to-edge, large-screen resizability, and predictive back are platform behaviour tied to
   `targetSdk` 35 and 36; see `references/platforms-system.md` and `references/platforms-large-screens.md`.
@@ -170,9 +176,11 @@ https://developer.android.com/docs/quality-guidelines/core-app-quality
   bar overloads; the Material icons library is no longer bundled). Material 2 Compose is deprecated, and the
   Views library is in maintenance mode.
 - **Interface text is sentence case.**
-- **Material gives no** minimum font size, character limit for navigation labels, single snackbar duration (it
-  gives a 4 to 10 second range), FAB edge margin, bottom sheet peek height, or component animation duration. If
-  asked for one, say so and offer the component default instead.
+- **Material gives no** minimum font size for phones (Android's design guidance, not Material, says body text
+  no smaller than 12sp), character limit for navigation labels, single snackbar duration (it gives a 4 to 10
+  second range), FAB edge margin (16dp is published only for the extended FAB and the FAB menu), bottom sheet
+  peek height (only a cap of 50% of screen height for a modal sheet's initial position), or component animation
+  duration. If asked for one, say so and offer the component default instead.
 - **Google's own pages sometimes disagree with each other** (for example TV overscan values, or prose versus
   token tables). The references report both values; do not pick one silently.
 
