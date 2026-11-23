@@ -886,7 +886,8 @@ fun BirthdayPickerDialog(initialMillis: Long?, onDismiss: () -> Unit, onDateSele
 - [V] Wear: `androidx.wear.compose:compose-material3` 1.7.2 stable, package `androidx.wear.compose.material3`: `AppScaffold`,
   `ScreenScaffold`, `MaterialTheme`, `Button`, `FilledTonalButton`, `CompactButton`, `EdgeButton`, `IconButton`, `TitleCard`,
   `ListHeader`, `SwitchButton`, `AlertDialog`, `ConfirmationDialog`, `TimeText`, `ScrollIndicator`, `Stepper`, `Slider`,
-  `Picker`, `HorizontalPagerScaffold`, `TransformingLazyColumn` (`...material3.lazy`), `dynamicColorScheme(context): ColorScheme?`.
+  `Picker`, `HorizontalPagerScaffold`, `dynamicColorScheme(context): ColorScheme?`. (`TransformingLazyColumn` is not in
+  this artifact's API file; [M] it lives in `androidx.wear.compose:compose-foundation`.)
   It is a separate library: do not use `androidx.compose.material3` on Wear. Guide lists Material "2.5" and "3" variants.
   https://developer.android.com/training/wearables/compose
 - [V] TV: `androidx.tv:tv-material` 1.1.0 stable, package `androidx.tv.material3`: `MaterialTheme`, `Surface`, `Button`,
