@@ -1,4 +1,4 @@
-# Validation
+# apple-hig: validation
 
 What was checked, how, and what the results were. Everything here was run on 2026-11-23 in a Linux container
 with network access to developer.apple.com, Python 3, and Claude Code 2.1.330. There was no Swift toolchain, no
@@ -87,7 +87,7 @@ addressed. Not done: a byte-accurate token budget per file, and running the plug
 
 ## Activation
 
-Method: `tools/run_evals.py triggers` starts a fresh non-interactive Claude Code session per query in an empty
+Method: `tools/run_evals.py triggers --skill apple-hig` starts a fresh non-interactive Claude Code session per query in an empty
 project that contains only this skill, and records whether the skill was invoked. Each query ran once, so these
 are indications, not rates.
 
@@ -105,7 +105,7 @@ non-UI code review.
 
 ## Task scenarios
 
-Method: `tools/run_evals.py tasks` ran eight scenarios twice each, once in a project containing the skill and
+Method: `tools/run_evals.py tasks --skill apple-hig` ran eight scenarios twice each, once in a project containing the skill and
 once in an empty project, same model and prompt. A separate grader agent scored every assertion with quoted
 evidence, applying the same standard to both, and checked factual claims against Apple's pages. One run per
 configuration.
@@ -157,10 +157,10 @@ with-and-without comparison after the fixes.
 
 ## Eval file format
 
-`tests/evals/evals.json` follows the convention used by agentskills.io and Anthropic's skill-creator
+`tests/evals/apple-hig/evals.json` follows the convention used by agentskills.io and Anthropic's skill-creator
 (`skill_name`, `evals[]` with `id`, `prompt`, `expected_output`, `files`, `assertions`). Extra keys used here:
 `name`, `category`, `references_expected` (skill files a good run is likely to need), and `max_reference_files`.
-`tests/evals/trigger-queries.json` is an array of `{query, should_trigger}` with extra `split` and `note` keys;
+`tests/evals/apple-hig/trigger-queries.json` is an array of `{query, should_trigger}` with extra `split` and `note` keys;
 strip those two before feeding the file to skill-creator's description optimiser.
 
 ## Manual procedures not yet performed
@@ -199,11 +199,11 @@ claude plugin validate .
 ```
 
 ```bash
-python3 tools/run_evals.py triggers
+python3 tools/run_evals.py triggers --skill apple-hig
 ```
 
 ```bash
-python3 tools/run_evals.py tasks --ids 6 8 12 14 15 16 17 18
+python3 tools/run_evals.py tasks --skill apple-hig --ids 6 8 12 14 15 16 17 18
 ```
 
 The last two start real Claude Code sessions and cost tokens (about $7 for the eight scenarios in both

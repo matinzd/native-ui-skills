@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the apple-hig Agent Skill and the repository around it.
+"""Validate every Agent Skill under skills/ and the repository around them.
 
 Standard library only. Exit status 0 when there are no errors, 1 otherwise.
 
@@ -30,16 +30,22 @@ import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SKILL_NAME = "apple-hig"
-SKILL = ROOT / "skills" / SKILL_NAME
+PLUGIN_NAME = "native-ui-skills"
+SKILLS_DIR = ROOT / "skills"
+# Set per skill by main() while that skill is being checked.
+SKILL_NAME = ""
+SKILL = SKILLS_DIR
+SOURCE_HOSTS = ("https://developer.apple.com/", "https://docs.swift.org/", "https://m3.material.io/",
+                "https://developer.android.com/", "https://kotlinlang.org/")
 SPEC_FIELDS = {"name", "description", "license", "compatibility", "metadata", "allowed-tools"}
 REFERENCE_GROUPS = ("foundations", "components", "patterns", "platforms", "accessibility", "implementation", "review")
-RULE_TAGS = ("[Req]", "[HIG]", "[API]", "[Conv]", "[Unverified]")
+RULE_TAGS = ("[Req]", "[HIG]", "[MD]", "[API]", "[Conv]", "[Unverified]")
 STALE_AFTER_DAYS = 270
 
 # Deprecated or discouraged spellings. They may appear in Swift code only when the same line, or one of the
 # three lines before it, carries a marker showing the code is a "before" / "avoid" / fallback sample.
-DEPRECATED = {
+CODE_SUFFIXES = {".swift": "swift", ".kt": "kotlin"}
+DEPRECATED: dict[str, dict[str, str]] = {"kotlin": {}, "swift": {
     r"\bNavigationView\b": "NavigationView (use NavigationStack or NavigationSplitView)",
     r"\.foregroundColor\(": "foregroundColor (use foregroundStyle)",
     r"\.cornerRadius\(": "cornerRadius (use clipShape)",
@@ -52,14 +58,14 @@ DEPRECATED = {
     r"\.edgesIgnoringSafeArea\(": "edgesIgnoringSafeArea (use ignoresSafeArea)",
     r"\.accentColor\(": "accentColor modifier (use tint)",
     r"\bUIScreen\.main\b": "UIScreen.main (use the view's geometry or trait collection)",
-}
+}}
 MARKER = re.compile(r"//.*\b(avoid|deprecated|before|fallback)\b", re.I)
 
-# Names that do not exist in SwiftUI. Evals use them as traps; shipped skill files must never present them.
-FAKE_APIS = (
-    "liquidGlassStyle", "hapticFeedback(", "navigationBarGlass", "minimumTapTarget", "tapTargetSize",
-    "roundedCorners(", "adaptiveTabBar",
-)
+# Names that do not exist. Evals use them as traps; shipped skill files must never present them as real.
+FAKE_APIS = {
+    "apple-hig": ("liquidGlassStyle", "hapticFeedback(", "navigationBarGlass", "minimumTapTarget", "tapTargetSize",
+                  "roundedCorners(", "adaptiveTabBar"),
+}
 CLAUDE_ONLY = ("$ARGUMENTS", "${CLAUDE_", "!`")
 
 
@@ -202,7 +208,7 @@ def strip_swift(code: str) -> str:
     return re.sub(r"/\*.*?\*/", "", code, flags=re.S)
 
 
-def check_swift(rep: Report, where: Path, code: str, first_line: int, context: list[str]) -> None:
+def check_code(rep: Report, where: Path, code: str, first_line: int, context: list[str], lang: str) -> None:
     stack: list[str] = []
     pairs = {")": "(", "]": "[", "}": "{"}
     balanced = True
@@ -214,14 +220,14 @@ def check_swift(rep: Report, where: Path, code: str, first_line: int, context: l
                 balanced = False
                 break
     if not balanced or stack:
-        rep.error(where, f"Swift block starting at line {first_line} has unbalanced brackets")
+        rep.error(where, f"{lang} block starting at line {first_line} has unbalanced brackets")
     lines = code.splitlines()
     first = next((ln for ln in lines if ln.strip()), "")
     if first.lstrip().startswith("//") and MARKER.search(first):
         return  # the whole block is labelled as a before / avoid sample
     for i, line in enumerate(lines):
         window = "\n".join((context + lines)[max(0, i + len(context) - 3): i + len(context) + 1])
-        for pattern, label in DEPRECATED.items():
+        for pattern, label in DEPRECATED.get(lang, {}).items():
             if re.search(pattern, line) and not MARKER.search(window):
                 rep.error(where, f"line {first_line + i}: {label} outside an avoid/before/fallback sample")
 
@@ -235,8 +241,9 @@ def check_markdown_code(rep: Report, md: Path) -> None:
             if open_at is None:
                 open_at, lang = n, line.strip()[3:].strip().lower()
             else:
-                if lang == "swift":
-                    check_swift(rep, md, "\n".join(lines[open_at:n - 1]), open_at + 1, lines[max(0, open_at - 4):open_at - 1])
+                if lang in ("swift", "kotlin"):
+                    check_code(rep, md, "\n".join(lines[open_at:n - 1]), open_at + 1,
+                               lines[max(0, open_at - 4):open_at - 1], lang)
                 open_at = None
     if open_at is not None:
         rep.error(md, f"code fence opened at line {open_at} is never closed")
@@ -244,7 +251,7 @@ def check_markdown_code(rep: Report, md: Path) -> None:
 
 def check_fake_apis(rep: Report, path: Path) -> None:
     text = path.read_text(encoding="utf-8")
-    for name in FAKE_APIS:
+    for name in FAKE_APIS.get(SKILL_NAME, ()):
         for n, line in enumerate(text.splitlines(), 1):
             if name in line and not re.search(r"not exist|no such|made-up|invented|not a real|hallucinat", line, re.I):
                 rep.error(path, f"line {n}: {name!r} is not a real API")
@@ -264,10 +271,10 @@ def check_reference(rep: Report, md: Path, today: dt.date) -> None:
         age = (today - dt.date.fromisoformat(m.group(1))).days
         if age > STALE_AFTER_DAYS:
             rep.warn(md, f"last verified {age} days ago; re-check against Apple's documentation")
-    if "https://developer.apple.com/" not in text:
-        rep.error(md, "no developer.apple.com source URL")
+    if not any(host in text for host in SOURCE_HOSTS):
+        rep.error(md, "no official source URL")
     if not any(tag in text for tag in RULE_TAGS):
-        rep.warn(md, "no rule tags ([Req]/[HIG]/[API]/[Conv]/[Unverified]) found")
+        rep.warn(md, "no rule tags found")
     if len(lines) > 300:
         rep.error(md, f"{len(lines)} lines (hard limit 300); split the file")
     if len(text.encode("utf-8")) > 30_000:
@@ -281,17 +288,16 @@ def check_reference(rep: Report, md: Path, today: dt.date) -> None:
         title = sec.splitlines()[0].strip()
         if title.lower() in {"contents", "common mistakes"} or title.lower().startswith(("see also", "how to use")):
             continue
-        cites_apple = any(f"- {tag}" in sec for tag in ("[Req]", "[HIG]", "[API]"))
-        if cites_apple and "https://developer.apple.com/" not in sec and "https://docs.swift.org/" not in sec:
-            rep.warn(md, f"section '{title}' states Apple guidance but has no source URL")
+        cites_apple = any(f"- {tag}" in sec for tag in ("[Req]", "[HIG]", "[MD]", "[API]"))
+        if cites_apple and not any(host in sec for host in SOURCE_HOSTS):
+            rep.warn(md, f"section '{title}' states platform guidance but has no source URL")
     if re.search(r"\b(TODO|TBD|FIXME)\b", text):
         rep.warn(md, "contains TODO/TBD/FIXME")
 
 
-def check_packaging(rep: Report, front: dict) -> None:
+def check_packaging(rep: Report) -> None:
     plugin_path = ROOT / ".claude-plugin" / "plugin.json"
     market_path = ROOT / ".claude-plugin" / "marketplace.json"
-    version = (front.get("metadata") or {}).get("version")
     for path in (plugin_path, market_path):
         if not path.exists():
             rep.warn(path, "missing (the repository cannot be added as a Claude Code plugin marketplace)")
@@ -302,10 +308,10 @@ def check_packaging(rep: Report, front: dict) -> None:
     except json.JSONDecodeError as exc:
         rep.error(".claude-plugin", f"invalid JSON: {exc}")
         return
-    if plugin.get("name") != SKILL_NAME:
-        rep.error(plugin_path, f"name should be {SKILL_NAME!r}")
-    if version and plugin.get("version") != version:
-        rep.error(plugin_path, f"version {plugin.get('version')!r} differs from SKILL.md metadata.version {version!r}")
+    if plugin.get("name") != PLUGIN_NAME:
+        rep.error(plugin_path, f"name should be {PLUGIN_NAME!r}")
+    if not re.fullmatch(r"\d+\.\d+\.\d+", str(plugin.get("version", ""))):
+        rep.error(plugin_path, "version must be set (x.y.z); bump it whenever any skill changes")
     entries = market.get("plugins") or []
     if not any(e.get("name") == plugin.get("name") for e in entries):
         rep.error(market_path, "no plugin entry matches plugin.json's name")
@@ -314,8 +320,8 @@ def check_packaging(rep: Report, front: dict) -> None:
 
 
 def check_evals(rep: Report) -> None:
-    evals_path = ROOT / "tests" / "evals" / "evals.json"
-    trig_path = ROOT / "tests" / "evals" / "trigger-queries.json"
+    evals_path = ROOT / "tests" / "evals" / SKILL_NAME / "evals.json"
+    trig_path = ROOT / "tests" / "evals" / SKILL_NAME / "trigger-queries.json"
     if evals_path.exists():
         try:
             data = json.loads(evals_path.read_text())
@@ -426,17 +432,14 @@ def check_online(rep: Report, files: list[Path]) -> None:
     print(f"online: checked {checked} Apple URLs")
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--online", action="store_true", help="also verify that cited Apple URLs still exist")
-    ap.add_argument("--strict", action="store_true", help="treat warnings as errors")
-    args = ap.parse_args()
-    rep = Report()
+def check_skill(rep: Report, skill_dir: Path, online: bool, today: dt.date) -> list[Path]:
+    global SKILL, SKILL_NAME
+    SKILL, SKILL_NAME = skill_dir, skill_dir.name
     skill_md = SKILL / "SKILL.md"
     if not skill_md.exists():
-        print(f"error: {rel(skill_md)} does not exist")
-        return 1
-    front, _ = check_frontmatter(rep, skill_md)
+        rep.error(skill_md, "does not exist")
+        return []
+    check_frontmatter(rep, skill_md)
 
     refs = sorted((SKILL / "references").glob("*.md"))
     shipped_md = [skill_md, *refs, *sorted((SKILL / "examples").glob("*.md"))]
@@ -445,11 +448,10 @@ def main() -> int:
         check_links(rep, md)
     for md in shipped_md:
         check_markdown_code(rep, md)
-
-    today = dt.date.today()
     for md in refs:
         check_reference(rep, md, today)
 
+    code_files = []
     for sub in ("references", "examples", "scripts", "assets"):
         for f in sorted((SKILL / sub).rglob("*")) if (SKILL / sub).exists() else []:
             if f.is_dir() or "__pycache__" in f.parts:
@@ -458,28 +460,46 @@ def main() -> int:
                 rep.error(f, "not linked from SKILL.md (agents will not find it)")
             if f.stat().st_size > 1_000_000:
                 rep.warn(f, "larger than 1 MB")
-            if f.suffix == ".swift":
-                check_swift(rep, f, f.read_text(encoding="utf-8"), 1, [])
-            if f.suffix in {".md", ".swift"}:
+            if f.suffix in CODE_SUFFIXES:
+                code_files.append(f)
+                check_code(rep, f, f.read_text(encoding="utf-8"), 1, [], CODE_SUFFIXES[f.suffix])
+            if f.suffix in {".md", *CODE_SUFFIXES}:
                 check_fake_apis(rep, f)
     check_fake_apis(rep, skill_md)
     for stray in ("evals", "tests"):
         if (SKILL / stray).exists():
             rep.warn(SKILL / stray, "eval material should live outside the skill directory")
-
-    check_packaging(rep, front)
     check_evals(rep)
-    if args.online:
-        swift = sorted((SKILL / "examples").glob("*.swift")) + sorted((SKILL / "scripts").glob("*.py"))
-        check_online(rep, shipped_md + swift)
+    if online:
+        check_online(rep, shipped_md + code_files + sorted((SKILL / "scripts").glob("*.py")))
+    return shipped_md
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--online", action="store_true", help="also verify that cited official URLs still exist")
+    ap.add_argument("--strict", action="store_true", help="treat warnings as errors")
+    ap.add_argument("--skill", help="check only this skill (directory name under skills/)")
+    args = ap.parse_args()
+    rep = Report()
+    skill_dirs = sorted(d for d in SKILLS_DIR.iterdir() if d.is_dir() and (not args.skill or d.name == args.skill))
+    if not skill_dirs:
+        print("error: no skills found under skills/")
+        return 1
+    today = dt.date.today()
+    for skill_dir in skill_dirs:
+        before = (len(rep.errors), len(rep.warnings))
+        shipped = check_skill(rep, skill_dir, args.online, today)
+        lines = sum(len(p.read_text(encoding="utf-8").splitlines()) for p in shipped)
+        print(f"{skill_dir.name}: {len(shipped)} Markdown files, {lines} lines; "
+              f"{len(rep.errors) - before[0]} error(s), {len(rep.warnings) - before[1]} warning(s)")
+    check_packaging(rep)
 
     for w in rep.warnings:
         print(f"warning: {w}")
     for e in rep.errors:
         print(f"error: {e}")
-    total_lines = sum(len(p.read_text(encoding='utf-8').splitlines()) for p in shipped_md)
-    print(f"{len(shipped_md)} Markdown files, {total_lines} lines; "
-          f"{len(rep.errors)} error(s), {len(rep.warnings)} warning(s)")
+    print(f"total: {len(rep.errors)} error(s), {len(rep.warnings)} warning(s)")
     return 1 if rep.errors or (args.strict and rep.warnings) else 0
 
 

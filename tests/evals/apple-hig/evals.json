@@ -112,10 +112,10 @@
       "id": 6,
       "name": "review-orders-view",
       "category": "review",
-      "prompt": "HIG review please: tests/evals/files/OrdersView.swift. iPhone only, deployment target iOS 17. Tell me what actually matters before release.",
+      "prompt": "HIG review please: tests/evals/apple-hig/files/OrdersView.swift. iPhone only, deployment target iOS 17. Tell me what actually matters before release.",
       "expected_output": "A structured review using the five classifications, each finding with severity, rationale, source URL and fix. Finds at least 7 of the 9 planted issues, separates deprecated-API and accessibility issues from convention and taste, and orders by severity.",
       "files": [
-        "tests/evals/files/OrdersView.swift"
+        "tests/evals/apple-hig/files/OrdersView.swift"
       ],
       "references_expected": [
         "references/review-guide.md"
@@ -136,10 +136,10 @@
       "id": 7,
       "name": "review-custom-seven-tab-bar",
       "category": "review",
-      "prompt": "Can you check tests/evals/files/RootTabs.swift against Apple's guidelines? iPhone app, iOS 18 minimum. Our designer built the tab bar custom because 'the system one is ugly'.",
+      "prompt": "Can you check tests/evals/apple-hig/files/RootTabs.swift against Apple's guidelines? iPhone app, iOS 18 minimum. Our designer built the tab bar custom because 'the system one is ugly'.",
       "expected_output": "Recommends replacing the custom bar with TabView/Tab; flags missing labels, colour-only selection, small non-button targets, hard-coded white, deprecated foregroundColor. Treats the 7-tab count as a recommendation issue (overflow / More tab), without inventing a numeric HIG limit.",
       "files": [
-        "tests/evals/files/RootTabs.swift"
+        "tests/evals/apple-hig/files/RootTabs.swift"
       ],
       "references_expected": [
         "references/review-guide.md",
@@ -161,10 +161,10 @@
       "id": 8,
       "name": "refactor-minimal-diff-dynamic-type",
       "category": "refactor",
-      "prompt": "tests/evals/files/ProfileHeader.swift - make the text respect Dynamic Type. Minimal diff please, this file is in a release branch (min iOS 16). Don't restyle anything else.",
+      "prompt": "tests/evals/apple-hig/files/ProfileHeader.swift - make the text respect Dynamic Type. Minimal diff please, this file is in a release branch (min iOS 16). Don't restyle anything else.",
       "expected_output": "Replaces the three fixed-size fonts with text styles (or scaled equivalents), preserving weight. Leaves layout, button style, names and structure untouched. May mention foregroundColor deprecation and lineLimit truncation as optional follow-ups without applying them.",
       "files": [
-        "tests/evals/files/ProfileHeader.swift"
+        "tests/evals/apple-hig/files/ProfileHeader.swift"
       ],
       "references_expected": [
         "references/implementation-styling.md"
@@ -183,10 +183,10 @@
       "id": 9,
       "name": "accessibility-audit-player",
       "category": "accessibility",
-      "prompt": "Accessibility audit of tests/evals/files/PlayerControls.swift (iOS 17). We got a complaint from a VoiceOver user and another from someone who gets motion sick.",
+      "prompt": "Accessibility audit of tests/evals/apple-hig/files/PlayerControls.swift (iOS 17). We got a complaint from a VoiceOver user and another from someone who gets motion sick.",
       "expected_output": "Findings grouped by assistive need: VoiceOver (unlabelled gesture images, decorative image), motor (20 pt targets), vision (contrast, pinned Dynamic Type), motion (endless pulse ignoring Reduce Motion). Each with fix code and source. States what cannot be verified statically and recommends Accessibility Inspector/VoiceOver testing.",
       "files": [
-        "tests/evals/files/PlayerControls.swift"
+        "tests/evals/apple-hig/files/PlayerControls.swift"
       ],
       "references_expected": [
         "references/accessibility-guidelines.md"
@@ -206,10 +206,10 @@
       "id": 10,
       "name": "adapt-iphone-to-ipad",
       "category": "cross-platform",
-      "prompt": "why does my iPad app look like a stretched phone app? tests/evals/files/LibraryView.swift is the root. iOS/iPadOS 18. Fix it without making the iPhone version worse.",
+      "prompt": "why does my iPad app look like a stretched phone app? tests/evals/apple-hig/files/LibraryView.swift is the root. iOS/iPadOS 18. Fix it without making the iPhone version worse.",
       "expected_output": "Explains the cause (single-column stack plus idiom-based magic numbers). Moves to NavigationSplitView or adaptive TabView, removes the UIDevice check in favour of size classes/adaptive containers and text styles; mentions pointer/keyboard and resizable windows. iPhone behaviour preserved through automatic collapse.",
       "files": [
-        "tests/evals/files/LibraryView.swift"
+        "tests/evals/apple-hig/files/LibraryView.swift"
       ],
       "references_expected": [
         "references/platforms-adaptation.md",

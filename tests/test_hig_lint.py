@@ -11,7 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 LINT = ROOT / "skills" / "apple-hig" / "scripts" / "hig_lint.py"
-FIXTURES = ROOT / "tests" / "evals" / "files"
+FIXTURES = ROOT / "tests" / "evals" / "apple-hig" / "files"
 EXAMPLES = ROOT / "skills" / "apple-hig" / "examples"
 
 EXPECTED = {

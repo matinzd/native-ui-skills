@@ -1,14 +1,22 @@
 {
-  "name": "apple-hig-skill",
-  "owner": { "name": "matinzd" },
-  "description": "Marketplace for the apple-hig Agent Skill.",
+  "name": "native-ui-skills",
+  "owner": {
+    "name": "matinzd"
+  },
+  "description": "Marketplace for the native-ui-skills Agent Skills.",
   "plugins": [
     {
-      "name": "apple-hig",
+      "name": "native-ui-skills",
       "source": "./",
-      "description": "Design, implement, review and adapt native Apple-platform UIs per Apple's Human Interface Guidelines.",
+      "description": "Design, implement, review and adapt native user interfaces per each platform's official design guidelines.",
       "category": "design",
-      "tags": ["apple", "hig", "swiftui", "uikit", "appkit"]
+      "tags": [
+        "apple",
+        "hig",
+        "material-design",
+        "swiftui",
+        "jetpack-compose"
+      ]
     }
   ]
 }

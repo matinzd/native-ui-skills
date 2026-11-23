@@ -22,7 +22,7 @@ jobs:
       - name: Agent Skills reference validator
         run: |
           pip install --quiet skills-ref==0.1.1
-          agentskills validate skills/apple-hig
+          for skill in skills/*/; do agentskills validate "$skill"; done
       - name: Cited Apple pages still exist
         if: github.event_name == 'schedule'
         run: python3 tools/validate_skill.py --online

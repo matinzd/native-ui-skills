@@ -1,7 +1,7 @@
-# Architecture and research synthesis
+# apple-hig: architecture and research synthesis
 
 How the `apple-hig` skill is organised, why, and what the research behind it found. Research notes for each
-workstream are in [`research/apple-hig/`](research/apple-hig/); validation results are in [`validation.md`](validation.md).
+workstream are in [`research/`](research/); validation results are in [`validation.md`](validation.md).
 
 ## How it was built
 
@@ -10,12 +10,12 @@ tagging every claim as fetched-and-verified or from memory:
 
 | Workstream | Output | Method |
 |------------|--------|--------|
-| HIG foundations, components, patterns | [`research/apple-hig/01-hig-foundations-components.md`](research/apple-hig/01-hig-foundations-components.md) | Fetched the HIG's pages as JSON (it reports 171); read the core pages in full and the rest as rule headlines |
-| Platforms | [`research/apple-hig/02-platforms.md`](research/apple-hig/02-platforms.md) | The "Designing for" pages, platform-specific pages, and build-setting documentation |
-| SwiftUI and implementation | [`research/apple-hig/03-swiftui-implementation.md`](research/apple-hig/03-swiftui-implementation.md) | API symbols (it reports about 700) checked against documentation JSON for spelling, availability, and deprecation |
-| Agent Skills architecture | [`research/apple-hig/04-agent-skills-architecture.md`](research/apple-hig/04-agent-skills-architecture.md) | Specification source, Claude Code documentation, and local runs of the reference validator, the `skills` CLI, and `claude plugin validate` |
-| Ecosystem | [`research/apple-hig/05-ecosystem.md`](research/apple-hig/05-ecosystem.md) | Read 23 public repositories with Apple HIG, SwiftUI, and UI-review skills |
-| Evaluation strategy | [`research/apple-hig/06-evaluation-strategy.md`](research/apple-hig/06-evaluation-strategy.md) | Upstream eval formats; every assertion backed by a fetched Apple fact |
+| HIG foundations, components, patterns | [`research/01-hig-foundations-components.md`](research/01-hig-foundations-components.md) | Fetched the HIG's pages as JSON (it reports 171); read the core pages in full and the rest as rule headlines |
+| Platforms | [`research/02-platforms.md`](research/02-platforms.md) | The "Designing for" pages, platform-specific pages, and build-setting documentation |
+| SwiftUI and implementation | [`research/03-swiftui-implementation.md`](research/03-swiftui-implementation.md) | API symbols (it reports about 700) checked against documentation JSON for spelling, availability, and deprecation |
+| Agent Skills architecture | [`research/04-agent-skills-architecture.md`](research/04-agent-skills-architecture.md) | Specification source, Claude Code documentation, and local runs of the reference validator, the `skills` CLI, and `claude plugin validate` |
+| Ecosystem | [`research/05-ecosystem.md`](research/05-ecosystem.md) | Read 23 public repositories with Apple HIG, SwiftUI, and UI-review skills |
+| Evaluation strategy | [`research/06-evaluation-strategy.md`](research/06-evaluation-strategy.md) | Upstream eval formats; every assertion backed by a fetched Apple fact |
 
 Six writer agents then produced the reference files and examples with exclusive file ownership, re-reading the
 full HIG page text for every topic (the research pass had only skimmed many component pages). The lead wrote

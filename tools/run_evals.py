@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
-"""Run the apple-hig evals in Claude Code, with and without the skill.
+"""Run a skill's evals in Claude Code, with and without the skill.
 
-    python3 tools/run_evals.py tasks                     # all task scenarios, both configurations
-    python3 tools/run_evals.py tasks --ids 6 16 18       # selected scenarios
-    python3 tools/run_evals.py triggers --limit 12       # activation check on trigger queries
-    python3 tools/run_evals.py tasks --jobs 4 --out eval-workspace/iteration-1
+    python3 tools/run_evals.py tasks --skill apple-hig                  # all task scenarios, both configurations
+    python3 tools/run_evals.py tasks --skill apple-hig --ids 6 16 18    # selected scenarios
+    python3 tools/run_evals.py triggers --skill material-design --limit 12
+    python3 tools/run_evals.py tasks --skill apple-hig --jobs 4 --out eval-workspace/apple-hig/iteration-1
 
 Requires the `claude` CLI on PATH and a signed-in account. Each run starts a fresh, non-interactive session in an
 empty temporary project; the "with_skill" project has the skill copied to .claude/skills/, the "without_skill"
-project has nothing. Outputs (final answer, tool calls, files read, token usage) are written as JSON under --out.
+project has nothing. With --all-skills, every skill in this repository is installed in the "with_skill" project,
+which is how to check that sibling skills do not steal each other's queries. Outputs (final answer, tool calls, files read, token usage) are written as JSON under --out.
 `skill_files_read` lists files opened with the Read tool; `skill_files_touched` lists files named in shell or
 search commands (a grep that matched a file may have loaded only a few lines). This script collects outputs only. Grade them against the assertions in tests/evals/evals.json separately.
 Standard library only. Runs cost real tokens: roughly 18 scenarios x 2 configurations for a full task run.
@@ -26,17 +27,21 @@ import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SKILL = ROOT / "skills" / "apple-hig"
-EVALS = ROOT / "tests" / "evals"
+SKILLS_DIR = ROOT / "skills"
+# Set from --skill in main().
+SKILL = SKILLS_DIR / "apple-hig"
+EVALS = ROOT / "tests" / "evals" / "apple-hig"
+INSTALL_ALL = False
 
 
 def run_claude(prompt: str, with_skill: bool, files: list[str], timeout: int) -> dict:
     with tempfile.TemporaryDirectory(prefix="hig-eval-") as tmp:
         project = Path(tmp)
         if with_skill:
-            dest = project / ".claude" / "skills" / SKILL.name
-            dest.parent.mkdir(parents=True)
-            shutil.copytree(SKILL, dest, ignore=shutil.ignore_patterns("__pycache__"))
+            for src in (sorted(d for d in SKILLS_DIR.iterdir() if d.is_dir()) if INSTALL_ALL else [SKILL]):
+                dest = project / ".claude" / "skills" / src.name
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copytree(src, dest, ignore=shutil.ignore_patterns("__pycache__"))
         for rel in files:
             target = project / rel
             target.parent.mkdir(parents=True, exist_ok=True)
@@ -48,7 +53,8 @@ def run_claude(prompt: str, with_skill: bool, files: list[str], timeout: int) ->
                                   stdin=subprocess.DEVNULL, check=False)
         except subprocess.TimeoutExpired:
             return {"error": f"timed out after {timeout}s"}
-        result = {"answer": "", "tool_calls": [], "skill_invoked": False, "skill_files_read": [],
+        result = {"answer": "", "tool_calls": [], "skill_invoked": False, "other_skills_invoked": [],
+                  "skill_files_read": [],
                   "skill_files_touched": [], "edited": {}}
         for line in proc.stdout.splitlines():
             try:
@@ -60,8 +66,12 @@ def run_claude(prompt: str, with_skill: bool, files: list[str], timeout: int) ->
                     if block.get("type") == "tool_use":
                         name, inp = block["name"], block.get("input", {})
                         result["tool_calls"].append({"name": name, "input": json.dumps(inp)[:300]})
-                        if name == "Skill" and SKILL.name in json.dumps(inp):
-                            result["skill_invoked"] = True
+                        if name == "Skill":
+                            called = str(inp.get("skill", "")).split(":")[-1]
+                            if called == SKILL.name:
+                                result["skill_invoked"] = True
+                            elif called:
+                                result["other_skills_invoked"].append(called)
                         path = str(inp.get("file_path", ""))
                         if name == "Read" and f"skills/{SKILL.name}/" in path:
                             if path.endswith("SKILL.md"):
@@ -141,13 +151,21 @@ def main() -> int:
     sub = ap.add_subparsers(dest="command", required=True)
     for name in ("tasks", "triggers"):
         p = sub.add_parser(name)
-        p.add_argument("--out", type=Path, default=ROOT / "eval-workspace" / "run")
+        p.add_argument("--skill", required=True, help="skill directory name under skills/")
+        p.add_argument("--all-skills", action="store_true", help="install every skill of this repository, not only --skill")
+        p.add_argument("--out", type=Path)
         p.add_argument("--jobs", type=int, default=3)
         p.add_argument("--timeout", type=int, default=600)
     sub.choices["tasks"].add_argument("--ids", type=int, nargs="*")
     sub.choices["tasks"].add_argument("--configs", nargs="*", default=["with_skill", "without_skill"])
     sub.choices["triggers"].add_argument("--limit", type=int, default=0)
     args = ap.parse_args()
+    global SKILL, EVALS, INSTALL_ALL
+    SKILL, EVALS, INSTALL_ALL = SKILLS_DIR / args.skill, ROOT / "tests" / "evals" / args.skill, args.all_skills
+    if not (SKILL / "SKILL.md").exists():
+        print(f"error: no skill named {args.skill!r} under skills/", file=sys.stderr)
+        return 2
+    args.out = args.out or ROOT / "eval-workspace" / args.skill / "run"
     if shutil.which("claude") is None:
         print("error: the `claude` CLI is not on PATH", file=sys.stderr)
         return 2

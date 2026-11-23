@@ -1,10 +1,22 @@
 {
-  "name": "apple-hig",
-  "displayName": "Apple HIG",
-  "version": "0.1.0",
-  "description": "Agent Skill for designing, implementing, reviewing and adapting native Apple-platform UIs per Apple's Human Interface Guidelines.",
-  "author": { "name": "matinzd" },
-  "repository": "https://github.com/matinzd/apple-hig-skill",
+  "name": "native-ui-skills",
+  "displayName": "Native UI Skills",
+  "version": "0.2.0",
+  "description": "Agent Skills for designing, implementing, reviewing and adapting native user interfaces per each platform's official design guidelines.",
+  "author": {
+    "name": "matinzd"
+  },
+  "repository": "https://github.com/matinzd/native-ui-skills",
   "license": "MIT",
-  "keywords": ["apple", "hig", "swiftui", "uikit", "appkit", "ios", "macos", "accessibility", "design"]
+  "keywords": [
+    "apple",
+    "hig",
+    "material-design",
+    "swiftui",
+    "jetpack-compose",
+    "ios",
+    "android",
+    "accessibility",
+    "design"
+  ]
 }
