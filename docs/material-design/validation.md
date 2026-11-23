@@ -17,7 +17,7 @@ Android SDK, no emulator, and no other coding agent, and Google's Maven host was
 | Independent Kotlin review (no compiler) | 7 corrections; all 157 imports in the examples resolve; no wrong overload or missing opt-in found |
 | Independent architecture and consistency review | No critical findings, 10 major, 15 minor; addressed, see below |
 | Activation in Claude Code with both skills installed, held-out queries | 13 of 14 correct (7 of 7 negatives, 6 of 7 positives), one run each, before any tuning |
-| Task scenarios in Claude Code, 6 of 16 | With the skill 35 of 37 assertions passed; without it 30 of 36. One run each, before the fixes the results prompted |
+| Task scenarios in Claude Code, 6 of 16 | With the skill 35 of 37 assertions passed; without it 30 of 36. One run each, before the fixes the results prompted; two scenarios re-run afterwards and inspected by hand |
 | Kotlin examples compiled | **Not done.** No Android SDK |
 | Other agents (Codex, Cursor, Copilot, Gemini CLI, Android Studio, and so on) | **Not tested** |
 
@@ -139,8 +139,14 @@ How to read this:
 - **Reference loading could not be measured reliably.** The agent often read skill files through shell commands
   and relative paths, which the runner does not fully capture.
 
+**Re-run after the fixes.** Scenarios 5 and 12 were run again with the skill only and inspected by hand, not
+graded. In scenario 5 the run now opens the review guide, every finding has its own class and severity, and a
+separate "Other bugs" list appears. In scenario 12 the run consulted the availability reference and gave the
+same correct API statuses, but still spent two web fetches and a sub-agent trying to confirm the one API that
+is in no table, where the skill asks for a single attempt.
+
 Not run: scenarios 1 to 4, 6 to 8, 10, 11, and 13; the training split of trigger queries; repeated runs; other
-models; a re-run after the fixes.
+models; a graded with-and-without comparison after the fixes.
 
 ## Manual procedures not yet performed
 
