@@ -24,17 +24,15 @@ Verified: 2026-11-23 against the sources linked in each section (SDK cycle: OS 2
 
 - [Conv] Read the minimum OS before choosing any API. Look for `IPHONEOS_DEPLOYMENT_TARGET`, `MACOSX_DEPLOYMENT_TARGET`, `TVOS_DEPLOYMENT_TARGET`, `WATCHOS_DEPLOYMENT_TARGET` and `XROS_DEPLOYMENT_TARGET` in `project.pbxproj` and `.xcconfig` files, and `platforms:` in `Package.swift`. Apple's build settings reference does not list the per-platform names; commands and caveats are in `references/platforms-detection.md`.
 - [API] A Swift package without a `platforms:` entry gets a predefined minimum, the oldest deployment target the installed SDK supports, so "no entry" does not mean "latest OS".
-- [Conv] When targets or configurations disagree, use the lowest value that compiles the file being changed.
+- [Conv] When targets or configurations disagree, use the lowest value that compiles the file being changed. State the result ("Target: iOS 16, macOS 13") and label every snippet with its own minimum OS.
 - [Conv] Existing `#available` and `@available` lines in the code are evidence too: `if #available(iOS 17, *)` tells you the target is below iOS 17.
-- [Conv] State the result in the answer ("Target: iOS 16, macOS 13") and label every snippet with its own minimum OS.
 
 Source: https://developer.apple.com/documentation/packagedescription/supportedplatform , https://developer.apple.com/documentation/xcode/build-settings-reference
 
 ## When the target is unknown
 
 - [Conv] If the answer depends on it, ask one short question. If asking is not possible, do not assume the newest OS.
-- [Conv] Write to the floor the code evidently uses (for example, a file that already calls `NavigationStack` is at iOS 16 or later). With no evidence, write for iOS 17, macOS 14, tvOS 17, watchOS 10, visionOS 1 and gate anything newer.
-- [Conv] Say the assumption in one line, and say which lines change if the real target is lower or higher.
+- [Conv] Write to the floor the code evidently uses (for example, a file that already calls `NavigationStack` is at iOS 16 or later). With no evidence, write for iOS 17, macOS 14, tvOS 17, watchOS 10, visionOS 1, gate anything newer, and say the assumption in one line.
 - [Conv] Prefer API that degrades by itself over version branches: standard bars and controls, `Label`, semantic toolbar placements and semantic styles pick up each OS's appearance without any check.
 - [HIG] Standard components adopt the current system appearance (Liquid Glass on OS 26 and later) when built with the current SDK; that is not something to gate by hand.
 
@@ -50,8 +48,7 @@ Source: https://developer.apple.com/documentation/xcode/running-code-on-a-specif
 - [Conv] Always write the `else` branch as working UI with the same content and actions. An empty view, a missing button or a silently skipped feature is a regression for everyone on the older OS.
 - [Conv] A deprecated API is the correct choice inside the fallback branch when its replacement needs a newer OS (`tabItem(_:)` below iOS 18). Mark the branch with a comment such as `// Fallback for iOS 17 and earlier`.
 - [Conv] A modifier cannot be made conditional in the middle of a chain. Put the branch in a small `ViewModifier` or a `@ViewBuilder` helper and call that.
-- [Conv] Gate on the API's own introduction version, never on a guess such as "the OS that shipped the new design".
-- [Conv] Do not fork whole screens per OS version. Gate the smallest piece (one modifier, one container) so both branches share the content.
+- [Conv] Gate on the API's own introduction version, and gate the smallest piece (one modifier, one container) so both branches share the content instead of forking a screen per OS.
 
 Source: https://developer.apple.com/documentation/xcode/running-code-on-a-specific-version , https://docs.swift.org/swift-book/documentation/the-swift-programming-language/attributes/
 
@@ -131,7 +128,6 @@ Source: https://developer.apple.com/documentation/swiftui/view/presentationdeten
 - [API] Soft deprecations. A large batch of long-standing SwiftUI API carries a `deprecatedAt` equal to the current SDK release, and `accessibilityShowButtonShapes` carries `1000.0`. Read both as "deprecated, use the replacement" with no meaningful version; do not write "deprecated in iOS 27.3".
 - [Unverified] Whether the compiler warns about those soft-deprecated symbols at lower deployment targets was not tested. Do not promise "no warnings" either way.
 - [API] Platform gaps hide in the list: `sensoryFeedback` is visionOS 26 while iOS is 17; `Window` is macOS 13 but visionOS 26; `inspector` has only iOS and macOS entries; `swipeActions` has no tvOS entry.
-- [API] iPadOS and Mac Catalyst normally mirror iOS, but read their own entries when the API is about bars, windows or pointer input.
 - [HIG] SF Symbols are versioned too: a symbol introduced in a given year is not available on earlier systems. Check the symbol's availability in the SF Symbols app; the API documentation does not list symbol names.
 
 Source: https://developer.apple.com/documentation/swiftui/view/alert(_:ispresented:actions:message:) , https://developer.apple.com/documentation/swiftui/toolbaritemplacement/topbartrailing , https://developer.apple.com/documentation/swiftui/environmentvalues/accessibilityshowbuttonshapes , https://developer.apple.com/design/human-interface-guidelines/sf-symbols
@@ -156,7 +152,6 @@ All values are `introducedAt` for the oldest overload, read on 2026-11-23. "-" m
 | `presentationSizing(_:)` | 18 | 15 | 18 | 11 | 2 |
 | `inspector(isPresented:content:)` | 17 | 14 | - | - | - |
 | `alert(_:isPresented:actions:message:)`, `confirmationDialog(...)`, `Button(role:)`, `swipeActions` (no tvOS), `refreshable` | 15 | 12 | 15 | 8 | 1 |
-| `fullScreenCover(isPresented:onDismiss:content:)` | 14 | - | 14 | 7 | 1 |
 | `ContentUnavailableView` (including `.search`) | 17 | 14 | 17 | 10 | 1 |
 | `Settings` scene; `SettingsLink`, `openSettings` | - | 11; 14 | - | - | - |
 | `commands(content:)`, `CommandMenu`, `keyboardShortcut(_:modifiers:)` | 14 | 11 | - | - | 1 |
@@ -177,7 +172,6 @@ Source: https://developer.apple.com/documentation/swiftui/navigationstack , http
 | `symbolEffect(_:options:value:)`, `PhaseAnimator` | 17 | 14 | 17 | 10 | 1 |
 | `sensoryFeedback(_:trigger:)` | 17 | 14 | 17 | 10 | 26 |
 | `AccessibilityNotification` (`.Announcement`, `.LayoutChanged`, `.ScreenChanged`) | 17 | 14 | 17 | 10 | 1 |
-| `MeshGradient`, `onScrollGeometryChange`, `navigationTransition(_:)` | 18 | 15 | 18 | 11 | 2 |
 | `navigationSubtitle(_:)` | 26 | 13 | - | - | - |
 
 Source: https://developer.apple.com/documentation/swiftui/view/onchange(of:initial:_:) , https://developer.apple.com/documentation/observation/observable() , https://developer.apple.com/documentation/swiftui/view/sensoryfeedback(_:trigger:) , https://developer.apple.com/documentation/swiftui/view/containerrelativeframe(_:alignment:)
@@ -244,12 +238,10 @@ Source: https://developer.apple.com/documentation/uikit/uisheetpresentationcontr
 | `accessibility(label:)`, `accessibility(hidden:)` and that family | Deprecated | `accessibilityLabel(_:)`, `accessibilityHidden(_:)` (14) |
 | `Color(_:)` taking a `UIColor`, `NSColor` or `CGColor` without a label, for example `Color(.systemBackground)` | Deprecated | `Color(uiColor:)` (15), `Color(nsColor:)` (macOS 12) |
 | `autocapitalization(_:)`, `disableAutocorrection(_:)` | Deprecated | `textInputAutocapitalization(_:)` (15), `autocorrectionDisabled(_:)` |
-| `ScrollView(_:showsIndicators:content:)`, `coordinateSpace(name:)` | Deprecated | `scrollIndicators(_:axes:)` (16), `coordinateSpace(_:)` (17) |
-| `MagnificationGesture`, `RotationGesture` | Deprecated | `MagnifyGesture`, `RotateGesture` (17) |
+| `ScrollView(_:showsIndicators:content:)`, `coordinateSpace(name:)`, `MagnificationGesture`, `RotationGesture` | Deprecated | `scrollIndicators(_:axes:)` (16), `coordinateSpace(_:)` (17), `MagnifyGesture`, `RotateGesture` (17) |
 | `textFieldStyle(.roundedBorder)` | Deprecated | `textInputBorderShape(_:)` (27); keep `.roundedBorder` below 27 |
 | `Text` + `Text` concatenation | Deprecated in iOS 26 | String interpolation inside one `Text` |
 | `PreviewProvider` | Deprecated in iOS 27 | `#Preview` |
-| `contextMenu(_:)` taking a `ContextMenu` value | Deprecated | `contextMenu(menuItems:)` |
 | `listRowSeparator(_:edges:)` | Not deprecated (iOS 15, macOS 13) | Keep using it |
 
 Source: https://developer.apple.com/documentation/swiftui/navigationview , https://developer.apple.com/documentation/swiftui/view/tabitem(_:) , https://developer.apple.com/documentation/swiftui/view/foregroundcolor(_:) , https://developer.apple.com/documentation/swiftui/view/onchange(of:perform:) , https://developer.apple.com/documentation/swiftui/previewprovider
@@ -294,7 +286,6 @@ Source: https://developer.apple.com/documentation/swiftui/view/sensoryfeedback(_
 - `#available(iOS 26, *)` around an API that has no visionOS or macOS entry in a multiplatform file -> add `#if os(...)`.
 - Reading "iOS 16" from a merged page and gating a call that has worked since iOS 15 -> check the overload you call.
 - Writing "deprecated in iOS 27.3" for a soft deprecation -> "deprecated; use X".
-- Rewriting a working fallback branch because it uses a deprecated API -> leave it; it is correct for the older OS.
-- Removing a deprecated API from a project whose target is below the replacement's minimum -> keep it or gate the replacement.
+- Rewriting a working fallback branch, or removing a deprecated API from a project whose target is below the replacement's minimum -> keep it, or gate the replacement.
 - Shipping `UIDesignRequiresCompatibility` to avoid the current design -> it is ignored for apps built for OS 27; adopt the design.
 - Inventing a modifier that sounds right -> verify the path in the documentation data first.
