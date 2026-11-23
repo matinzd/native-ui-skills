@@ -72,13 +72,13 @@ private struct FallbackTabs: View {
         // SDK but are the correct API before iOS 18 / macOS 15.
         TabView(selection: $selection) {
             SectionScreen(title: "Home")
-                .tabItem { Label("Home", systemImage: "house") } // fallback API
+                .tabItem { Label("Home", systemImage: "house") } // Fallback API
                 .tag(AppTab.home)
             SectionScreen(title: "Library")
-                .tabItem { Label("Library", systemImage: "books.vertical") } // fallback API
+                .tabItem { Label("Library", systemImage: "books.vertical") } // Fallback API
                 .tag(AppTab.library)
             SearchScreen()
-                .tabItem { Label("Search", systemImage: "magnifyingglass") } // fallback API
+                .tabItem { Label("Search", systemImage: "magnifyingglass") } // Fallback API
                 .tag(AppTab.search)
         }
     }

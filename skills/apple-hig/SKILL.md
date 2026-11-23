@@ -140,12 +140,13 @@ https://developer.apple.com/design/human-interface-guidelines/accessibility
 
 - **No fixed tab count.** The HIG says to avoid overflowing into a More tab, and suggests five or fewer default
   tabs only for customizable tab bars. Do not cite "maximum five tabs" as a rule.
-- **44 pt is the default control size on iPhone and iPad, not a universal hard minimum.** See the table above.
+- **44 pt is the default control size on iPhone, iPad, and Apple Watch, not a universal hard minimum.** See the table above.
 - **There is no "navigation bars" HIG page.** That guidance lives in Toolbars.
-- **On iPad, the tab bar sits at the top** and can adapt into a sidebar. Start from tabs, not a sidebar.
+- **On iPad, the tab bar sits near the top of the screen** and can adapt into a sidebar. Start from tabs, not a sidebar.
 - **Liquid Glass (OS 26 and later) belongs to the navigation and control layer**, not to content. Standard bars
   and controls adopt it automatically. Its SwiftUI APIs are not available on visionOS, which has its own glass
-  material.
+  material; an `#available(iOS 26, *)` check passes on visionOS, so also wrap them in `#if !os(visionOS)` when
+  the file builds for it.
 - **Dark Mode is not a setting on watchOS or visionOS; Dynamic Type is not available on macOS.**
 - **The design principles changed in 2026.** Read `references/foundations-design-principles.md` instead of
   quoting "clarity, deference, depth".

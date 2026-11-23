@@ -72,6 +72,9 @@ struct ShipmentRow: View {
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
+        // Fill the row's width in both arrangements, so a trailing control next to the
+        // row stays at the trailing edge when the content is stacked.
+        .frame(maxWidth: .infinity, alignment: .leading)
         // One element per row: VoiceOver reads title, destination and status together.
         .accessibilityElement(children: .combine)
     }

@@ -149,7 +149,8 @@ Source: https://developer.apple.com/documentation/swiftui/tabview, https://devel
 | `.topBarPinnedTrailing` | iOS 27+, visionOS 27+ | Stays visible while other items overflow. |
 
 ```swift
-// iOS 14+, macOS 11+, tvOS 14+, watchOS 7+, visionOS 1+
+// iOS 16+, macOS 13+, visionOS 1+ as written: .secondaryAction has no tvOS or watchOS entry.
+// Without that group: iOS 14+, macOS 11+, tvOS 14+, watchOS 7+, visionOS 1+.
 List(messages) { MessageRow(message: $0) }
     .navigationTitle("Inbox")
     .toolbar {
@@ -158,7 +159,7 @@ List(messages) { MessageRow(message: $0) }
                 Label("Compose", systemImage: "square.and.pencil")
             }
         }
-        ToolbarItemGroup(placement: .secondaryAction) {   // iOS 16+, macOS 13+, visionOS 1+
+        ToolbarItemGroup(placement: .secondaryAction) {
             Button("Select") { isSelecting = true }
             Button("Filter") { showsFilter = true }
         }

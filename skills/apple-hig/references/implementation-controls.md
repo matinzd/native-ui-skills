@@ -38,15 +38,19 @@ Source: https://developer.apple.com/documentation/swiftui/controls-and-indicator
 | `buttonBorderShape(_:)` | iOS 15+, macOS 12+, tvOS 15+, watchOS 8+, visionOS 1+ | `.capsule`: macOS 14+, tvOS 17+. `.circle`: iOS 17+, macOS 14+, tvOS 16.4+, watchOS 10+. |
 
 ```swift
-// iOS 15+, macOS 12+, tvOS 15+, watchOS 9+, visionOS 1+; glass branch OS 26+ (not visionOS)
+// iOS 15+, macOS 12+, tvOS 15+, watchOS 9+, visionOS 1+. Glass: OS 26+, no visionOS entry (`*` would match it, hence #if).
 HStack {
     Button("Cancel", role: .cancel) { dismiss() }
         .buttonStyle(.bordered)
+    #if os(visionOS)
+    Button("Save") { save() }.buttonStyle(.borderedProminent)
+    #else
     if #available(iOS 26, macOS 26, tvOS 26, watchOS 26, *) {
         Button("Save") { save() }.buttonStyle(.glassProminent)
     } else {
         Button("Save") { save() }.buttonStyle(.borderedProminent)
     }
+    #endif
 }
 .controlSize(.large)
 ```
@@ -292,4 +296,4 @@ Source: https://developer.apple.com/design/human-interface-guidelines/pop-up-but
 | Passwords in a `TextField`; generic keyboard for email or numbers | `SecureField`; `keyboardType`, `textContentType`, `submitLabel`. |
 | `.textFieldStyle(.roundedBorder)` in new code targeting OS 27 | `.bordered` with `textInputBorderShape(_:)` on 27+; `.automatic` or a marked fallback below. |
 | Hand-built spinner, share sheet, photo grid picker or empty state | `ProgressView`, `ShareLink`, `PhotosPicker`, `ContentUnavailableView`. |
-| Glass button styles without an availability check | `#available(iOS 26, macOS 26, *)` with `.borderedProminent` / `.bordered` fallback. |
+| Glass button styles without an availability check | `#available(iOS 26, macOS 26, *)` with `.borderedProminent` / `.bordered` fallback, inside `#if !os(visionOS)` when the file also builds for visionOS. |

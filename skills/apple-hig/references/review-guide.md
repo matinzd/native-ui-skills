@@ -89,8 +89,10 @@ Source: https://developer.apple.com/design/human-interface-guidelines/accessibil
 Details: `references/accessibility-guidelines.md` and `references/accessibility-implementation.md`.
 
 - [HIG] Tappable regions meet the platform's default control size (44x44 pt on iPhone, iPad, and Apple Watch;
-  28x28 pt on Mac; 66x66 pt on Apple TV; 60x60 pt on Apple Vision Pro). Below the default is a recommendation;
-  below the published minimum is an accessibility issue.
+  28x28 pt on Mac; 66x66 pt on Apple TV; 60x60 pt on Apple Vision Pro). Below the default, report a
+  recommended improvement.
+- [Conv] Below the published minimum (28x28 pt on iPhone, iPad, Apple Watch, and Apple Vision Pro; 20x20 pt on
+  Mac; 56x56 pt on Apple TV), report an accessibility issue. This classification is the skill's, not Apple's.
 - [HIG] Text is no smaller than the platform minimum (11 pt on iPhone and iPad, 10 pt on Mac, 12 pt on Apple
   Watch and Apple Vision Pro, 23 pt on Apple TV).
 - [HIG] Text uses text styles or scales with the person's text size; layouts reflow instead of truncating at

@@ -176,17 +176,23 @@ Source: https://developer.apple.com/documentation/swiftui/material, https://deve
 | UIKit `UIGlassEffect`; AppKit `NSGlassEffectView` | iOS 26+, tvOS 26+; macOS 26+ | |
 
 ```swift
-// iOS 26+, macOS 26+, tvOS 26+, watchOS 26+ (no visionOS). Fallback: a standard material.
+// Glass: iOS 26+, macOS 26+, tvOS 26+, watchOS 26+. Elsewhere a standard material
+// (iOS 15+, macOS 12+, tvOS 15+, watchOS 10+, visionOS 1+).
 struct FloatingBadge: View {
     let text: String
     var body: some View {
+        let label = Text(text).padding(.horizontal).padding(.vertical, 8)
+        #if os(visionOS)
+        // glassEffect has no visionOS availability, and `*` in #available would match visionOS.
+        label.background(.regularMaterial, in: Capsule())
+        #else
         if #available(iOS 26, macOS 26, tvOS 26, watchOS 26, *) {
-            Text(text).padding(.horizontal).padding(.vertical, 8)
-                .glassEffect(.regular.interactive())
+            label.glassEffect(.regular.interactive())
         } else {
-            Text(text).padding(.horizontal).padding(.vertical, 8)
-                .background(.regularMaterial, in: Capsule())
+            // Fallback for OS 18 and earlier: same shape, standard material.
+            label.background(.regularMaterial, in: Capsule())
         }
+        #endif
     }
 }
 ```

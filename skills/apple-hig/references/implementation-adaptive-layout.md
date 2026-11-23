@@ -126,7 +126,8 @@ Source: https://developer.apple.com/documentation/swiftui/lazyvgrid, https://dev
 | `safeAreaBar(edge:alignment:spacing:content:)` | OS 26+ on all platforms | Like `safeAreaInset`, and also extends the scroll edge effect under the bar. |
 
 ```swift
-// iOS 15+, macOS 12+, tvOS 15+, watchOS 8+, visionOS 1+
+// iOS 15+, macOS 12+, visionOS 1+ as written: .bar has no tvOS or watchOS entry.
+// With .regularMaterial instead of .bar: also tvOS 15+, watchOS 10+.
 ScrollView { ArticleBody(article: article).padding() }
     .background(.background)                      // fills under the safe area by default
     .safeAreaInset(edge: .bottom) {
@@ -150,7 +151,7 @@ Source: https://developer.apple.com/documentation/swiftui/safearearegions, https
 - [API] `backgroundExtensionEffect()` (iOS 26+, macOS 26+, tvOS 26+, watchOS 26+, visionOS 26+) mirrors and blurs copies of a view into adjacent safe-area regions. Typical use: a banner image in the detail column of a `NavigationSplitView` that appears to continue under the sidebar or inspector. Apple's documentation says to use it with discretion, usually on a single background view; it clips the view.
 - [API] `scrollEdgeEffectStyle(_:for:)` and `scrollEdgeEffectHidden(_:for:)` are iOS 26+, macOS 26+, tvOS 26+, watchOS 26+ (the modifiers list no visionOS availability). Styles: `.soft`, `.hard`.
 - [HIG] (OS 26+, Liquid Glass) Instead of a solid or semi-opaque background beneath controls, use a scroll edge effect to separate controls from content; use a background extension effect when sidebars or inspectors would cover important parts of a full-bleed image.
-- [Conv] Gate all three with `if #available(iOS 26, macOS 26, *)` inside a small `ViewModifier`; the fallback is simply the unmodified view.
+- [Conv] Gate all three with `if #available(iOS 26, macOS 26, *)` inside a small `ViewModifier`; the fallback is simply the unmodified view. The two scroll edge modifiers also need `#if !os(visionOS)` in code that builds for visionOS.
 
 Source: https://developer.apple.com/documentation/swiftui/scrolledgeeffectstyle, https://developer.apple.com/documentation/technologyoverviews/adopting-liquid-glass, https://developer.apple.com/design/human-interface-guidelines/layout
 
@@ -242,7 +243,7 @@ Source: https://developer.apple.com/documentation/swiftui/menus-and-commands, ht
 | `glassBackgroundEffect(displayMode:)` | visionOS 1+ only | The visionOS glass material for custom views. |
 
 ```swift
-// watchOS 6+ only
+// watchOS only: digitalCrownRotation is watchOS 6+, focusable() is watchOS 8+
 #if os(watchOS)
 Text("Volume \(Int(volume))")                     // volume: @State Double
     .focusable()
