@@ -190,7 +190,7 @@ python3 tests/test_hig_lint.py
 - **This is not App Review guidance.** Following the HIG does not guarantee approval.
 
 More detail, including open questions from the research, is in [docs/architecture.md](docs/architecture.md) and
-[docs/research/](docs/research/).
+[docs/research/apple-hig/](docs/research/apple-hig/).
 
 ## Contributing
 
