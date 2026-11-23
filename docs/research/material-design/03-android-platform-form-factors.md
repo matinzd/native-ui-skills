@@ -149,7 +149,7 @@ because Play requires targetSdk 36 (section 1). [Syn]
 | Notifications | Android 8.0 (API 26)+: every notification "must be assigned to a channel". Android 13 (API 33)+: runtime `POST_NOTIFICATIONS`; notifications off by default on new installs; apps targeting 33+ control when the dialog appears. Rec: explain benefit first, do not re-show after dismissal. Core `Notification_Quality`: no cross-promotion or ads ("strictly prohibited by the Play Store"), channels, groups, persistent only for ongoing events. `Conversation_Quality`: `MessagingStyle`, direct reply, conversation shortcuts, bubbles | [V] (src: /develop/ui/compose/notifications/channels), (src: /develop/ui/compose/notifications/notification-permission), (src: /design/ui/mobile/guides/home-screen/notifications), core quality |
 | Widgets | Fill the grid bounds; resizable with min and max; `targetCellWidth`/`targetCellHeight`; widget quality tiers 3/2/1 with IDs `WL-*`, `WC-*`, `WD-*`, `WT-*`; `WL-4.2`: minimum size must "meet the 48x48 dp touch target requirement". Android 17: widget memory limit changes for targetSdk 37 | [V] (src: /design/ui/mobile/guides/widgets/sizing), (src: /develop/adaptive-apps/quality-guidelines/widget-quality), (src: /about/versions/17/behavior-changes-17) |
 | Share sheet | Use `Intent.createChooser()`; core `System_Sharesheet`: "App should use the Android Sharesheet when sharing content" | [V] Rec (src: /develop/ui/compose/sharing/send), core quality |
-| Photo picker | `ActivityResultContracts.PickVisualMedia` / `PickMultipleVisualMedia`; no storage permission needed. Exact availability/backport rules not re-read in full | [V] API names (src: /training/data-storage/shared/photo-picker); availability [M] |
+| Photo picker | `ActivityResultContracts.PickVisualMedia` / `PickMultipleVisualMedia`; no storage permission needed. Built in on Android 11 (API 30)+ devices; a backported module via Google Play services covers Android 4.4 (API 19) to Android 10 | [V] (src: /training/data-storage/shared/photo-picker) |
 | Permissions | Ask in context when the feature is used; do not block; show rationale UI when `shouldShowRequestPermissionRationale()` is true. Core IDs `Runtime_Permissions` (not at startup), `Permission_Rationale`, `Graceful_Degradation`, `Minimize_Permissions` | [V] (src: /training/permissions/requesting), core quality |
 | Splash screen | Android 12+: system splash for every app; migrate custom splash to the `SplashScreen` compat library. Icon with background 240x240dp inside a 160dp circle; without background 288x288dp inside a 192dp circle; branded image 200x80dp; icon must be a vector drawable | [V] Req (API contract) (src: /develop/ui/views/launch/splash-screen) |
 | App icon | Adaptive icon layers 108x108dp; logo at least 48x48dp and at most 66x66dp; outer 18dp per side reserved for masking. Themed icons from Android 13 (API 33) via a `<monochrome>` layer; from Android 16 QPR2 the system auto-themes icons that lack one | [V] (src: /develop/ui/views/launch/icon_design_adaptive), (src: /about/versions/16/behavior-changes-all) |
@@ -466,7 +466,7 @@ rg -n -e 'androidx\.compose:compose-bom' -e 'androidx\.compose\.material3:materi
       -e 'material3-window-size-class' -e 'androidx\.window:window' --glob '*.gradle*' --glob '*.toml'
 rg -n 'parent="Theme\.(Material3Expressive|Material3|MaterialComponents|AppCompat)[A-Za-z.]*"' --glob '*.xml'
 rg -n -e 'import androidx\.compose\.material3\.' -e 'import androidx\.compose\.material\.[A-Z]' --glob '*.kt' | cut -d: -f3 | sort | uniq -c | sort -rn | head
-rg -n -e 'MaterialExpressiveTheme|MotionScheme\.expressive|ExperimentalMaterial3ExpressiveApi|Material3ExpressiveApi' \
+rg -n -e 'materialExpressTheme|MaterialExpressiveTheme|expressiveLightColorScheme|MotionScheme\.expressive|ExperimentalMaterial3ExpressiveApi|Material3ExpressiveApi' \
       -e 'ButtonGroup|SplitButton|FloatingToolbar|LoadingIndicator|MaterialShapes|WavyLinearProgressIndicator' --glob '*.kt'
 
 # 4. Form factors
@@ -496,7 +496,7 @@ Interpretation table:
 | `category android:name="android.intent.category.LEANBACK_LAUNCHER"`, `android.software.leanback`, `android.hardware.touchscreen` `required="false"`, `android:banner` | TV app (leanback `required="false"` = shared phone+TV APK) | [V] (src: /training/tv/get-started/create) |
 | service with action `androidx.car.app.CarAppService` and `androidx.car.app.category.{NAVIGATION,POI,IOT,WEATHER,MEDIA,MESSAGING,CALLING}` | Car App Library (templated) app | [V] (src: /training/cars/apps) |
 | meta-data `com.google.android.gms.car.application` -> `@xml/automotive_app_desc` with `<uses name="template"/>` (or media/notification) | Android Auto | [V] (src: /training/cars/apps/auto) |
-| `<uses-feature android:name="android.hardware.type.automotive"/>`; artifact `app-automotive` | Android Automotive OS (the docs say not to include the gms.car meta-data there). `app-projected` = Android Auto is my reading of the artifact name | [V] names; mapping of `app-projected` [M] |
+| `<uses-feature android:name="android.hardware.type.automotive"/>`; artifact `app-automotive` | Android Automotive OS (the docs say not to include the gms.car meta-data there; `app-automotive` provides `CarAppActivity`). `app-projected` = Android Auto is my reading of the artifact name | [V] (src: /training/cars/apps/automotive-os); mapping of `app-projected` [M] |
 | `android.software.xr.api.spatial` / `.openxr`; property `android.window.PROPERTY_XR_ACTIVITY_START_MODE` | Android XR (Jetpack XR SDK / OpenXR engines) | [V] (src: /develop/xr/package-and-distribute), (src: /develop/xr/jetpack-xr-sdk/transition-home-space-to-full-space) |
 | No form-factor feature, `material3-adaptive*` or `androidx.window` present | Phone app with adaptive (tablet/foldable/desktop) support | [Syn] |
 | `androidx.compose.material3:material3` | Compose Material 3; version from BOM mapping if no explicit version; >= 1.5.0 means stable Expressive components available | [V] section 1 |
@@ -668,7 +668,7 @@ Only the Android/Material side is filled, from the sources above. Apple column t
 - Mobile design page says 3 size classes; developer page says 5.
 
 **Not verified in this workstream** (do not state as fact without checking):
-- Whether Android 17 is formally final (see section 1); API for the system contrast setting; photo picker
-  availability/backport rules; exact TV type-scale sizes; Wear dialog/modality rules; XR quality guideline contents;
+- Whether Android 17 is formally final (see section 1); API for the system contrast setting; the exact name of the Compose expressive theme function (release notes
+  write `materialExpressTheme` and `expressiveLightColorScheme`; check the API file); exact TV type-scale sizes; Wear dialog/modality rules; XR quality guideline contents;
   the Android Auto `app-projected` mapping; contents of the `github.com/android/skills` repository; Google Play Console
   help pages (support.google.com was not fetched); Material Web/Flutter.
