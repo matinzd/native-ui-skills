@@ -100,7 +100,7 @@ def parse_frontmatter(text: str) -> tuple[dict | None, str, str]:
         indent, key, value = len(m.group(1)), m.group(2), (m.group(3) or "").strip()
         if value[:1] in "\"'" and value[-1:] == value[:1] and len(value) > 1:
             value = value[1:-1]
-        elif value[:1] in "[{|>":
+        elif value and value[0] in "[{|>":
             return None, body, f"line {n}: flow or block YAML is not supported here; use plain scalars"
         if indent == 0:
             if key in data:
