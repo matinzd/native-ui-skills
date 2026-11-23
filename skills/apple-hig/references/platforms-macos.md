@@ -24,8 +24,7 @@ Verified: 2026-11-23 against the sources linked in each section (SDK cycle: OS 2
 - [HIG] Large, high-resolution display, often several displays (including an iPad through Sidecar); used while stationary at a desk or table.
 - [HIG] Keyboard and pointing device are the primary inputs. Trackpad gestures, touch on a Mac with a touch display, Siri, Voice Control and game controllers are additional.
 - [HIG] Sessions run from minutes to hours of concentration with many apps and windows open; people expect smooth transitions between active and inactive states.
-- [HIG] Use the space to show more content with fewer nested levels and less modality, at a comfortable density.
-- [HIG] Let people resize, hide, show and move windows, and support full-screen mode.
+- [HIG] Use the space to show more content with fewer nested levels and less modality, at a comfortable density. Let people resize, hide, show and move windows, and support full-screen mode.
 - [HIG] Put every command in the menu bar; handle keyboard shortcuts and keyboard-only work styles; support high-precision selection and editing.
 - [HIG] Allow personalization: customizable toolbars, window configurations, and the person's chosen colors and fonts.
 
@@ -47,13 +46,11 @@ The menu bar is essential on the Mac: people use it to learn what an app does an
 | Window | Minimize, Zoom, tab commands, Bring All to Front, list of open windows |
 | Help | At the trailing end |
 
-- [HIG] Keep the system-defined menus and their order.
-- [HIG] Always show the same items; disable an unavailable item instead of hiding it.
+- [HIG] Keep the system-defined menus and their order. Always show the same items; disable an unavailable item instead of hiding it.
 - [HIG] List custom commands in the menu bar even when they are available elsewhere.
 - [HIG] Provide a View menu even if the only item is Enter/Exit Full Screen; make each Show/Hide title reflect the current state.
 - [HIG] Provide a Window menu even for a single-window app, with Minimize and Zoom, so keyboard users can invoke them.
-- [HIG] Support the standard shortcuts for the standard items you include; define custom shortcuts only when necessary.
-- [HIG] Prefer one-word menu titles; use the system's standard icons for common actions.
+- [HIG] Support the standard shortcuts for the standard items you include; define custom shortcuts only when necessary. Prefer one-word menu titles and the system's standard icons for common actions.
 - [HIG] Dynamic menu items (revealed by one modifier key, such as Option turning Minimize into Minimize All) must never be the only way to do something.
 - [HIG] Menu bar extras: use a symbol; show a menu, not a popover, unless the function is too complex; let people decide whether the extra is shown; never rely on it being visible; consider a Dock menu as well.
 
@@ -64,14 +61,12 @@ Source: https://developer.apple.com/design/human-interface-guidelines/the-menu-b
 - [HIG] A window has a frame (title bar, window controls, toolbar; rarely a bottom bar) and a body. People move, resize, minimize and zoom windows constantly; design every window to adapt fluidly to size.
 - [HIG] Three states: main (an app's frontmost window, one per app), key (the window receiving input, one onscreen at a time; may be a panel) and inactive. The system draws them differently (colored versus gray window controls; inactive windows do not use vibrancy).
 - [HIG] Use system components so appearance follows window state automatically; custom views must implement the state appearances themselves.
-- [HIG] Do not create custom window frames or controls, and do not imitate the system ones.
+- [HIG] Do not create custom window frames or controls, and do not imitate the system ones. Do not title a window with the app name.
 - [HIG] Avoid controls or critical information at the bottom of a window (or in a bottom bar, or at the bottom of a sidebar): people often move windows so the bottom edge is offscreen. For more detail than a small bottom bar holds, use an inspector on the trailing side of a split view.
 - [HIG] Avoid content behind the camera housing at the top of the display.
 - [HIG] Open a new window when it helps multitasking or preserves context; offer "open in new window" in a context menu or the File menu; do not open windows by default without that benefit.
-- [HIG] Do not title a window with the app name; give each window a useful title.
 - [HIG] Full screen: use the system full-screen experience (it handles the camera housing); let people choose when to enter, through the window's button, the View menu or Control-Command-F; do not offer a custom menu of window modes; never resize windows programmatically; games must not change the display mode.
 - [HIG] Multitasking is the default state on the Mac: keep working when inactive, and do not pause video because another window became key.
-- [HIG] A launch screen is not required on macOS.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/windows, https://developer.apple.com/design/human-interface-guidelines/layout, https://developer.apple.com/design/human-interface-guidelines/going-full-screen, https://developer.apple.com/design/human-interface-guidelines/multitasking
 
@@ -85,8 +80,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/windows, h
 - [HIG] Consider hiding and revealing the sidebar automatically as the window resizes; let people hide it, but not by default.
 - [HIG] Split views can be arranged vertically, horizontally or both, with draggable dividers. Set minimum and maximum pane sizes that keep the divider visible; prefer the thin divider (1 pt wide).
 - [HIG] Let people hide panes, and give several ways to bring them back: a toolbar button and a menu command with a keyboard shortcut.
-- [HIG] Hierarchies use outline views or column views; tables should support sorting and column resizing.
-- [HIG] Search goes at the trailing side of the toolbar, or at the top of the sidebar when it filters the sidebar.
+- [HIG] Hierarchies use outline views or column views; tables should support sorting and column resizing. Search goes at the trailing side of the toolbar, or at the top of the sidebar when it filters the sidebar.
 
 See `references/components-navigation.md`.
 
@@ -102,7 +96,6 @@ Source: https://developer.apple.com/design/human-interface-guidelines/toolbars, 
 - [HIG] Use the standard pointer styles to signal state and drag results (arrow, I-beam, open and closed hand, drag copy, drag link, operation not allowed, disappearing item).
 - [HIG] Mac users expect a context menu (contextual menu) of relevant actions on essentially every object. In Mac context menus, keep Cut, Copy and Paste visible but dimmed when unavailable; hide other unavailable items.
 - [HIG] Drag and drop: support dragging content to the Finder in a format the app can reopen; allow dragging a background selection out of an inactive window without activating it; let people select and drag in one motion; badge multi-item drags.
-- [HIG] Offer Next and Previous buttons in addition to swipe gestures for paging.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/keyboards, https://developer.apple.com/design/human-interface-guidelines/focus-and-selection, https://developer.apple.com/design/human-interface-guidelines/pointing-devices, https://developer.apple.com/design/human-interface-guidelines/context-menus, https://developer.apple.com/design/human-interface-guidelines/drag-and-drop
 
@@ -115,14 +108,12 @@ Source: https://developer.apple.com/design/human-interface-guidelines/keyboards,
 | Body | 13 pt, 16 pt leading | [HIG] |
 | Large Title / Title 1 / Title 2 / Title 3 | 26 / 22 / 17 / 15 pt | [HIG] |
 | Headline / Callout / Subheadline / Footnote / Caption | 13 (bold) / 12 / 11 / 10 / 10 pt | [HIG] |
-| Thin split-view divider | 1 pt | [HIG] |
 | Image scale factors | @1x and @2x | [HIG] |
 | System font | SF Pro (New York available to Mac Catalyst apps) | [HIG] |
 
 - [HIG] macOS does not support Dynamic Type. Text styles exist but do not scale with a system text-size setting; do not promise Dynamic Type behaviour on the Mac.
 - [Conv] If readable text size matters (editors, readers), offer an in-app text size or zoom command in the View menu, since the system will not scale the text.
 - [HIG] Dark Mode is supported. The app accent color applies only when the person's accent setting is multicolor; otherwise their chosen accent wins. With the graphite accent, windows pick up desktop tinting, so include some transparency in custom component backgrounds.
-- [HIG] Use semantic `NSColor` values and system materials; choose materials by purpose and test vibrancy in several contexts.
 - [API] Liquid Glass (macOS 26+) arrives through standard components; `UIDesignRequiresCompatibility` is ignored when building for macOS 27 or later.
 - [HIG] Haptics: only when a Magic Trackpad is available, with three patterns (alignment, level change, generic) for drags and force clicks. Never rely on them.
 
@@ -134,8 +125,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/typography
 - [HIG] The settings window has a non-customizable, always-visible toolbar whose buttons switch between panes, and it always indicates the active pane.
 - [HIG] Dim the minimize and zoom buttons; the window sizes itself to the current pane.
 - [HIG] Title the window with the current pane's name; with a single pane, use "App Name Settings".
-- [HIG] Reopen to the most recently viewed pane.
-- [API] SwiftUI provides the `Settings` scene (macOS 11.0+).
+- [HIG] Reopen to the most recently viewed pane. [API] SwiftUI provides the `Settings` scene (macOS 11.0+).
 
 Source: https://developer.apple.com/design/human-interface-guidelines/settings, https://developer.apple.com/documentation/swiftui/settings
 
@@ -145,8 +135,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/settings, 
 - [HIG] Give sheets a sensible default size; resizing is optional but welcome when content benefits.
 - [HIG] For repeated input with visible results (find and replace), use a panel, not a sheet.
 - [HIG] Popovers can be detachable: dragged away they become a panel that stays visible; keep the detached appearance close to the original.
-- [HIG] Panels float above the main window for tools and inspectors; consider Window menu items to show and hide them.
-- [HIG] A push button that opens another window, view or app gets a trailing ellipsis in its title.
+- [HIG] Consider Window menu items for showing and hiding panels. A push button that opens another window, view or app gets a trailing ellipsis in its title.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/buttons, https://developer.apple.com/design/human-interface-guidelines/sheets, https://developer.apple.com/design/human-interface-guidelines/popovers, https://developer.apple.com/design/human-interface-guidelines/panels
 
@@ -173,8 +162,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/gestures, 
 - [API] In the Mac idiom `userInterfaceIdiom` is `.mac`; `UIPageControl` is unavailable there and throws if displayed.
 - [HIG] Either way, go beyond showing the iPad layout in a window: replace the tab bar with a sidebar split view (preferred) or a segmented control, and list the former tabs in the View menu.
 - [HIG] Put every command in the menu bar; pop-up and pull-down button menus and context menus convert automatically; add context menus to more objects.
-- [HIG] Lay out for the wider window: multiple columns, side-by-side reflow as the window resizes, inspector instead of popover, top-down flow, controls moved from the bottom and side edges into the window toolbar.
-- [HIG] Provide a macOS version of the app icon.
+- [HIG] Lay out for the wider window: multiple columns, side-by-side reflow as the window resizes, inspector instead of popover, top-down flow, controls moved from the bottom and side edges into the window toolbar. Offer Next and Previous buttons as well as swipe paging, and provide a macOS app icon.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/mac-catalyst, https://developer.apple.com/documentation/uikit/choosing-a-user-interface-idiom-for-your-mac-app
 
@@ -212,4 +200,3 @@ Source: https://developer.apple.com/design/human-interface-guidelines/typography
 | Hover-only controls with no alternative | Context menu entry; reveal on tap on touch displays |
 | Enlarging controls for touch displays | Enlarge tap targets only; layout unchanged |
 | Catalyst app left as an iPad layout in a window | Sidebar, menus, toolbar, context menus, multi-column layout |
-| Custom full-screen mode or programmatic window resizing | System full screen; the person controls windows |

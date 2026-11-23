@@ -383,8 +383,11 @@ def check_online(rep: Report, files: list[Path]) -> None:
     doc = "https://developer.apple.com/documentation/"
     urls: dict[str, Path] = {}
     for f in files:
-        for url in re.findall(r"https://developer\.apple\.com/[^\s)>`\"',]+", f.read_text(encoding="utf-8")):
-            urls.setdefault(url.rstrip(".;:").split("#")[0], f)
+        for url in re.findall(r"https://developer\.apple\.com/[^\s>`\"',]+", f.read_text(encoding="utf-8")):
+            url = url.rstrip(".;:").split("#")[0]
+            while url.endswith(")") and url.count(")") > url.count("("):
+                url = url[:-1]  # closing parenthesis of a Markdown link, not part of a symbol path
+            urls.setdefault(url.rstrip(".;:"), f)
     checked = 0
     for url, where in sorted(urls.items()):
         if "<" in url or "{" in url:

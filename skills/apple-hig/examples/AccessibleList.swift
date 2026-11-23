@@ -5,8 +5,7 @@
 // also reachable from a visible menu. Includes empty and no-results states.
 //
 // Minimum OS: iOS 17, iPadOS 17, macOS 14, visionOS 1 (ContentUnavailableView).
-//   - Not for tvOS or watchOS as written: swipeActions is unavailable on tvOS and Menu is
-//     unavailable on watchOS.
+//   - Not for tvOS or watchOS as written (no swipeActions on tvOS, no Menu on watchOS).
 //   - Without ContentUnavailableView the rest works from iOS 16 / macOS 13.
 //
 // HIG pages applied:
@@ -19,18 +18,11 @@
 
 import SwiftUI
 
-enum ShipmentStatus {
-    case delivered, inTransit, delayed
+enum ShipmentStatus: String {
+    case delivered = "Delivered", inTransit = "In Transit", delayed = "Delayed"
 
-    var title: String {
-        switch self {
-        case .delivered: return "Delivered"
-        case .inTransit: return "In Transit"
-        case .delayed: return "Delayed"
-        }
-    }
-
-    // A different shape per state, so status never depends on color alone.
+    // Words (the raw value) plus a different symbol shape per state: status never
+    // depends on color alone.
     var symbolName: String {
         switch self {
         case .delivered: return "checkmark.circle"
@@ -74,11 +66,9 @@ struct ShipmentRow: View {
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             }
-            if !dynamicTypeSize.isAccessibilitySize {
-                Spacer(minLength: 8)
-            }
+            if !dynamicTypeSize.isAccessibilitySize { Spacer(minLength: 8) }
             // Symbol plus words; the symbol scales with the text style.
-            Label(shipment.status.title, systemImage: shipment.status.symbolName)
+            Label(shipment.status.rawValue, systemImage: shipment.status.symbolName)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
@@ -122,12 +112,9 @@ struct AccessibleList: View {
             .searchable(text: $query, prompt: "Search shipments")
             .overlay {
                 if shipments.isEmpty {
-                    // Nothing yet: say why and what will appear.
-                    ContentUnavailableView(
-                        "No Shipments",
-                        systemImage: "shippingbox",
-                        description: Text("Shipments you track appear here.")
-                    )
+                    // Nothing yet: say what will appear here.
+                    ContentUnavailableView("No Shipments", systemImage: "shippingbox",
+                                           description: Text("Shipments you track appear here."))
                 } else if results.isEmpty {
                     // The standard no-results state, including the search term.
                     ContentUnavailableView.search(text: query)
@@ -138,21 +125,15 @@ struct AccessibleList: View {
 
     @ViewBuilder
     private func rowActions(for shipment: Shipment) -> some View {
-        Button {
-            toggleFlag(shipment)
-        } label: {
-            Label(shipment.isFlagged ? "Unflag" : "Flag", systemImage: "flag")
+        // Title plus symbol on every action: the title is the VoiceOver name.
+        Button(shipment.isFlagged ? "Unflag" : "Flag", systemImage: "flag") {
+            if let index = shipments.firstIndex(where: { $0.id == shipment.id }) {
+                shipments[index].isFlagged.toggle()
+            }
         }
         // The destructive role gives the system styling; the title says what is removed.
-        Button(role: .destructive) {
+        Button("Delete Shipment", systemImage: "trash", role: .destructive) {
             shipments.removeAll { $0.id == shipment.id }
-        } label: {
-            Label("Delete Shipment", systemImage: "trash")
         }
-    }
-
-    private func toggleFlag(_ shipment: Shipment) {
-        guard let index = shipments.firstIndex(where: { $0.id == shipment.id }) else { return }
-        shipments[index].isFlagged.toggle()
     }
 }

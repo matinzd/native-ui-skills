@@ -166,7 +166,7 @@ List(messages) { MessageRow(message: $0) }
 ```
 
 - [API] Prefer semantic placements; the system positions them per platform. Use `.topBar...` only for an explicit side, inside `#if !os(macOS)`.
-- [API] Use `Label` (or `Button(_:systemImage:action:)`) for bar items: the toolbar shows the icon and assistive technologies get the title.
+- [API] Use `Label` (or `Button(_:systemImage:action:)`) for bar items: toolbars on iOS and macOS show only the icon by default. [Conv] The title still names the button for VoiceOver and Voice Control.
 - [API] `ToolbarSpacer(_:placement:)` with `.fixed` or `.flexible` sizing is iOS 26+, macOS 26+ only; it separates groups of bar items. `DefaultToolbarItem(kind:placement:)` is OS 26+ on all platforms.
 - [API] Titles: `navigationTitle(_:)` is iOS 14+, macOS 11+, tvOS 14+, watchOS 7+. `navigationBarTitleDisplayMode(_:)` is iOS 14+, watchOS 8+, visionOS 1+ and does not exist on macOS or tvOS. `toolbarTitleDisplayMode(_:)` is iOS 17+, macOS 14+, tvOS 17+, watchOS 10+, visionOS 1+; its `.large` value is not on macOS or tvOS and `.inlineLarge` is not on tvOS or watchOS. `navigationSubtitle(_:)` is macOS 13+ and iOS 26+.
 - [API] Hide a bar with `toolbarVisibility(_:for:)` (iOS 18+, macOS 15+, tvOS 18+, watchOS 11+, visionOS 2+). Below that, the deprecated `toolbar(_:for:)` visibility form (iOS 16+) is the fallback.

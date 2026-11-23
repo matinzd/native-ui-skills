@@ -118,7 +118,7 @@ Source: https://developer.apple.com/documentation/swiftui/lazyvgrid, https://dev
 |---|---|---|
 | `safeAreaInset(edge:alignment:spacing:content:)` | iOS 15+, macOS 12+, tvOS 15+, watchOS 8+, visionOS 1+ | Pin a bar or button to an edge; the modified view's safe area shrinks so scroll content is not covered. |
 | `safeAreaPadding(_:)`, `safeAreaPadding(_:_:)` | iOS 17+, macOS 14+, tvOS 17+, watchOS 10+, visionOS 1+ | Add a fixed amount to the safe area a view sees. |
-| `contentMargins(_:_:for:)` | same as `safeAreaPadding` | Inset scroll content (placement `.scrollContent`) without insetting the scroll view or its indicators' container. |
+| `contentMargins(_:_:for:)` | same as `safeAreaPadding` | Inset scrollable content (placement `.scrollContent`) instead of padding the scroll view itself. |
 | `scenePadding(_:)` | iOS 15+, macOS 12+, tvOS 15+, watchOS 8+, visionOS 1+ | Platform-appropriate padding from the scene edge. |
 | `padding()` with no length | iOS 13+, macOS 10.15+, tvOS 13+, watchOS 6+, visionOS 1+ | System default spacing; prefer it to a hard-coded number. |
 | `ignoresSafeArea(_:edges:)` | iOS 14+, macOS 11+, tvOS 14+, watchOS 7+, visionOS 1+ | Backgrounds only. `edgesIgnoringSafeArea(_:)` is deprecated. |
@@ -156,7 +156,7 @@ Source: https://developer.apple.com/documentation/swiftui/scrolledgeeffectstyle,
 
 ## GeometryReader cautions
 
-- [API] `GeometryReader` (iOS 13+) returns a flexible preferred size to its parent: it expands to take the space offered, so wrapping a row or a whole screen in one changes how its parent lays out.
+- [API] `GeometryReader` (iOS 13+) returns a flexible preferred size to its parent layout. [Conv] In practice it takes the space offered, so wrapping a row or a whole screen in one changes how the parent lays out.
 - [Conv] Reach for it last. Proportional widths: `containerRelativeFrame` (iOS 17+). Alternate arrangements: `ViewThatFits` (iOS 16+). Column counts: adaptive `GridItem`. Custom arrangement: the `Layout` protocol (iOS 16+).
 - [API] To read a size without affecting layout use `onGeometryChange(for:of:action:)`; the metadata lists iOS 16+, macOS 13+, tvOS 16+, watchOS 9+, visionOS 1+ (a second overload is iOS 18+).
 - [API] `UIScreen.main` is deprecated (iOS 26.0); do not size SwiftUI views from screen bounds. A window can be smaller than the screen on iPad, Mac and Apple Vision Pro.
@@ -208,7 +208,7 @@ struct NotesApp: App {
 ```
 
 - [API] `Settings` supplies the standard Settings menu item; do not add your own menu item or shortcut for it.
-- [HIG] On Mac put app-level settings in a Settings window opened from the app menu, not on a pushed in-window screen.
+- [HIG] On Mac the Settings item in the App menu opens a settings window (Command-Comma); avoid settings buttons in a window's toolbar.
 
 Source: https://developer.apple.com/documentation/swiftui/scenes, https://developer.apple.com/documentation/swiftui/windows, https://developer.apple.com/documentation/swiftui/settings, https://developer.apple.com/documentation/swiftui/menubarextra, https://developer.apple.com/design/human-interface-guidelines/settings
 
@@ -217,7 +217,7 @@ Source: https://developer.apple.com/documentation/swiftui/scenes, https://develo
 - [API] `commands(content:)`, `CommandMenu`, `CommandGroup(after:addition:)`, `CommandGroup(replacing:addition:)`, `CommandGroupPlacement` (for example `.newItem`, `.appSettings`, `.help`) and `SidebarCommands` are iOS 14+, macOS 11+, visionOS 1+.
 - [API] `keyboardShortcut(_:modifiers:)` (default modifier `.command`) and `keyboardShortcut(.defaultAction)` / `.cancelAction` are iOS 14+, macOS 11+, visionOS 1+; there is no tvOS or watchOS availability.
 - [API] `onKeyPress(_:action:)` is iOS 17+, macOS 14+, tvOS 17+, visionOS 1+. `help(_:)` (tooltip text) is iOS 14+, macOS 11+, tvOS 14+, watchOS 7+, visionOS 1+.
-- [HIG] On Mac every command belongs in the menu bar, with standard shortcuts kept for their standard meanings. [Unverified] How SwiftUI `commands` surface on iPadOS (shortcut overlay versus menu bar) was not checked against the documentation; test on device.
+- [HIG] Mac users rely on the menu bar to learn what an app does and to find its commands; provide a consistent menu bar. [Unverified] How SwiftUI `commands` surface on iPadOS (shortcut overlay versus menu bar) was not checked against the documentation; test on device.
 
 Source: https://developer.apple.com/documentation/swiftui/menus-and-commands, https://developer.apple.com/documentation/swiftui/keyboardshortcut, https://developer.apple.com/design/human-interface-guidelines/the-menu-bar, https://developer.apple.com/design/human-interface-guidelines/keyboards
 
@@ -244,13 +244,13 @@ Source: https://developer.apple.com/documentation/swiftui/menus-and-commands, ht
 ```swift
 // watchOS 6+ only
 #if os(watchOS)
-Text(volume, format: .number.precision(.fractionLength(1)))
+Text("Volume \(Int(volume))")                     // volume: @State Double
     .focusable()
     .digitalCrownRotation($volume, from: 0, through: 10, by: 0.5)
 #endif
 ```
 
-- [HIG] On tvOS and visionOS rely on the system focus and hover effects; standard buttons show them automatically.
+- [HIG] Rely on system-provided focus effects and indicate focus the way the platform does. [Conv] Standard buttons and list rows get them without extra code.
 - [Conv] Compile platform-only modifiers out with `#if os(...)`; `#available` cannot hide a symbol that does not exist for the platform being built.
 
 Source: https://developer.apple.com/documentation/swiftui/focus, https://developer.apple.com/documentation/swiftui/immersivespace, https://developer.apple.com/documentation/swiftui/ornamentattachmentanchor, https://developer.apple.com/design/human-interface-guidelines/focus-and-selection, https://developer.apple.com/design/human-interface-guidelines/digital-crown, https://developer.apple.com/design/human-interface-guidelines/ornaments
