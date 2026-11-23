@@ -1,0 +1,118 @@
+{
+  "correct": 11,
+  "total": 14,
+  "rows": [
+    {
+      "query": "we're porting our iOS recipe app to Apple Watch. what should the navigation look like? on the phone it has 5 tabs",
+      "should_trigger": true,
+      "triggered": true,
+      "other_skills": [],
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "design the tab structure for a banking app on iPhone - accounts, cards, payments, insights, support, settings, profile. is 7 tabs ok",
+      "should_trigger": true,
+      "triggered": true,
+      "other_skills": [],
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "refactor this UIKit view controller so the buttons and text respect the user's text size setting, change as little as possible",
+      "should_trigger": true,
+      "triggered": false,
+      "other_skills": [],
+      "correct": false,
+      "error": null
+    },
+    {
+      "query": "write a SwiftUI onboarding flow for iOS 18, three pages then a notification permission ask. want it to look like something apple would ship",
+      "should_trigger": true,
+      "triggered": false,
+      "other_skills": [],
+      "correct": false,
+      "error": null
+    },
+    {
+      "query": "what's the minimum tap target size on iOS and does it differ on mac",
+      "should_trigger": true,
+      "triggered": true,
+      "other_skills": [],
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "pick colors for success/warning/error badges in my SwiftUI app that work in dark mode and for color blind users",
+      "should_trigger": true,
+      "triggered": false,
+      "other_skills": [],
+      "correct": false,
+      "error": null
+    },
+    {
+      "query": "which SF Symbol and label should I use for these toolbar actions: share, duplicate, archive, mark unread - and where do they go on iPad vs iPhone",
+      "should_trigger": true,
+      "triggered": true,
+      "other_skills": [],
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "Flutter: build a responsive master-detail layout with a NavigationRail on tablets and a BottomNavigationBar on phones",
+      "should_trigger": false,
+      "triggered": false,
+      "other_skills": [],
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "write the App Store Connect description, keywords and what's new text for version 3.2 of our meditation app",
+      "should_trigger": false,
+      "triggered": false,
+      "other_skills": [],
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "in Figma, set up auto layout and breakpoints for our marketing website hero section (desktop / tablet / mobile web)",
+      "should_trigger": false,
+      "triggered": false,
+      "other_skills": [],
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "write XCTest unit tests for PriceFormatter.swift covering locale and rounding edge cases",
+      "should_trigger": false,
+      "triggered": false,
+      "other_skills": [],
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "my SwiftUI List scrolls at 40fps with 5000 rows, Instruments shows lots of time in body - how do I profile and fix it",
+      "should_trigger": false,
+      "triggered": false,
+      "other_skills": [],
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "Kotlin Multiplatform: share the view models between Android and iOS, how do I expose StateFlow to Swift",
+      "should_trigger": false,
+      "triggered": false,
+      "other_skills": [],
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "make an accessible data table for our React admin panel - aria roles, keyboard nav, screen reader announcements",
+      "should_trigger": false,
+      "triggered": false,
+      "other_skills": [],
+      "correct": true,
+      "error": null
+    }
+  ]
+}

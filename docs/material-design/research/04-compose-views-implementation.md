@@ -29,7 +29,7 @@ Strength: **[API]** API contract or fixed platform behaviour, **[Rec]** Google r
 
 ### 0.2 API files used as ground truth (cached)
 
-Cache folder: `/tmp/claude-0/-home-user-apple-hig-skill/4b8f6fc4-b934-5d7d-9f48-9d6e78d71918/scratchpad/m4/api/`
+Cache folder: `<scratch>/m4/api/`
 (release notes and guides as text in `.../m4/web/`, MDC-Android docs in `.../m4/mdc/`).
 All files come from `https://raw.githubusercontent.com/androidx/androidx/androidx-main/<module>/api/<file>`.
 

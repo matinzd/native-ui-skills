@@ -23,12 +23,12 @@ and honesty standard. Today is 2026-11-23. You are one of several parallel resea
 
 - m3.material.io is reachable but rendered by JavaScript: plain curl returns an empty shell. Render pages with the
   pre-installed Chromium via this helper (prints the page's visible text):
-  `node /tmp/claude-0/-home-user-apple-hig-skill/4b8f6fc4-b934-5d7d-9f48-9d6e78d71918/scratchpad/m3/render.js <url> <out.txt>`  (takes ~15 s per page; run several in parallel with `&` and `wait`, at most 4 at a time)
+  `node <scratch>/m3/render.js <url> <out.txt>`  (takes ~15 s per page; run several in parallel with `&` and `wait`, at most 4 at a time)
   Component pages have sub-pages: /components/<name>/overview , /specs , /guidelines , /accessibility. The site map is at
   https://m3.material.io/ (navigation) - discover exact slugs by rendering the hub pages, do not guess.
 - developer.android.com works with curl (large HTML; strip tags with python3 -I, or use the render helper).
 - raw.githubusercontent.com works. github.com HTML, api.github.com, android.googlesource.com and dl.google.com are blocked.
-- Keep downloads and scratch files in /tmp/claude-0/-home-user-apple-hig-skill/4b8f6fc4-b934-5d7d-9f48-9d6e78d71918/scratchpad/<your-name>/ , never in the repository.
+- Keep downloads and scratch files in <scratch>/<your-name>/ , never in the repository.
 
 ## Rules
 

@@ -199,7 +199,9 @@ Target: <platform(s)>, minimum OS <version or "assumed ...">, <framework>
 ```
 
 Group repeated instances of the same problem into a single finding, but keep different problems separate even
-when one fix resolves several of them. Keep fixes minimal. A full example is in
+when one fix resolves several of them. Every finding, including each subjective suggestion, gets its own
+heading, exactly one class, and a severity. A plain functional bug that is not a guideline matter goes in a
+short "Other bugs" list after the findings instead of being forced into a class. Keep fixes minimal. A full example is in
 `examples/review-report.md`.
 
 ## Verifying and reporting uncertainty

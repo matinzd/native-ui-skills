@@ -1,0 +1,120 @@
+{
+  "correct": 13,
+  "total": 14,
+  "rows": [
+    {
+      "query": "make this Android settings screen feel native - right now it's a Column of custom rows with a toggle I drew myself and it looks like a web page",
+      "should_trigger": true,
+      "triggered": true,
+      "other_skills": [],
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "audit RatingBar.kt for TalkBack and font scale problems, QA says the labels get clipped at 200% font size",
+      "should_trigger": true,
+      "triggered": true,
+      "other_skills": [],
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "bringing our Compose phone app to Wear OS. it has 4 bottom tabs and long lists - what should navigation and lists look like on the watch",
+      "should_trigger": true,
+      "triggered": true,
+      "other_skills": [],
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "what's the minimum touch target size on android",
+      "should_trigger": true,
+      "triggered": true,
+      "other_skills": [],
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "is it ok to have a hamburger drawer and a bottom bar in the same Android app? product wants both",
+      "should_trigger": true,
+      "triggered": true,
+      "other_skills": [],
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "refactor this Compose screen so sizes and colours come from the theme instead of hard-coded sp and hex values, change as little as possible",
+      "should_trigger": true,
+      "triggered": false,
+      "other_skills": [],
+      "correct": false,
+      "error": null
+    },
+    {
+      "query": "we have an iOS app with a tab bar and large titles and are designing the Android version now. what should change so it doesn't feel like an iPhone port",
+      "should_trigger": true,
+      "triggered": true,
+      "other_skills": [],
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "my UITabBarController has 7 tabs and the More tab looks ugly. what does the HIG say about tab count",
+      "should_trigger": false,
+      "triggered": false,
+      "other_skills": [
+        "apple-hig"
+      ],
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "Angular Material mat-form-field shows the error under the input but the layout jumps. how do I reserve space with subscriptSizing",
+      "should_trigger": false,
+      "triggered": false,
+      "other_skills": [],
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "Gradle sync fails after bumping the Compose BOM: Duplicate class androidx.compose.material3.internal... how do I align the versions",
+      "should_trigger": false,
+      "triggered": false,
+      "other_skills": [],
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "Compose Multiplatform desktop app (JVM, Windows and macOS): how do I add a native menu bar and a tray icon",
+      "should_trigger": false,
+      "triggered": false,
+      "other_skills": [],
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "LazyColumn with 5000 items janks and Layout Inspector shows recomposition on every scroll frame. how do I profile and fix it",
+      "should_trigger": false,
+      "triggered": false,
+      "other_skills": [],
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "@material/web md-filled-button: change the container shape with CSS custom properties in a Lit component",
+      "should_trigger": false,
+      "triggered": false,
+      "other_skills": [],
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "write Compose UI tests with createComposeRule for LoginScreen - button disabled until both fields are filled",
+      "should_trigger": false,
+      "triggered": false,
+      "other_skills": [],
+      "correct": true,
+      "error": null
+    }
+  ]
+}

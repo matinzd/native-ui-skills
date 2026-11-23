@@ -1,0 +1,640 @@
+{
+ "runs": [
+  {
+   "eval_id": 5,
+   "name": "review-compose-inbox",
+   "config": "with_skill",
+   "assertions": [
+    {
+     "text": "Every finding carries exactly one of the skill's five classification labels, a severity, a concrete fix, and a source URL or an explicit note that no source exists",
+     "passed": false,
+     "evidence": "Findings 1-7 each have Class/Severity/Source URL/Fix, but '### 8. Subjective suggestions (opinion, no source)' bundles three suggestions with no Severity line. Findings 1-2 also append qualifiers to the label: 'Class: Recommended improvement (functionally a bug)'."
+    },
+    {
+     "text": "The androidx.compose.material imports (FloatingActionButton, Text) are flagged as Material 2 components mixed into a Material 3 screen, with the material3 equivalents as the fix",
+     "passed": true,
+     "evidence": "'Material 2 `Text` and `FloatingActionButton` shadow the Material 3 ones ... Fix: delete both imports; the wildcard already supplies the M3 versions.'"
+    },
+    {
+     "text": "The ignored Scaffold content padding is flagged, and the fix applies the PaddingValues to the list (padding modifier or contentPadding)",
+     "passed": true,
+     "evidence": "'List ignores the Scaffold padding ... contentPadding = innerPadding'"
+    },
+    {
+     "text": "Divider is flagged as deprecated with HorizontalDivider as the replacement, and the response does not state the library version in which it was deprecated",
+     "passed": true,
+     "evidence": "'Deprecated `Divider` ... Fix: `HorizontalDivider()`'; only says 'the replacement exists in 1.5.0', no deprecating version given."
+    },
+    {
+     "text": "contentDescription = null on the search icon button is flagged as an accessibility issue, with a text description as the fix",
+     "passed": true,
+     "evidence": "'Search button has no accessible label - Class: Accessibility issue ... contentDescription = stringResource(R.string.search)'"
+    },
+    {
+     "text": "The AlertDialog that only confirms 'Conversation archived.' is flagged, a snackbar is proposed instead, and the finding is not classified as a confirmed guideline or API violation",
+     "passed": true,
+     "evidence": "'Blocking dialog used to confirm a routine archive - Class: Recommended improvement ... replace the dialog with a snackbar'"
+    },
+    {
+     "text": "The hard-coded top app bar colours are flagged with theme colour roles as the fix, and the finding is not classified as a confirmed guideline or API violation",
+     "passed": true,
+     "evidence": "'Hard-coded app bar colors - Class: Recommended improvement ... containerColor = MaterialTheme.colorScheme.primary'"
+    }
+   ],
+   "passed": 6,
+   "total": 7,
+   "fabrications": [],
+   "skill_files": [
+    "references/*.md (one grep -E across the references directory; the harness recorded nothing because the command used cd + relative paths; exact file list truncated in tool_calls)"
+   ],
+   "skill_files_read": [],
+   "skill_files_touched": [],
+   "cost_usd": 0.5507,
+   "turns": 5,
+   "tool_calls": 3
+  },
+  {
+   "eval_id": 5,
+   "name": "review-compose-inbox",
+   "config": "without_skill",
+   "assertions": [
+    {
+     "text": "Every finding carries exactly one of the skill's five classification labels, a severity, a concrete fix, and a source URL or an explicit note that no source exists",
+     "passed": false,
+     "evidence": "No classification labels and no source URLs anywhere; headings are 'Blockers / Should fix before release / Polish'."
+    },
+    {
+     "text": "The androidx.compose.material imports (FloatingActionButton, Text) are flagged as Material 2 components mixed into a Material 3 screen, with the material3 equivalents as the fix",
+     "passed": true,
+     "evidence": "'`Text` and `FloatingActionButton` come from Material 2 (lines 5-6) ... Delete both imports'"
+    },
+    {
+     "text": "The ignored Scaffold content padding is flagged, and the fix applies the PaddingValues to the list (padding modifier or contentPadding)",
+     "passed": true,
+     "evidence": "'The Scaffold's inner padding is discarded ... `LazyColumn(contentPadding = innerPadding)`'"
+    },
+    {
+     "text": "Divider is flagged as deprecated with HorizontalDivider as the replacement, and the response does not state the library version in which it was deprecated",
+     "passed": true,
+     "evidence": "'`Divider()` is deprecated; use `HorizontalDivider()`.' No version stated."
+    },
+    {
+     "text": "contentDescription = null on the search icon button is flagged as an accessibility issue, with a text description as the fix",
+     "passed": true,
+     "evidence": "'The search button has no accessible label ... Use `stringResource(R.string.search)`.'"
+    },
+    {
+     "text": "The AlertDialog that only confirms 'Conversation archived.' is flagged, a snackbar is proposed instead, and the finding is not classified as a confirmed guideline or API violation",
+     "passed": true,
+     "evidence": "'Archive confirmation is a modal dialog ... Use a snackbar with an Undo action'; listed under 'Should fix', not called a violation (passes vacuously: nothing is classified)."
+    },
+    {
+     "text": "The hard-coded top app bar colours are flagged with theme colour roles as the fix, and the finding is not classified as a confirmed guideline or API violation",
+     "passed": true,
+     "evidence": "'The top bar colour is hardcoded ... use `primary` for the container and `onPrimary` for the title and action icons' (passes vacuously on the classification half)."
+    }
+   ],
+   "passed": 6,
+   "total": 7,
+   "fabrications": [],
+   "skill_files": [],
+   "skill_files_read": [],
+   "skill_files_touched": [],
+   "cost_usd": 0.3214,
+   "turns": 2,
+   "tool_calls": 1
+  },
+  {
+   "eval_id": 9,
+   "name": "adapt-phone-to-tablet-foldable",
+   "config": "with_skill",
+   "assertions": [
+    {
+     "text": "The new code uses NavigationSuiteScaffold, or chooses between NavigationBar and NavigationRail from the window size class (for example currentWindowAdaptiveInfo().windowSizeClass)",
+     "passed": true,
+     "evidence": "'NavigationSuiteScaffold(navigationSuiteItems = { ... item(...) } )' (overload and item() signature exist in navsuite-1.5.0-beta01.txt lines 73, 110)."
+    },
+    {
+     "text": "The navigation choice is not based on device model, an isTablet flag, or screen orientation",
+     "passed": true,
+     "evidence": "'Navigation follows the window ... navigation bar when the window's width or height is compact and a navigation rail otherwise'; no device/orientation test in the code."
+    },
+    {
+     "text": "Six destinations are flagged against the three-to-five navigation bar guidance, with a concrete proposal (reduce to five, or move the rest into a rail or drawer)",
+     "passed": true,
+     "evidence": "'you have six top-level destinations, and Material recommends three to five for a navigation bar ... moving one (Profile is a common choice) out of the bar would fix it'. Note: the delivered code keeps all six in the bar."
+    },
+    {
+     "text": "The fixed width(360.dp) is removed, and the response says how wide windows use the extra space (for example list-detail panes, a grid, or a maximum content width)",
+     "passed": true,
+     "evidence": "'The fixed `width(360.dp)` column is replaced by an adaptive grid: one column on a phone, more as the window widens'"
+    },
+    {
+     "text": "The portrait lock is removed or flagged, and the response says that orientation restrictions are ignored on large screens (smallest width 600dp and up) for apps targeting API level 36, or that they conflict with large-screen quality guidance",
+     "passed": true,
+     "evidence": "'Portrait lock removed. At `targetSdk` 36 the system ignores `requestedOrientation` on displays 600dp and wider'"
+    },
+    {
+     "text": "The response cites at least one developer.android.com or m3.material.io URL",
+     "passed": false,
+     "evidence": "absent - neither the answer nor the edited file contains any URL."
+    }
+   ],
+   "passed": 5,
+   "total": 6,
+   "fabrications": [
+    "Not a demonstrable error, but internally inconsistent: the code comment states 'The scaffold handles the insets of the bar or rail' while the answer says 'I couldn't confirm whether the scaffold consumes insets for its content'."
+   ],
+   "skill_files": [
+    "examples/AdaptiveNavigation.kt",
+    "references/components-navigation.md",
+    "references/foundations-layout.md",
+    "references/implementation-availability.md",
+    "references/implementation-navigation.md",
+    "references/platforms-large-screens.md"
+   ],
+   "skill_files_read": [],
+   "skill_files_touched": [
+    "examples/AdaptiveNavigation.kt",
+    "references/implementation-navigation.md",
+    "references/platforms-large-screens.md",
+    "references/implementation-availability.md",
+    "references/components-navigation.md",
+    "references/foundations-layout.md"
+   ],
+   "cost_usd": 0.6798,
+   "turns": 7,
+   "tool_calls": 5
+  },
+  {
+   "eval_id": 9,
+   "name": "adapt-phone-to-tablet-foldable",
+   "config": "without_skill",
+   "assertions": [
+    {
+     "text": "The new code uses NavigationSuiteScaffold, or chooses between NavigationBar and NavigationRail from the window size class (for example currentWindowAdaptiveInfo().windowSizeClass)",
+     "passed": true,
+     "evidence": "'val useRail = currentWindowAdaptiveInfo().windowSizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND)' then NavigationBar / NavigationRail."
+    },
+    {
+     "text": "The navigation choice is not based on device model, an isTablet flag, or screen orientation",
+     "passed": true,
+     "evidence": "'Driven by the window, not the device'"
+    },
+    {
+     "text": "Six destinations are flagged against the three-to-five navigation bar guidance, with a concrete proposal (reduce to five, or move the rest into a rail or drawer)",
+     "passed": true,
+     "evidence": "'Six destinations exceeds Material's 3-5 limit for a bottom bar, so I moved Record out' (implemented as a FAB, five destinations remain)."
+    },
+    {
+     "text": "The fixed width(360.dp) is removed, and the response says how wide windows use the extra space (for example list-detail panes, a grid, or a maximum content width)",
+     "passed": true,
+     "evidence": "'The fixed `width(360.dp)` list is now a grid with a 320dp minimum column width'; also mentions ListDetailPaneScaffold."
+    },
+    {
+     "text": "The portrait lock is removed or flagged, and the response says that orientation restrictions are ignored on large screens (smallest width 600dp and up) for apps targeting API level 36, or that they conflict with large-screen quality guidance",
+     "passed": true,
+     "evidence": "'Orientation lock removed ... At API 36 the system ignores orientation and resizability restrictions on displays 600dp and wider anyway.'"
+    },
+    {
+     "text": "The response cites at least one developer.android.com or m3.material.io URL",
+     "passed": false,
+     "evidence": "absent - no URL in the answer or the edited file."
+    }
+   ],
+   "passed": 5,
+   "total": 6,
+   "fabrications": [
+    "Does not compile: 'NavigationRail(header = recordFab)' where recordFab is '@Composable () -> Unit'; the parameter is 'Function1<ColumnScope,Unit>? header', i.e. @Composable ColumnScope.() -> Unit (m3-1.5.0-beta01.txt line 2748).",
+    "Recommendation stated as a limit: 'Material's 3-5 limit for a bottom bar'. The page says 'Avoid putting more than five navigation items in a navigation bar' (F1).",
+    "Unverified dependency claim ('adaptive 1.1 or later, which brings in window-core 1.4+'); not checked, and currentWindowAdaptiveInfo() is @Deprecated in adaptive-1.3.0-beta01.txt (line 66) in favour of currentWindowAdaptiveInfoV2()."
+   ],
+   "skill_files": [],
+   "skill_files_read": [],
+   "skill_files_touched": [],
+   "cost_usd": 0.5681,
+   "turns": 4,
+   "tool_calls": 3
+  },
+  {
+   "eval_id": 12,
+   "name": "experimental-or-unavailable-api",
+   "config": "with_skill",
+   "assertions": [
+    {
+     "text": "The response says LoadingIndicator is experimental in 1.5.0 and needs an opt-in to ExperimentalMaterial3ExpressiveApi",
+     "passed": true,
+     "evidence": "'(a) ... Present, experimental | Needs `@OptIn(ExperimentalMaterial3ExpressiveApi::class)`' (matches m3-1.5.0-beta01.txt lines 2175-2176, 5312)."
+    },
+    {
+     "text": "The response says ModalBottomSheet is available in 1.5.0 but needs an opt-in to ExperimentalMaterial3Api",
+     "passed": true,
+     "evidence": "'(b) `ModalBottomSheet` | Present, experimental | Needs `@OptIn(ExperimentalMaterial3Api::class)`' (matches line 2517)."
+    },
+    {
+     "text": "The response says FadeThroughNavigationTransitions is not available in 1.5.0 (it was added in 1.6.0-alpha01)",
+     "passed": true,
+     "evidence": "'(c) ... Not there | Added in 1.6.0-alpha01 (18 Nov 2026)' (0 matches in 1.5.0-beta01, present in m3-main.txt line 1351)."
+    },
+    {
+     "text": "The response does not present upgrading to an alpha release as the solution without noting that it conflicts with the stable-only policy",
+     "passed": true,
+     "evidence": "'so it is ruled out by your stable-only policy'; the alternative offered is a hand-written transition on stable Navigation."
+    },
+    {
+     "text": "The response offers at least one alternative for (a) that needs no opt-in (for example the default PullToRefreshBox indicator or CircularProgressIndicator)",
+     "passed": true,
+     "evidence": "'the default `PullToRefreshBox` indicator is stable and needs no opt-in, but it doesn't morph' (PullToRefreshBox and PullToRefreshDefaults.Indicator carry no experimental annotation, lines 5308, 5341)."
+    },
+    {
+     "text": "The response cites the Compose Material 3 release notes or API reference on developer.android.com",
+     "passed": true,
+     "evidence": "'Sources: https://developer.android.com/jetpack/androidx/releases/compose-material3 , .../reference/kotlin/androidx/compose/material3/package-summary'"
+    }
+   ],
+   "passed": 6,
+   "total": 6,
+   "fabrications": [],
+   "skill_files": [
+    "references/implementation-availability.md",
+    "references/implementation-components.md",
+    "references/implementation-navigation.md",
+    "references/platforms-system*.md (grep; list truncated)",
+    "(read via grep/sed after cd, so the harness recorded none)"
+   ],
+   "skill_files_read": [],
+   "skill_files_touched": [],
+   "cost_usd": 0.7104,
+   "turns": 8,
+   "tool_calls": 9
+  },
+  {
+   "eval_id": 12,
+   "name": "experimental-or-unavailable-api",
+   "config": "without_skill",
+   "assertions": [
+    {
+     "text": "The response says LoadingIndicator is experimental in 1.5.0 and needs an opt-in to ExperimentalMaterial3ExpressiveApi",
+     "passed": true,
+     "evidence": "'Both `LoadingIndicator` and `PullToRefreshDefaults.LoadingIndicator` were added in 1.5.0 and carry `@ExperimentalMaterial3ExpressiveApi`'"
+    },
+    {
+     "text": "The response says ModalBottomSheet is available in 1.5.0 but needs an opt-in to ExperimentalMaterial3Api",
+     "passed": true,
+     "evidence": "'(b) `ModalBottomSheet` | Present, experimental | `@OptIn(ExperimentalMaterial3Api::class)`'"
+    },
+    {
+     "text": "The response says FadeThroughNavigationTransitions is not available in 1.5.0 (it was added in 1.6.0-alpha01)",
+     "passed": true,
+     "evidence": "'(c) ... Not there | Added in 1.6.0-alpha01, so your stable-only rule excludes it'"
+    },
+    {
+     "text": "The response does not present upgrading to an alpha release as the solution without noting that it conflicts with the stable-only policy",
+     "passed": true,
+     "evidence": "'your stable-only rule excludes it ... On 1.5.0 you would have to write the fade-through and predictive-back handling yourself.'"
+    },
+    {
+     "text": "The response offers at least one alternative for (a) that needs no opt-in (for example the default PullToRefreshBox indicator or CircularProgressIndicator)",
+     "passed": false,
+     "evidence": "Borderline. '`PullToRefreshBox` with the default indicator is the non-morphing fallback, but I didn't check its annotation.' The right alternative is named, but the response explicitly does not say whether it needs an opt-in, and the headline is 'None of the three is usable as is'. Passes on a purely literal reading."
+    },
+    {
+     "text": "The response cites the Compose Material 3 release notes or API reference on developer.android.com",
+     "passed": true,
+     "evidence": "'[Compose Material 3 release notes](https://developer.android.com/jetpack/androidx/releases/compose-material3)' plus five reference pages."
+    }
+   ],
+   "passed": 5,
+   "total": 6,
+   "fabrications": [],
+   "skill_files": [],
+   "skill_files_read": [],
+   "skill_files_touched": [],
+   "cost_usd": 0.8191,
+   "turns": 10,
+   "tool_calls": 20
+  },
+  {
+   "eval_id": 14,
+   "name": "hallucination-and-unspecified-numbers",
+   "config": "with_skill",
+   "assertions": [
+    {
+     "text": "The response says Modifier.accessibleTouchTarget() is not a material3 API and offers minimumInteractiveComponentSize or a 48dp minimum size instead",
+     "passed": true,
+     "evidence": "'I can't find a modifier by that name in material3. The real one is `Modifier.minimumInteractiveComponentSize()`' (hedged wording, but does not confirm it)."
+    },
+    {
+     "text": "The response says AdaptiveNavigationBar is not a material3 composable and offers NavigationSuiteScaffold or NavigationBar / NavigationRail switching instead",
+     "passed": true,
+     "evidence": "'I can't find a composable by that name either. Your lead most likely means `NavigationSuiteScaffold`'"
+    },
+    {
+     "text": "The response does not confirm a 12-character limit; it says the guidance is short labels (one or two words, not truncated) or that no character limit is published",
+     "passed": true,
+     "evidence": "'Material 3 publishes no character limit for navigation bar labels ... one or two words for a bar, one word for a rail'"
+    },
+    {
+     "text": "The response does not state a minimum font size in sp as a Material rule; it says none is published (it may mention the smallest type scale style)",
+     "passed": true,
+     "evidence": "'Minimum font size: Material gives none for phones or tablets. The smallest styles in the type scale are label small (11sp)'; the 12sp figure is attributed to Android's accessibility design guidance, not Material (page says 'Don't make the body size any smaller than 12 sp')."
+    },
+    {
+     "text": "The response does not give a single required snackbar duration as a Material rule; it says none is fixed, or gives the 4 to 10 second guidance for snackbars without actions",
+     "passed": true,
+     "evidence": "'there is no exact figure. Material says a snackbar without an action may auto-dismiss after 4 to 10 seconds, depending on platform'"
+    },
+    {
+     "text": "The response contains no code that calls accessibleTouchTarget or AdaptiveNavigationBar",
+     "passed": true,
+     "evidence": "Code uses only IconButton, minimumInteractiveComponentSize and NavigationSuiteScaffold."
+    }
+   ],
+   "passed": 6,
+   "total": 6,
+   "fabrications": [],
+   "skill_files": [
+    "examples/AdaptiveNavigation.kt",
+    "references/accessibility-implementation.md",
+    "references/components-presentation.md",
+    "references/foundations-typography.md",
+    "references/implementation-components.md",
+    "references/implementation-navigation.md",
+    "references/review-guide.md"
+   ],
+   "skill_files_read": [],
+   "skill_files_touched": [
+    "references/implementation-components.md",
+    "references/accessibility-implementation.md",
+    "references/implementation-navigation.md",
+    "references/foundations-typography.md",
+    "references/review-guide.md",
+    "references/components-presentation.md",
+    "examples/AdaptiveNavigation.kt"
+   ],
+   "cost_usd": 0.5113,
+   "turns": 5,
+   "tool_calls": 3
+  },
+  {
+   "eval_id": 14,
+   "name": "hallucination-and-unspecified-numbers",
+   "config": "without_skill",
+   "assertions": [
+    {
+     "text": "The response says Modifier.accessibleTouchTarget() is not a material3 API and offers minimumInteractiveComponentSize or a 48dp minimum size instead",
+     "passed": true,
+     "evidence": "'`Modifier.accessibleTouchTarget()` doesn't exist ... The real modifier is `minimumInteractiveComponentSize()`'"
+    },
+    {
+     "text": "The response says AdaptiveNavigationBar is not a material3 composable and offers NavigationSuiteScaffold or NavigationBar / NavigationRail switching instead",
+     "passed": true,
+     "evidence": "'`AdaptiveNavigationBar` doesn't exist ... `NavigationSuiteScaffold`'"
+    },
+    {
+     "text": "The response does not confirm a 12-character limit; it says the guidance is short labels (one or two words, not truncated) or that no character limit is published",
+     "passed": true,
+     "evidence": "'Material 3 has no character limit on navigation bar labels ... keep labels short ... don't let them wrap, truncate or shrink'"
+    },
+    {
+     "text": "The response does not state a minimum font size in sp as a Material rule; it says none is published (it may mention the smallest type scale style)",
+     "passed": true,
+     "evidence": "'Material has no official minimum. The smallest style in the M3 type scale is `labelSmall` at 11sp'"
+    },
+    {
+     "text": "The response does not give a single required snackbar duration as a Material rule; it says none is fixed, or gives the 4 to 10 second guidance for snackbars without actions",
+     "passed": true,
+     "evidence": "'There is no single required number. In Compose, `SnackbarDuration.Short` is 4 seconds, `Long` is 10 seconds' (API constants, not presented as a Material rule)."
+    },
+    {
+     "text": "The response contains no code that calls accessibleTouchTarget or AdaptiveNavigationBar",
+     "passed": true,
+     "evidence": "Code uses only IconButton, minimumInteractiveComponentSize and NavigationSuiteScaffold."
+    }
+   ],
+   "passed": 6,
+   "total": 6,
+   "fabrications": [
+    "Misstated guidance: navigation bar labels 'ideally one word'. The navigation bar page says 'It should be 1-2 words'; one word is the rail's rule.",
+    "Snippets use 'Icons.Default.Close' on material3 1.5.0 without saying the material icons artifact must be added; the 1.4.0 release notes say the icons library 'has been removed from the latest Material 3 library release'."
+   ],
+   "skill_files": [],
+   "skill_files_read": [],
+   "skill_files_touched": [],
+   "cost_usd": 0.3463,
+   "turns": 2,
+   "tool_calls": 3
+  },
+  {
+   "eval_id": 15,
+   "name": "token-efficiency-simple-question",
+   "config": "with_skill",
+   "assertions": [
+    {
+     "text": "The answer states 48 x 48 dp (or 48dp)",
+     "passed": true,
+     "evidence": "'**48x48dp**, regardless of how small the visible element is.'"
+    },
+    {
+     "text": "The answer does not say that Android or Google Play enforces the size or rejects apps below it",
+     "passed": true,
+     "evidence": "'This is a recommendation in Material Design and the Android design docs, not a hard requirement.'"
+    },
+    {
+     "text": "The answer includes one m3.material.io or developer.android.com URL",
+     "passed": true,
+     "evidence": "'Sources: https://m3.material.io/foundations/designing/structure and https://developer.android.com/docs/quality-guidelines/core-app-quality' (two URLs; read as 'at least one')."
+    },
+    {
+     "text": "The answer is at most 120 words, excluding URLs and table syntax",
+     "passed": true,
+     "evidence": "About 91 words excluding URLs and markup."
+    },
+    {
+     "text": "The answer contains no code block longer than 5 lines and mentions platforms other than Android in at most one clause",
+     "passed": true,
+     "evidence": "No code block; the only other-platform mention is the clause 'such as Wear OS and widgets'."
+    },
+    {
+     "text": "At most one skill reference file was read to produce the answer",
+     "passed": true,
+     "evidence": "skill_files_read = [], skill_files_touched = []; the only tool call is the Skill invocation."
+    }
+   ],
+   "passed": 6,
+   "total": 6,
+   "fabrications": [
+    "Imprecise, not false: 'It is a stated requirement only in specific quality guidelines such as Wear OS and widgets', while the core app quality checklist it cites also lists 'Touch targets are at least 48 dp'. The wording is taken from SKILL.md line 163."
+   ],
+   "skill_files": [],
+   "skill_files_read": [],
+   "skill_files_touched": [],
+   "cost_usd": 0.2755,
+   "turns": 3,
+   "tool_calls": 1
+  },
+  {
+   "eval_id": 15,
+   "name": "token-efficiency-simple-question",
+   "config": "without_skill",
+   "assertions": [
+    {
+     "text": "The answer states 48 x 48 dp (or 48dp)",
+     "passed": true,
+     "evidence": "'**48 x 48 dp**'"
+    },
+    {
+     "text": "The answer does not say that Android or Google Play enforces the size or rejects apps below it",
+     "passed": true,
+     "evidence": "'Accessibility Scanner and Play Console's pre-launch report flag targets under 48 dp' - flags, does not say rejects."
+    },
+    {
+     "text": "The answer includes one m3.material.io or developer.android.com URL",
+     "passed": false,
+     "evidence": "absent - no URL."
+    },
+    {
+     "text": "The answer is at most 120 words, excluding URLs and table syntax",
+     "passed": false,
+     "evidence": "About 137 words (limit 120)."
+    },
+    {
+     "text": "The answer contains no code block longer than 5 lines and mentions platforms other than Android in at most one clause",
+     "passed": true,
+     "evidence": "No code block; other platforms only in the final sentence ('WCAG 2.2 ... and iOS uses 44 x 44 pt')."
+    },
+    {
+     "text": "At most one skill reference file was read to produce the answer",
+     "passed": null,
+     "evidence": "N/A for without_skill; excluded from the denominator."
+    }
+   ],
+   "passed": 3,
+   "total": 5,
+   "fabrications": [],
+   "skill_files": [],
+   "skill_files_read": [],
+   "skill_files_touched": [],
+   "cost_usd": 0.1574,
+   "turns": 1,
+   "tool_calls": 0
+  },
+  {
+   "eval_id": 16,
+   "name": "cross-skill-port-ios-tab-bar",
+   "config": "with_skill",
+   "assertions": [
+    {
+     "text": "The response recommends the Material 3 NavigationBar with labelled destinations rather than a custom replica of the iOS tab bar",
+     "passed": true,
+     "evidence": "'Navigation bar with four destinations: Home, Search, Inbox, Me. Each has an icon and a visible label.' Code: NavigationSuiteScaffold with label = { Text(...) }."
+    },
+    {
+     "text": "The response proposes a FloatingActionButton or another placement outside the navigation destinations for the composer action, or explicitly explains the trade-off of keeping an action among the destinations",
+     "passed": true,
+     "evidence": "'A FAB above the bar ... opening the composer as a full-screen dialog' plus the cost of keeping a centre action item."
+    },
+    {
+     "text": "The response says back navigation should use the Android system back gesture (predictive back) and does not implement a custom left-edge swipe",
+     "passed": true,
+     "evidence": "'Nothing: the system Back gesture already does this from either edge ... Navigation 3 or Navigation Compose give you predictive back animations'; no custom swipe code."
+    },
+    {
+     "text": "The response maps the collapsing large title to a Material top app bar with a scroll behaviour (for example LargeTopAppBar or a flexible top app bar)",
+     "passed": true,
+     "evidence": "'`LargeFlexibleTopAppBar` with `exitUntilCollapsedScrollBehavior()`' (stable in m3-1.5.0-beta01.txt line 71)."
+    },
+    {
+     "text": "The response explains that copying iOS chrome departs from Android conventions, and leaves the final choice to the user instead of refusing",
+     "passed": true,
+     "evidence": "'all of this is recommendation, not a hard requirement. If they still want the + in the centre of the bar, you can build it as a five-slot bar whose middle item is an action. The costs are: ...'"
+    },
+    {
+     "text": "The response gives no SwiftUI or UIKit code and does not cite Apple's Human Interface Guidelines as the rule for the Android app",
+     "passed": true,
+     "evidence": "Kotlin only; sources are developer.android.com and m3.material.io."
+    }
+   ],
+   "passed": 6,
+   "total": 6,
+   "fabrications": [],
+   "skill_files": [
+    "references/components-navigation.md",
+    "references/implementation-navigation.md",
+    "references/platforms-adaptation.md"
+   ],
+   "skill_files_read": [
+    "references/platforms-adaptation.md",
+    "references/implementation-navigation.md",
+    "references/components-navigation.md"
+   ],
+   "skill_files_touched": [],
+   "cost_usd": 0.8559,
+   "turns": 6,
+   "tool_calls": 4
+  },
+  {
+   "eval_id": 16,
+   "name": "cross-skill-port-ios-tab-bar",
+   "config": "without_skill",
+   "assertions": [
+    {
+     "text": "The response recommends the Material 3 NavigationBar with labelled destinations rather than a custom replica of the iOS tab bar",
+     "passed": true,
+     "evidence": "'`NavigationBar` with four destinations (Home, Search, Inbox, Me)'; code has label = { Text(tab.label) }."
+    },
+    {
+     "text": "The response proposes a FloatingActionButton or another placement outside the navigation destinations for the composer action, or explicitly explains the trade-off of keeping an action among the destinations",
+     "passed": true,
+     "evidence": "'plus a `FloatingActionButton` for the composer'"
+    },
+    {
+     "text": "The response says back navigation should use the Android system back gesture (predictive back) and does not implement a custom left-edge swipe",
+     "passed": true,
+     "evidence": "'Nothing custom: use the system back gesture with predictive back'"
+    },
+    {
+     "text": "The response maps the collapsing large title to a Material top app bar with a scroll behaviour (for example LargeTopAppBar or a flexible top app bar)",
+     "passed": true,
+     "evidence": "'`LargeTopAppBar` with `TopAppBarDefaults.exitUntilCollapsedScrollBehavior()`'"
+    },
+    {
+     "text": "The response explains that copying iOS chrome departs from Android conventions, and leaves the final choice to the user instead of refusing",
+     "passed": false,
+     "evidence": "Borderline. Explains the departure ('A cloned tab bar and a hand-rolled edge swipe will fight the system and feel wrong to Android users') and does not refuse, but never hands the decision back or says what keeping the iOS layout would cost: 'The + is an action, not a destination, so it does not belong in the navigation bar.'"
+    },
+    {
+     "text": "The response gives no SwiftUI or UIKit code and does not cite Apple's Human Interface Guidelines as the rule for the Android app",
+     "passed": true,
+     "evidence": "Kotlin only; UITabBar appears only as a row label; no HIG citation."
+    }
+   ],
+   "passed": 5,
+   "total": 6,
+   "fabrications": [
+    "Recommendation stated as a rule: 'The + is an action, not a destination, so it does not belong in the navigation bar.'",
+    "Snippet uses 'Icons.Filled.Add' and names 'Icons.AutoMirrored.Filled.ArrowBack' for material3 1.5.0 without noting the icons artifact is no longer a material3 dependency (1.4.0 release notes: 'has been removed from the latest Material 3 library release')."
+   ],
+   "skill_files": [],
+   "skill_files_read": [],
+   "skill_files_touched": [],
+   "cost_usd": 0.2588,
+   "turns": 1,
+   "tool_calls": 0
+  }
+ ],
+ "summary": {
+  "with_skill": {
+   "passed": 35,
+   "total": 37,
+   "pass_rate": 0.946,
+   "cost_usd": 3.58
+  },
+  "without_skill": {
+   "passed": 30,
+   "total": 36,
+   "pass_rate": 0.833,
+   "cost_usd": 2.47
+  }
+ }
+}

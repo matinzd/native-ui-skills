@@ -614,7 +614,7 @@ than its own file.
 
 ## 9. Scratch material and gaps
 
-Scratch folder: `/tmp/claude-0/-home-user-apple-hig-skill/4b8f6fc4-b934-5d7d-9f48-9d6e78d71918/scratchpad/m1/`
+Scratch folder: `<scratch>/m1/`
 - `text/<slug with __ for />.txt`: cleaned visible text, 115 pages (all foundations and styles tabs, get-started,
   five blog posts). First line is the URL.
 - `pages/`: same pages raw, with the link list of each page appended; `pages/_map.tsv` = requested path, final

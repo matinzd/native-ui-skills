@@ -5,7 +5,7 @@ unless tagged [M] (memory) or [Inference]. Material guidance is recommendation, 
 strength on the page is kept ("must", "should", "avoid", "don't", "Material requires").
 
 - Canonical URL pattern: `https://m3.material.io/components/<slug>/<overview|guidelines|specs|accessibility>`. Every component below has all four sub-pages (verified: all 36 real slugs x 4 rendered with content).
-- Rendered text kept in `/tmp/claude-0/-home-user-apple-hig-skill/4b8f6fc4-b934-5d7d-9f48-9d6e78d71918/scratchpad/m2/pages/` (see `_INDEX.txt` there): 152 sub-page files, 37 expanded token-table files (`<slug>--specs-tokens.txt`), 1 hub file. Cleaned copies with `[DO]` / `[DON'T]` / `[CAUTION]` caption tags are in `.../m2/clean/`.
+- Rendered text kept in `<scratch>/m2/pages/` (see `_INDEX.txt` there): 152 sub-page files, 37 expanded token-table files (`<slug>--specs-tokens.txt`), 1 hub file. Cleaned copies with `[DO]` / `[DON'T]` / `[CAUTION]` caption tags are in `.../m2/clean/`.
 - Numbers come from three places, in this order of trust: the specs "Measurements" tables, the token tables, guideline prose. Measurement diagrams are images, so dimensions shown only in diagrams are NOT captured. Shape, type-scale, elevation-level and colour-role token values render as swatches and are not in the text.
 - Site footer shows only "Privacy Policy" and "Terms of Service"; no licence statement appears on any component page (grep for licens/Creative Commons/Apache over all 190 files: 0 hits).
 

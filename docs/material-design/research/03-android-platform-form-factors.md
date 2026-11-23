@@ -10,7 +10,7 @@
   of verified facts (not a statement Google makes). Strength: **Req** (docs say must / enforced by platform, Play or
   API), **Rec** (should / recommend / do-don't), **Conv** (convention).
 - **Scratch folder** (about 360 pages as `.md`, named by URL path with `/` replaced by `_`):
-  `/tmp/claude-0/-home-user-apple-hig-skill/4b8f6fc4-b934-5d7d-9f48-9d6e78d71918/scratchpad/m3-agent/pages/`
+  `<scratch>/m3-agent/pages/`
   Helpers: `.../m3-agent/tools/get.sh /path ...` (batch fetch), `.../m3-agent/tools/v.py file` (strip links for reading).
   Navigation indexes: `_nav_*.txt`, `_llms_*.txt` (developer.android.com publishes `llms.txt` indexes per section, for
   example `/develop/ui/llms.txt`, `/design/llms.txt`, `/develop/xr/llms.txt`, `/training/wearables/llms.txt`).
