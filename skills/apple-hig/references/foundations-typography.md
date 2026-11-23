@@ -1,7 +1,6 @@
 # Typography
 
-Scope: system fonts, text styles, default and minimum sizes, Dynamic Type tables, weights, leading, tracking,
-custom fonts and per-platform differences.
+Scope: system fonts, text styles, default and minimum sizes, Dynamic Type tables, custom fonts, platform notes.
 Verified: 2026-11-23 against the sources linked in each section (SDK cycle: OS 27).
 
 ## Contents
@@ -34,8 +33,6 @@ Applies to system and custom fonts. The same table appears on the Accessibility 
   custom UI.
 - [HIG] Avoid light weights. With system fonts prefer Regular, Medium, Semibold or Bold; avoid Ultralight, Thin and
   Light, especially at small sizes.
-- [HIG] Test legibility in each context (the page singles out game text per platform); fix with larger size, more
-  contrast, or a font designed for legibility such as the system fonts.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/typography
 Source: https://developer.apple.com/design/human-interface-guidelines/accessibility
@@ -45,8 +42,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/accessibil
 - [HIG] San Francisco (SF) is the sans serif family: SF Pro, SF Compact, SF Arabic, SF Armenian, SF Georgian,
   SF Hebrew and SF Mono. Rounded variants exist for all of these except SF Mono.
 - [HIG] New York (NY) is the serif family, designed to pair with SF.
-- [HIG] Both are variable fonts with dynamic optical sizes on all platforms, so there is no need to pick discrete
-  Text or Display optical sizes in code.
+- [HIG] Both are variable fonts with dynamic optical sizes, so do not pick discrete Text or Display sizes in code.
 - [HIG] Weights range from Ultralight to Black; SF also has widths including Condensed and Expanded. SF Symbols use
   the same weights, so symbols match adjacent text.
 - [HIG] Do not embed the system fonts in an app or game (stated as "don't" in a developer note); request them
@@ -122,7 +118,6 @@ Larger accessibility sizes:
 | Caption 2 | 20/25 | 24/30 | 29/35 | 34/41 | 40/48 |
 
 - [HIG] Body runs from 14 pt (xSmall) to 53 pt (AX5): design rows and containers for almost a fourfold range.
-- [HIG] No style drops below 11 pt at any size, matching the platform minimum.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/typography
 
@@ -144,19 +139,9 @@ macOS built-in text styles (fixed; size / line height):
 | Caption 1 | 10/13 | Regular | Medium |
 | Caption 2 | 10/13 | Medium | Semibold |
 
-tvOS built-in text styles (size / leading; weight Medium and emphasized Bold unless noted):
-
-| Style | Size | Note |
-|-------|------|------|
-| Title 1 | 76/96 | |
-| Title 2 | 57/66 | |
-| Title 3 | 48/56 | |
-| Headline | 38/46 | |
-| Subtitle 1 | 38/46 | Regular, emphasized Medium |
-| Callout | 31/38 | |
-| Body | 29/36 | |
-| Caption 1 | 25/32 | |
-| Caption 2 | 23/30 | |
+tvOS built-in text styles (size / leading; weight Medium, emphasized Bold): Title 1 76/96, Title 2 57/66,
+Title 3 48/56, Headline 38/46, Callout 31/38, Body 29/36, Caption 1 25/32, Caption 2 23/30. Subtitle 1 is 38/46
+at Regular weight, emphasized Medium.
 
 watchOS point sizes (leading is size + 2.5 pt in the page's standard-size tables). Weight Regular except Headline
 (Semibold); emphasized Semibold except Large Title (Bold). Defaults: Small on 38mm; Large on 40mm, 41mm and 42mm;
@@ -186,11 +171,9 @@ Source: https://developer.apple.com/design/human-interface-guidelines/typography
 
 ## Custom fonts
 
-- [HIG] A custom font must be legible at the viewing distances and conditions of the platform; apply the minimum
-  sizes above.
+- [HIG] Keep a custom font legible at the platform's viewing distance; the minimum sizes above still apply.
 - [HIG] System fonts get Dynamic Type and Bold Text behaviour automatically. A custom font has to implement the
   same behaviours (the page says "make sure").
-- [HIG] In a Unity-based game, use Apple's Unity plug-ins for Dynamic Type or provide another way to adjust text size.
 - [HIG] Branding guidance: custom font for headlines and subheadings, system font for body and captions works well.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/typography

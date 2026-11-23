@@ -1,7 +1,6 @@
 # Layout
 
-Scope: visual hierarchy, adaptivity, size classes, safe areas and guides, spacing numbers, scroll edge effects,
-per-platform layout rules and right-to-left layout.
+Scope: hierarchy, adaptivity, size classes, safe areas, spacing numbers, scroll edge effects, platform notes, RTL.
 Verified: 2026-11-23 against the sources linked in each section (SDK cycle: OS 27).
 
 ## Contents

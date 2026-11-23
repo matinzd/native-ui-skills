@@ -1,7 +1,6 @@
 # Color, Dark Mode and materials
 
-Scope: system and semantic colors, accent color, contrast figures, Dark Mode, standard materials and vibrancy,
-and the Liquid Glass rules, with per-platform differences.
+Scope: system colors, accent color, contrast figures, Dark Mode, materials, vibrancy and Liquid Glass rules.
 Verified: 2026-11-23 against the sources linked in each section (SDK cycle: OS 27).
 
 ## Contents
@@ -15,7 +14,6 @@ Verified: 2026-11-23 against the sources linked in each section (SDK cycle: OS 2
 - Color on Liquid Glass
 - Standard materials and vibrancy
 - Platform notes
-- Color management
 - Common mistakes
 
 ## Color basics
@@ -32,6 +30,8 @@ Verified: 2026-11-23 against the sources linked in each section (SDK cycle: OS 2
   profiles on Mac). Colors near or behind translucent elements shift.
 - [HIG] Check color meaning per culture (red is danger in some cultures and positive in others).
 - [HIG] For color picking, prefer the system color controls (the page names `ColorPicker`).
+- [HIG] Embed a color profile in images (sRGB by default). For wide color use Display P3 at 16 bits per channel,
+  exported as PNG; add per-color-space asset variants only if P3 colors merge or gradients clip on sRGB displays.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/color
 
@@ -93,7 +93,8 @@ standard. It is worded "strive to meet".
 - [HIG] The Dark Mode page gives stricter numbers for all appearances: never below 4.5:1, and aim for 7:1 for
   custom foreground and background colors, especially small text.
 - [HIG] The two pages differ (3:1 allowed for large or bold text vs. a flat 4.5:1 floor). Use 4.5:1 as the working
-  floor, accept 3:1 only for text at 18 pt or bold, and target 7:1 for custom small text.
+  floor, accept 3:1 only for bold text or text at 18 pt (the table row says only "18 pts"; read it as 18 pt and
+  larger, as in WCAG), and target 7:1 for custom small text.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/accessibility
 Source: https://developer.apple.com/design/human-interface-guidelines/dark-mode
@@ -140,7 +141,6 @@ float above content. Standard components adopt it automatically.
   Skip it when the content is already dark or when standard AVKit playback controls supply their own dimming.
 - [HIG] Appearance of both variants changes with user settings (preferred glass look, Reduce Transparency,
   Increase Contrast); do not assume a fixed translucency.
-- [HIG] Motion of the material is stronger for direct touch and more subdued for trackpad input.
 - [HIG] App icons on iOS, iPadOS, macOS and watchOS also take on glass attributes; see
   `references/foundations-icons-images.md`.
 
@@ -193,7 +193,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/materials
 | macOS | Yes; desktop tinting | Yes | User accent color can override the app accent |
 | tvOS | Yes | Yes: navigation elements, Top Shelf, Control Center; image views and buttons adopt it on focus | Limited palette that matches the logo; never show focus by color alone (scale and motion are primary) |
 | visionOS | No setting; glass adapts to luminance behind it | The Materials page describes only the visionOS glass window material, a different material | Use color sparingly on glass; put color in bold text and large areas; prefer translucency to opaque fills; in full immersion keep brightness balanced and avoid bright objects on black |
-| watchOS | No | Automatic through standard components | Background color only when it communicates; no full-screen color on long-lived screens (workout, audio) |
+| watchOS | No | Not covered on the Materials page (its watchOS section is about modal-sheet materials) | Background color only when it communicates; no full-screen color on long-lived screens (workout, audio) |
 
 - [HIG] Do not confuse visionOS "glass" with Liquid Glass: it is an always-present window material that limits
   background color range and brightens or darkens with the surroundings, and the clear/regular variant and tinting
@@ -202,14 +202,6 @@ Source: https://developer.apple.com/design/human-interface-guidelines/materials
 Source: https://developer.apple.com/design/human-interface-guidelines/materials
 Source: https://developer.apple.com/design/human-interface-guidelines/color
 Source: https://developer.apple.com/design/human-interface-guidelines/dark-mode
-
-## Color management
-
-- [HIG] Embed a color profile in every image. sRGB is accurate on most displays.
-- [HIG] For wide color use Display P3 at 16 bits per channel and export PNG. P3 content usually looks fine on sRGB
-  displays; if similar P3 colors merge or gradients clip, supply per-color-space variants in the asset catalog.
-
-Source: https://developer.apple.com/design/human-interface-guidelines/color
 
 ## Common mistakes
 

@@ -27,7 +27,7 @@ Verified: 2026-11-23 against the sources linked in each section (SDK cycle: OS 2
 |---|---|---|
 | Mostly text rows, options, or a navigable hierarchy of rows | List or table | All |
 | Many images, or items that vary widely in size | Collection (row or grid) | All except watchOS |
-| Attributes in sortable columns | Multicolumn table | Mainly macOS, iPadOS |
+| Attributes in sortable columns | Multicolumn table | All; sorting and column-resizing rules are stated for macOS |
 | Hierarchical data with expandable parents, optional attribute columns | Outline view | macOS only |
 | Deep hierarchy browsed back and forth, no sorting needed | Column view (browser) | macOS only; on iPadOS and visionOS consider a split view |
 | A very large set of choices | List or table rather than a picker | All |
@@ -138,7 +138,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/image-view
 - [HIG] Use a chart to highlight important information about a dataset; keep it simple and let people ask for detail.
 - [HIG] Prefer common chart types (bar, line); teach people how to read a novel one.
 - [HIG] Add descriptive text: a title or summary that states the main message before people study the marks.
-- [HIG] Axes: choose a fixed or dynamic range by meaning; bar charts usually start the value axis at zero; use familiar tick sequences; avoid too many or too few grid lines.
+- [HIG] Axes: choose a fixed or dynamic range by meaning; a zero lower bound often works well for bar charts; use familiar tick sequences; avoid too many or too few grid lines.
 - [HIG] Make the data the most prominent element; in compact width maximize the plot area and keep axis labels short.
 - [HIG] Interaction may reveal details but must not be required to see critical information. If marks are small, extend the hit target to the whole plot area and let people scrub.
 - [HIG] Never rely on color alone to separate data; separate adjacent color areas visually.
