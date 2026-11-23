@@ -397,13 +397,15 @@ def fetch_state(url: str) -> str:
 
 
 def check_online(rep: Report, files: list[Path]) -> None:
-    """The human HIG and documentation pages are client-rendered and return 200 even for missing pages, so check
-    the JSON that backs them instead."""
+    """Check that cited official pages exist. Apple's human HIG and documentation pages are client-rendered and
+    return 200 even for missing pages, so the JSON behind them is checked instead. m3.material.io and
+    developer.android.com answer 404 for missing pages, so they are requested directly."""
     hig = "https://developer.apple.com/design/human-interface-guidelines"
     doc = "https://developer.apple.com/documentation/"
     urls: dict[str, Path] = {}
     for f in files:
-        for url in re.findall(r"https://developer\.apple\.com/[^\s>`\"',]+", f.read_text(encoding="utf-8")):
+        for url in re.findall(r"https://(?:developer\.apple\.com|m3\.material\.io|developer\.android\.com)/[^\s>`\"',]+",
+                              f.read_text(encoding="utf-8")):
             url = url.rstrip(".;:").split("#")[0]
             while url.endswith(")") and url.count(")") > url.count("("):
                 url = url[:-1]  # closing parenthesis of a Markdown link, not part of a symbol path
@@ -420,16 +422,20 @@ def check_online(rep: Report, files: list[Path]) -> None:
             if url == doc:
                 continue  # a base URL used to build links in code, not a page
             probe = "https://developer.apple.com/tutorials/data/documentation/" + url[len(doc):].strip("/").lower() + ".json"
+        elif url.startswith(("https://m3.material.io/", "https://developer.android.com/")):
+            if url.count("/") <= 3 or "..." in url or "*" in url:
+                continue  # site root or a URL pattern, not a page
+            probe = url
         else:
             continue
         checked += 1
         state = fetch_state(probe)
         if state == "missing":
-            rep.error(where, f"Apple page not found: {url}")
+            rep.error(where, f"official page not found: {url}")
         elif state == "unknown":
             rep.warn(where, f"could not check (network or throttling): {url}")
         time.sleep(0.05)
-    print(f"online: checked {checked} Apple URLs")
+    print(f"online: checked {checked} official URLs")
 
 
 def check_skill(rep: Report, skill_dir: Path, online: bool, today: dt.date) -> list[Path]:

@@ -142,7 +142,7 @@ size class.
 | Dialog | At most two actions |
 | Text size unit | sp, so text follows the person's font size setting |
 
-Sources: https://m3.material.io/foundations/layout/applying-layout/window-size-classes ,
+Sources: https://m3.material.io/foundations/layout/breakpoints/overview ,
 https://m3.material.io/foundations/designing/structure ,
 https://m3.material.io/components/navigation-bar/guidelines ,
 https://developer.android.com/docs/quality-guidelines/core-app-quality
