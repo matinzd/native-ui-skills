@@ -3,9 +3,10 @@
 Scope: SwiftUI controls and their styles (buttons, toggles, pickers, menus, text input, forms, lists, indicators, system pickers and feedback), with verified minimum OS versions, the platforms where each control is missing, and a HIG-component-to-API map. Design guidance is in `references/components-controls.md` and `references/components-content.md`.
 Verified: 2026-11-23 against the sources linked in each section (SDK cycle: OS 27).
 
+- [Conv] Availability: versions are `introducedAt` values for the oldest overload; a platform that is not named has no entry (compile out with `#if os(...)`). Merged overloads, back-deployment and deprecations: `references/implementation-availability.md`. Nothing in this file was compiled; build before claiming it works.
+
 ## Contents
 
-- Reading availability
 - Buttons
 - Toggles, pickers and value controls
 - Menus and context menus
@@ -16,14 +17,6 @@ Verified: 2026-11-23 against the sources linked in each section (SDK cycle: OS 2
 - Platform availability gaps
 - HIG component to SwiftUI API
 - Common mistakes
-
-## Reading availability
-
-- [API] Versions are `introducedAt` values from the documentation JSON. A dash or "not on" means the documentation lists no availability for that platform; compile the code out with `#if os(...)`.
-- [API] Documentation landing pages merge overloads and can show a newer minimum than the oldest overload. Example: `Button(_:role:action:)`, `Toggle(_:isOn:)` and `Picker(_:selection:content:)` show iOS 16 (the `LocalizedStringResource` overload) while the `LocalizedStringKey` and `StringProtocol` overloads are iOS 15, 13 and 13. Minimums here are for the oldest overload.
-- [Conv] Nothing here was compiled; build before claiming it works. Prefer a standard control over a custom one: it brings accessibility traits, focus, keyboard, pointer and the current system appearance.
-
-Source: https://developer.apple.com/documentation/swiftui/controls-and-indicators, https://developer.apple.com/documentation/swiftui/view-styles
 
 ## Buttons
 
@@ -58,6 +51,7 @@ HStack {
 - [HIG] Use a prominent style for the most likely action in a view and keep prominent buttons few. Distinguish the preferred choice by style, not by size.
 - [HIG] Do not give the default (primary) role to a destructive action. Give buttons a hit region of at least 44x44 pt (60x60 pt in visionOS).
 - [API] Icon-only button: `Button("Add", systemImage: "plus") { }` with `.labelStyle(.iconOnly)`, or a `Label`; never a bare `Image` without `accessibilityLabel(_:)`.
+- [Conv] Prefer a standard control over a custom one: it brings accessibility traits, focus, keyboard, pointer and the current system appearance.
 - [Conv] Use `Button`, not `onTapGesture` on a `Text` or `HStack`: a gesture has no button trait, focus, keyboard activation, hover effect or pressed state.
 
 Source: https://developer.apple.com/documentation/swiftui/button, https://developer.apple.com/documentation/swiftui/buttonrole, https://developer.apple.com/documentation/swiftui/primitivebuttonstyle, https://developer.apple.com/documentation/swiftui/controlsize, https://developer.apple.com/design/human-interface-guidelines/buttons

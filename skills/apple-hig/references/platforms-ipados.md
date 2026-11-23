@@ -74,7 +74,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/windows, h
 
 ## Menu bar
 
-- [HIG] iPad has a menu bar: people reveal it by moving the pointer to the top edge of the screen or swiping down from it. It shows system-provided menus plus the app's custom menus.
+- [HIG] iPad has a menu bar that stays hidden until someone pushes the pointer up against the top of the display or drags a finger downward from that edge. It shows system-provided menus plus the app's custom menus.
 - [HIG] Use the same menu order and item sets as the Mac: app menu, File, Edit, Format, View, app-specific menus, Window, Help. Keyboard shortcuts follow the same patterns as macOS.
 - [HIG] The menu bar is often hidden, so every function must also be reachable in the app's UI. Never make the menu bar the only path, and always provide another way to do what a dynamic (modifier-key) menu item does, since those need a hardware keyboard.
 - [HIG] Always show the same set of items; disable unavailable ones instead of hiding them.

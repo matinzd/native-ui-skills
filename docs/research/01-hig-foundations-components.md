@@ -1,5 +1,9 @@
 # 01 — Apple HIG: foundations, accessibility, navigation, components, inputs
 
+> Historical research notes from 2026-11-23. They record what each workstream found before the skill was written
+> and are not maintained. Where they differ from `skills/apple-hig/`, the skill is correct: several facts here
+> were corrected during writing and review (see `docs/validation.md`).
+
 Research date: 2026-11-23. Source: DocC render JSON for every HIG page (171 pages fetched, all HTTP 200), from
 `https://developer.apple.com/tutorials/data/design/human-interface-guidelines/<slug>.json`; TOC from
 `https://developer.apple.com/tutorials/data/index/design--human-interface-guidelines`.

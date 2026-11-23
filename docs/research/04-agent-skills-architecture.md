@@ -1,5 +1,9 @@
 # 04 - Agent Skills architecture, packaging and cross-agent loading
 
+> Historical research notes from 2026-11-23. They record what each workstream found before the skill was written
+> and are not maintained. Where they differ from `skills/apple-hig/`, the skill is correct: several facts here
+> were corrected during writing and review (see `docs/validation.md`).
+
 Research date: 2026-11-23. Workstream 4 of 6.
 
 **Tags**: `[V]` fetched and read in this session. `[T]` verified by running the tool in this session's sandbox

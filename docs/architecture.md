@@ -10,17 +10,18 @@ tagging every claim as fetched-and-verified or from memory:
 
 | Workstream | Output | Method |
 |------------|--------|--------|
-| HIG foundations, components, patterns | [`research/01-hig-foundations-components.md`](research/01-hig-foundations-components.md) | Downloaded all 171 HIG pages as JSON; read the core pages in full and the rest as rule headlines |
+| HIG foundations, components, patterns | [`research/01-hig-foundations-components.md`](research/01-hig-foundations-components.md) | Fetched the HIG's pages as JSON (it reports 171); read the core pages in full and the rest as rule headlines |
 | Platforms | [`research/02-platforms.md`](research/02-platforms.md) | The "Designing for" pages, platform-specific pages, and build-setting documentation |
-| SwiftUI and implementation | [`research/03-swiftui-implementation.md`](research/03-swiftui-implementation.md) | About 700 API symbols checked against documentation JSON for spelling, availability, and deprecation |
+| SwiftUI and implementation | [`research/03-swiftui-implementation.md`](research/03-swiftui-implementation.md) | API symbols (it reports about 700) checked against documentation JSON for spelling, availability, and deprecation |
 | Agent Skills architecture | [`research/04-agent-skills-architecture.md`](research/04-agent-skills-architecture.md) | Specification source, Claude Code documentation, and local runs of the reference validator, the `skills` CLI, and `claude plugin validate` |
 | Ecosystem | [`research/05-ecosystem.md`](research/05-ecosystem.md) | Read 23 public repositories with Apple HIG, SwiftUI, and UI-review skills |
 | Evaluation strategy | [`research/06-evaluation-strategy.md`](research/06-evaluation-strategy.md) | Upstream eval formats; every assertion backed by a fetched Apple fact |
 
 Six writer agents then produced the reference files and examples with exclusive file ownership, re-reading the
 full HIG page text for every topic (the research pass had only skimmed many component pages). The lead wrote
-`SKILL.md`, the review guide, the linter, the validator, and these documents, and an independent reviewer
-checked the result.
+`SKILL.md`, the review guide, the linter, the validator, and these documents. Three reviewer agents then checked
+facts against Apple's live pages, read the Swift as a compiler would, and reviewed the architecture; their
+findings and the fixes are in [`validation.md`](validation.md).
 
 ## Decisions
 
@@ -86,8 +87,9 @@ Findings that contradicted common assumptions, all verified against Apple's live
   compiler warnings at lower deployment targets is unknown.
 - **Install paths for Codex, Cursor, opencode, and VS Code** come from secondary sources; their documentation
   hosts were unreachable. `gh skill install` was not run.
-- **Some platform-detection signals** could not be confirmed in Apple's documentation and are tagged
-  `[Unverified]` in `references/platforms-detection.md`.
+- **Some platform-detection signals** (per-platform deployment-target setting names, SDK names) were confirmed
+  only in Apple's open-source build system, not its documentation, and are tagged `[Conv]` or `[Unverified]` in
+  `references/platforms-detection.md`.
 - **Absence claims** ("the HIG gives no card corner radius") rest on the pages that were read in full, not on
   an exhaustive search of every page.
 - **SF Symbol names** in examples are not checked against the SF Symbols app.
@@ -103,4 +105,4 @@ Findings that contradicted common assumptions, all verified against Apple's live
   longer exist.
 - When Apple's wording changes, update the rule and its tag; do not keep the old rule alongside.
 - Add an eval scenario for any mistake the skill is seen to make, before fixing the text.
-- Keep `SKILL.md` under roughly 250 lines and each reference under 300.
+- Keep `SKILL.md` under roughly 250 lines and each reference under 300 lines and 30 KB.

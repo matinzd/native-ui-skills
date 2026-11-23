@@ -268,12 +268,12 @@ Source: https://developer.apple.com/documentation/uikit/uiscreen/main , https://
 
 Language models produce these often. None is an Apple API; each is listed with what to use.
 
-- `.liquidGlassStyle()` does not exist. Use `glassEffect(_:in:)` or `buttonStyle(.glass)` (OS 26).
-- `.navigationBarGlass()` does not exist. Standard bars adopt Liquid Glass by themselves.
-- `.hapticFeedback(...)` as a view modifier does not exist. Use `sensoryFeedback(_:trigger:)` (iOS 17).
-- `.minimumTapTarget(...)` and `.tapTargetSize(...)` do not exist. Use `frame(minWidth:minHeight:)` with `contentShape(_:)`, or a standard control.
-- `.roundedCorners(...)` does not exist. Use `clipShape(.rect(cornerRadius:))`.
-- `.adaptiveTabBar()` does not exist. Use `tabViewStyle(.sidebarAdaptable)` (iOS 18).
+- [API] `.liquidGlassStyle()` does not exist. Use `glassEffect(_:in:)` or `buttonStyle(.glass)` (OS 26).
+- [API] `.navigationBarGlass()` does not exist. Standard bars adopt Liquid Glass by themselves.
+- [API] `.hapticFeedback(...)` as a view modifier does not exist. Use `sensoryFeedback(_:trigger:)` (iOS 17).
+- [API] `.minimumTapTarget(...)` and `.tapTargetSize(...)` do not exist. Use `frame(minWidth:minHeight:)` with `contentShape(_:)`, or a standard control.
+- [API] `.roundedCorners(...)` does not exist. Use `clipShape(.rect(cornerRadius:))`.
+- [API] `.adaptiveTabBar()` does not exist. Use `tabViewStyle(.sidebarAdaptable)` (iOS 18).
 - [Conv] A plausible name is not evidence. If a symbol is not in this skill's references, fetch its JSON before using it; a 404 on the exact path and on the parent type's `references` means it is not real.
 
 Source: https://developer.apple.com/documentation/swiftui/view/sensoryfeedback(_:trigger:) , https://developer.apple.com/documentation/swiftui/tabviewstyle/sidebaradaptable

@@ -1,5 +1,9 @@
 # 05 — Ecosystem and competitive analysis (Agent 5)
 
+> Historical research notes from 2026-11-23. They record what each workstream found before the skill was written
+> and are not maintained. Where they differ from `skills/apple-hig/`, the skill is correct: several facts here
+> were corrected during writing and review (see `docs/validation.md`).
+
 Date: 2026-11-23. Method: GitHub repository/code search through `gh api search/*` (worked), shallow `git clone`
 of 23 public repos into the scratchpad and reading their files, `raw.githubusercontent.com` for single files,
 Apple DocC JSON for spot checks.

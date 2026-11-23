@@ -3,9 +3,10 @@
 Scope: SwiftUI APIs for layouts that adapt to width, text size, safe areas and writing direction, plus scenes, windows, commands and per-platform input APIs, with verified minimum OS versions. Design guidance is in `references/foundations-layout.md`.
 Verified: 2026-11-23 against the sources linked in each section (SDK cycle: OS 27).
 
+- [Conv] Availability: versions are `introducedAt` values for the oldest overload; a platform that is not named has no entry (compile out with `#if os(...)`). Merged overloads, back-deployment and deprecations: `references/implementation-availability.md`. Nothing in this file was compiled; build before claiming it works.
+
 ## Contents
 
-- Reading availability
 - Size classes
 - Layouts that adapt by themselves
 - Grids and container-relative sizing
@@ -18,19 +19,10 @@ Verified: 2026-11-23 against the sources linked in each section (SDK cycle: OS 2
 - Platform-specific APIs
 - Common mistakes
 
-## Reading availability
-
-- [API] Versions are `introducedAt` values from the documentation JSON. A platform that is not named has no availability entry: treat the API as missing there and compile it out with `#if os(...)`.
-- [API] Documentation landing pages merge overloads and can show a newer minimum than the oldest overload. Example: `safeAreaInset(edge:alignment:spacing:content:)` has a horizontal-edge and a vertical-edge overload on one page (both iOS 15). Open the overload you call before quoting a version.
-- [API] Some symbols are back-deployed and show the back-deployed version: `\.horizontalSizeClass` lists macOS 10.15, tvOS 13 and watchOS 6 with `@backDeployed(before: macOS 14.0, tvOS 17.0, watchOS 10.0)`.
-- [Conv] Nothing here was compiled. Build before claiming it works; view and model names are placeholders.
-
-Source: https://developer.apple.com/documentation/swiftui/layout-fundamentals, https://developer.apple.com/documentation/swiftui/environmentvalues
-
 ## Size classes
 
 ```swift
-// iOS 13+, visionOS 1+; macOS, tvOS and watchOS through back-deployment (see above)
+// iOS 13+, visionOS 1+; macOS, tvOS and watchOS through back-deployment (see below)
 struct Dashboard: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     var body: some View {
@@ -47,6 +39,7 @@ struct Dashboard: View {
 - [HIG] In iOS and iPadOS a size class says how much space the app has in that dimension, not which device it runs on; an iPad window can be horizontally compact.
 - [Conv] Branch on size class or available space, never on `UIDevice.current.userInterfaceIdiom` or screen bounds.
 - [Conv] An `if`/`else` between two stacks gives the two branches different view identity, so state inside them resets on change. Use `AnyLayout` (next section) to keep identity.
+- [API] `\.horizontalSizeClass` is back-deployed and shows the back-deployed version: macOS 10.15, tvOS 13 and watchOS 6 with `@backDeployed(before: macOS 14.0, tvOS 17.0, watchOS 10.0)`.
 
 Source: https://developer.apple.com/documentation/swiftui/userinterfacesizeclass, https://developer.apple.com/design/human-interface-guidelines/layout
 

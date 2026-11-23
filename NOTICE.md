@@ -11,7 +11,7 @@ or approved by Apple Inc.
   SwiftUI, UIKit, AppKit, Xcode, SF Symbols, Dynamic Type, VoiceOver and Liquid Glass are trademarks of Apple Inc.
   They are used here only to refer to Apple's products and technologies. iOS is a trademark of Cisco, used by Apple
   under license.
-- No content was copied from other skills or repositories. The competitive analysis in `docs/research/` describes
+- To the authors' knowledge, no content was copied from other skills or repositories. The competitive analysis in `docs/research/` describes
   other projects and links to them.
 - The MIT license in `LICENSE` covers this repository's original text and code only.
 

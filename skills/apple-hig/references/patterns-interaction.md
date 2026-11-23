@@ -139,7 +139,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/gestures, 
 - [HIG] Modifiers: Command is the main modifier; Shift is a secondary modifier for a related command; Option sparingly, for less common or power features; avoid Control, which the system uses heavily.
 - [HIG] List modifiers in the order Control, Option, Shift, Command.
 - [HIG] Do not add Shift to reach the upper character of a key: write Command-Question mark, not Shift-Command-Slash.
-- [HIG] Do not build a new shortcut by adding a modifier to an existing shortcut for an unrelated command (Shift-Command-Z must stay related to undo and redo).
+- [HIG] When a command has nothing to do with an existing shortcut, do not derive its shortcut from that one by tacking on an extra modifier key (Shift-Command-Z must stay related to undo and redo).
 - [HIG] Let the system localize and mirror shortcuts; avoid extra modifiers with characters that are not on every keyboard layout.
 - [HIG] Keep expected modifier behaviours while dragging (Shift constrains resizing; Option duplicates) and make them identical for touch and pointer.
 - [HIG] visionOS: holding Command shows a flat shortcut list grouped by menu category, so write shortcut titles that stand alone (`discoverabilityTitle`).

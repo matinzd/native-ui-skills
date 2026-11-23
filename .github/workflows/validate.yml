@@ -1,6 +1,7 @@
 name: Validate skill
 on:
   push:
+    branches: [main]
   pull_request:
   schedule:
     - cron: "17 5 * * 1"
@@ -20,7 +21,7 @@ jobs:
         run: python3 tests/test_hig_lint.py
       - name: Agent Skills reference validator
         run: |
-          pip install --quiet skills-ref
+          pip install --quiet skills-ref==0.1.1
           agentskills validate skills/apple-hig
       - name: Cited Apple pages still exist
         if: github.event_name == 'schedule'

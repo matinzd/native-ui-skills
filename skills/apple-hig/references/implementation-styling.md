@@ -3,9 +3,10 @@
 Scope: SwiftUI APIs (with a short UIKit and AppKit table) for text styles and Dynamic Type, semantic color and Dark Mode, materials, Liquid Glass and SF Symbols, with verified minimum OS versions. Design guidance is in `references/foundations-typography.md`, `references/foundations-color-materials.md` and `references/foundations-icons-images.md`.
 Verified: 2026-11-23 against the sources linked in each section (SDK cycle: OS 27).
 
+- [Conv] Availability: versions are `introducedAt` values for the oldest overload; a platform that is not named has no entry (compile out with `#if os(...)`). Merged overloads, back-deployment and deprecations: `references/implementation-availability.md`. Nothing in this file was compiled; build before claiming it works.
+
 ## Contents
 
-- Reading availability
 - Text styles and fonts
 - Dynamic Type in layouts
 - UIKit and AppKit text equivalents
@@ -15,15 +16,6 @@ Verified: 2026-11-23 against the sources linked in each section (SDK cycle: OS 2
 - Liquid Glass (OS 26+)
 - SF Symbols
 - Common mistakes
-
-## Reading availability
-
-- [API] Versions are `introducedAt` values from the documentation JSON; a platform that is not named has no availability entry.
-- [API] Documentation landing pages merge overloads and can show a newer minimum than the oldest overload. Example: `Font.system(size:weight:design:)` shows iOS 16 (optional parameters); the older non-optional overload is iOS 13 and now marked deprecated. `tint(_:)` shows iOS 15 for `Color?`; the `ShapeStyle` overload is iOS 16.
-- [API] Deprecated spellings to keep out of new code: `foregroundColor(_:)`, `accentColor(_:)`, `colorScheme(_:)`, `cornerRadius(_:)`, unlabelled `Color(_: UIColor)`, `\.sizeCategory`. Replacements are in the sections below and in `references/implementation-availability.md`.
-- [Conv] Nothing here was compiled; build before claiming it works.
-
-Source: https://developer.apple.com/documentation/swiftui/font, https://developer.apple.com/documentation/swiftui/color
 
 ## Text styles and fonts
 
@@ -52,6 +44,7 @@ VStack(alignment: .leading, spacing: 4) {
 - [HIG] Avoid Ultralight, Thin and Light weights; prefer Regular, Medium, Semibold or Bold. Follow the per-platform default and minimum sizes (iOS minimum 11 pt).
 - [HIG] A custom font must still respond to Dynamic Type and Bold Text. Use `relativeTo:`; read `\.legibilityWeight` (iOS 13+) if you choose weights by hand.
 - [Conv] `Font.system(size:)` with a literal does not follow the text styles; keep it for symbols and decorative numerals, not body content. [Unverified] The documentation checked does not state whether it scales with Dynamic Type; treat it as fixed.
+- [API] Merged-overload examples: `Font.system(size:weight:design:)` shows iOS 16 (optional parameters); the older non-optional overload is iOS 13 and now marked deprecated. `tint(_:)` shows iOS 15 for `Color?`; the `ShapeStyle` overload is iOS 16.
 
 Source: https://developer.apple.com/documentation/swiftui/font, https://developer.apple.com/design/human-interface-guidelines/typography
 

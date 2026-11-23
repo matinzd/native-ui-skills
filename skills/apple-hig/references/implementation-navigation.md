@@ -3,9 +3,10 @@
 Scope: which SwiftUI container and presentation API to use, with verified minimum OS versions, platform gaps and short patterns. Design guidance is in `references/components-navigation.md` and `references/components-presentation.md`.
 Verified: 2026-11-23 against the sources linked in each section (SDK cycle: OS 27).
 
+- [Conv] Availability: versions are `introducedAt` values for the oldest overload; a platform that is not named has no entry (compile out with `#if os(...)`). Merged overloads, back-deployment and deprecations: `references/implementation-availability.md`. Nothing in this file was compiled; build before claiming it works.
+
 ## Contents
 
-- Reading availability
 - Choosing a container
 - NavigationStack
 - NavigationSplitView
@@ -16,15 +17,6 @@ Verified: 2026-11-23 against the sources linked in each section (SDK cycle: OS 2
 - Sheets, covers, popovers, inspectors
 - Alerts and confirmation dialogs
 - Common mistakes
-
-## Reading availability
-
-- [API] Availability below is `metadata.platforms[].introducedAt` from the documentation JSON. A platform that is not listed has no availability entry; treat the API as unavailable there and guard with `#if os(...)`.
-- [API] Apple's documentation merges overloads onto one page and the landing page often shows the newest overload. Example: `alert(_:isPresented:actions:message:)` shows iOS 16 (the `LocalizedStringResource` overload) although the `LocalizedStringKey` and `StringProtocol` overloads are iOS 15. Minimums here are for the oldest overload; do not conclude a newer minimum from the landing page.
-- [API] Many long-standing spellings (`NavigationView`, `tabItem(_:)`, `.navigationBarLeading`, `Alert`, `ActionSheet`, `toolbar(_:for:)` visibility) are now marked deprecated. They remain correct inside an `#available` fallback branch for older systems. See `references/implementation-availability.md`.
-- [Conv] Nothing in this file was compiled. Build before claiming it works. `HomeView`, `Recipe` and similar names are placeholders.
-
-Source: https://developer.apple.com/documentation/swiftui/navigation, https://developer.apple.com/documentation/swiftui/view
 
 ## Choosing a container
 

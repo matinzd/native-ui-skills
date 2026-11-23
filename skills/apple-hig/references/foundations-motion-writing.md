@@ -82,19 +82,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/accessibil
 
 ## Feedback
 
-- [HIG] Match the delivery to the significance: passive status near the item it describes; interruption only for
-  critical information.
-- [HIG] Deliver feedback through several channels (color, text, sound, haptics) so it reaches people who silence
-  the device, look away or use VoiceOver.
-- [HIG] Alerts are for critical, ideally actionable information; overuse weakens them.
-- [HIG] Warn before data loss that is unexpected and irreversible. Do not warn when the loss is the expected result
-  of the action (Finder does not confirm every move to the Trash).
-- [HIG] Confirm completion only for significant tasks; people assume success and mainly need to hear of failure.
-- [HIG] When a command cannot be carried out, say so and say why.
-- [HIG] watchOS: do not show an indeterminate progress indicator; tell people a notification will arrive when the
-  work completes.
-
-Source: https://developer.apple.com/design/human-interface-guidelines/feedback
+- Feedback rules (status, alerts, warnings, confirmation, failure): `references/patterns-interaction.md`.
 
 ## Writing: labels and copy
 
@@ -181,12 +169,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/privacy
   these designs cause App Store rejection: offering incentives, a screen that imitates the request, an image of
   the alert, and annotating the screen behind the alert. A consent screen required by local privacy law is
   allowed before or after the alert. The page cites App Review Guideline 5.1.1 (iv).
-- [Req] If the app lets people create an account, it must also let them delete it (not just deactivate). If
-  deletion cannot happen in the app, the app must provide a direct, easy-to-find link to the web page where it can.
-- [Req] An account created with Sign in with Apple needs its tokens revoked on deletion (developer note).
-- [HIG] Keep in-app and web deletion flows equivalent; say when deletion completes and notify when done; if
-  scheduled deletion is offered, also offer immediate deletion; explain that subscriptions billed through Apple
-  continue until cancelled.
+- Account deletion rules (mandatory deletion, the web link, Sign in with Apple token revocation, flow guidance): `references/patterns-flows.md`.
 - [HIG] Require an account only if core functionality needs it.
 - [HIG] Do not rely on passwords alone: prefer passkeys, Sign in with Apple or Password AutoFill over custom
   schemes; add two-factor authentication if passwords remain; use biometrics for apps that stay signed in. Do not

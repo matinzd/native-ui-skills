@@ -5,143 +5,164 @@ shown first so the findings can be followed. Sources were checked on 2026-11-23.
 
 ## Input
 
-Request: "Review OrdersView.swift against the HIG. iPhone only, minimum iOS 17."
+Request: "Review EventEditor.swift against the HIG. iPhone and iPad, minimum iOS 17. It is presented as a
+sheet for both new and existing events."
 
 ```swift
 // Before: the code under review (deliberately flawed; do not copy)
-struct OrdersView: View {
-    @State private var orders: [Order] = Order.samples
-    @State private var showMenu = false
-    @State private var showInfo = false
+struct EventEditor: View {
+    @Environment(\.dismiss) private var dismiss
+    let store: EventStore
+    @State var event: Event
 
     var body: some View {
-        NavigationView {
-            VStack(spacing: 0) {
+        NavigationStack {
+            Form {
+                TextField("Title", text: $event.title)
+                TextField("Video call link", text: $event.link)
+                Button("All day") { event.isAllDay.toggle() }
+                    .tint(event.isAllDay ? .green : .gray)
                 HStack {
-                    Image(systemName: "line.3.horizontal").onTapGesture { showMenu.toggle() }
+                    Text("Starts")
                     Spacer()
-                    Text("Orders").font(.system(size: 22, weight: .bold))
-                    Spacer()
-                    Button(action: { orders.append(.draft) }) { Image(systemName: "plus") }
-                        .frame(width: 24, height: 24)
+                    Text("-").onTapGesture { event.start.addTimeInterval(-3600) }
+                    Text(event.start.formatted(date: .abbreviated, time: .shortened))
+                    Text("+").onTapGesture { event.start.addTimeInterval(3600) }
                 }
-                .padding(.horizontal, 12)
-                List(orders) { order in
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(order.title)
-                            Text(order.customer).font(.system(size: 10))
-                        }
-                        Spacer()
-                        Circle()
-                            .fill(order.isPaid ? Color.green : Color.red)
-                            .frame(width: 10, height: 10)
-                    }
+                Button("Delete Event") {
+                    store.delete(event)
+                    dismiss()
+                }
+                .buttonStyle(.borderedProminent)
+            }
+            .scrollContentBackground(.hidden)
+            .background(Color.white)
+            .navigationTitle("New Event")
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Done") { store.save(event); dismiss() }
                 }
             }
-            .navigationBarHidden(true)
-            .onAppear { showInfo = true }
-            .alert(isPresented: $showInfo) {
-                Alert(title: Text("Info"), message: Text("Orders synced."), dismissButton: .default(Text("OK")))
+            .onChange(of: event.start) { newStart in
+                if event.end < newStart { event.end = newStart.addingTimeInterval(3600) }
             }
         }
+        .preferredColorScheme(.light)
+        .presentationSizing(.form)
     }
 }
 ```
 
 ## Output
 
-## HIG review: OrdersView.swift
-Target: iPhone, minimum iOS 17 (stated), SwiftUI. Evidence: source code only, so rendered sizes and contrast
-were not measured.
+## HIG review: EventEditor.swift
+Target: iPhone and iPad, minimum iOS 17 (stated), SwiftUI. Evidence: source code only, so rendered sizes,
+contrast, and assistive-technology output were not measured.
 
-### 1. Payment status is shown by color alone
+### 1. `presentationSizing(_:)` needs iOS 18
+- Class: Confirmed guideline or API violation
+- Severity: High
+- Where: `.presentationSizing(.form)` on the `NavigationStack`
+- Why: The modifier and `PresentationSizing.form` were introduced in iOS 18.0. With a minimum of iOS 17 and no
+  availability check, the target does not compile, so nobody gets the editor.
+- Source: https://developer.apple.com/documentation/swiftui/view/presentationsizing(_:) (API documentation)
+- Fix: Guard it and keep the iOS 17 path unchanged:
+  `extension View { @ViewBuilder func formSizedSheet() -> some View {`
+  `if #available(iOS 18.0, *) { presentationSizing(.form) } else { self } } }`
+
+### 2. Start time is changed by tapping "-" and "+" text
 - Class: Accessibility issue
 - Severity: High
-- Where: the `Circle` filled green or red in each row
-- Why: People who cannot tell red from green, and anyone using VoiceOver, get no payment status at all. The
-  dot has no label and no shape or text difference.
-- Source: https://developer.apple.com/design/human-interface-guidelines/accessibility (recommendation)
-- Fix: Replace the dot with a symbol plus text, for example
-  `Label(order.isPaid ? "Paid" : "Unpaid", systemImage: order.isPaid ? "checkmark.circle" : "exclamationmark.circle")`,
-  and keep color as a secondary cue.
+- Where: the two `Text` views with `onTapGesture` in the "Starts" row
+- Why: These are plain text, not controls, so nothing identifies them as actionable to VoiceOver, Voice
+  Control, Switch Control, or a hardware keyboard, and "-" and "+" do not say what they change. Everyone else
+  can only move the start in one-hour steps and cannot pick a day directly.
+- Source: https://developer.apple.com/documentation/swiftui/button (API documentation);
+  https://developer.apple.com/design/human-interface-guidelines/pickers (recommendation)
+- Fix: Replace the whole `HStack` with the system control: `DatePicker("Starts", selection: $event.start)`.
 
-### 2. Menu and add controls have no accessible name, and one is not a button
+### 3. "All day" shows its state by color alone
 - Class: Accessibility issue
 - Severity: High
-- Where: the `Image` with `onTapGesture` and the icon-only `Button` in the hand-built header
-- Why: The menu image has no button trait, so VoiceOver, Voice Control, Switch Control, and a hardware keyboard
-  do not treat it as actionable. Neither control has a text label, so assistive technologies have only the
-  symbol to go on.
-- Source: https://developer.apple.com/design/human-interface-guidelines/voiceover (recommendation);
-  https://developer.apple.com/documentation/swiftui/button (API documentation)
-- Fix: Make both real buttons with labels and put them in the system toolbar (see finding 4):
-  `Button("Add Order", systemImage: "plus") { orders.append(.draft) }`.
+- Where: `Button("All day")` with `.tint(event.isAllDay ? .green : .gray)`
+- Why: On and off differ only in tint, so people who cannot tell the two colors apart cannot see the setting,
+  and a plain button gives assistive technologies no on or off value to report.
+- Source: https://developer.apple.com/design/human-interface-guidelines/toggles (recommendation);
+  https://developer.apple.com/design/human-interface-guidelines/accessibility (recommendation)
+- Fix: `Toggle("All day", isOn: $event.isAllDay)`. The row is in a `Form`, which is where the HIG places the
+  switch style.
 
-### 3. Fixed font sizes, one below the platform minimum
-- Class: Accessibility issue
-- Severity: High
-- Where: `.font(.system(size: 22, weight: .bold))` and `.font(.system(size: 10))`
-- Why: Fixed sizes ignore the person's text size setting. The customer name is 10 pt, below the 11 pt minimum
-  the HIG gives for iPhone.
-- Source: https://developer.apple.com/design/human-interface-guidelines/typography (recommendation)
-- Fix: Use text styles: `.font(.caption)` with `.foregroundStyle(.secondary)` for the customer name; the title
-  becomes the navigation title (finding 4).
-
-### 4. Hand-built header replaces the system navigation bar
-- Class: Platform convention mismatch
-- Severity: Medium
-- Where: the `HStack` header together with `.navigationBarHidden(true)`
-- Why: The system bar provides the title, large-title behaviour, the back button, the current system
-  appearance, and correct safe-area handling. The replica provides none of these and will look out of place.
-- Source: https://developer.apple.com/design/human-interface-guidelines/toolbars (recommendation)
-- Fix: Delete the header and the hidden-bar modifier. Add `.navigationTitle("Orders")` and a
-  `.toolbar { ToolbarItem(placement: .primaryAction) { ... } }` holding the add button.
-
-### 5. Add button's tappable area is 24x24 pt
-- Class: Accessibility issue
-- Severity: Medium
-- Where: `.frame(width: 24, height: 24)` on the add button
-- Why: The HIG's default control size on iPhone is 44x44 pt and its published minimum is 28x28 pt; this is
-  below both, so it is hard to hit, especially for people with reduced dexterity.
-- Source: https://developer.apple.com/design/human-interface-guidelines/accessibility (recommendation)
-- Fix: Remove the fixed frame. A toolbar button gets a suitable hit region from the system.
-
-### 6. Alert used for routine information, shown on appearance
+### 4. "Delete Event" is the most prominent button and deletes at once
 - Class: Recommended improvement
 - Severity: Medium
-- Where: `.onAppear { showInfo = true }` and the `"Info"` alert
-- Why: An alert interrupts. The HIG reserves alerts for important situations that need a decision, and advises
-  against using them merely to give information. "Orders synced" needs no action.
-- Source: https://developer.apple.com/design/human-interface-guidelines/alerts (recommendation)
-- Fix: Remove the alert. If sync status matters, show it inline, for example as a footer or a brief status in
-  the list.
+- Where: `Button("Delete Event")` with `.buttonStyle(.borderedProminent)`
+- Why: The HIG keeps the prominent style for the most likely action and says not to give a destructive action
+  the primary role, because people sometimes choose a prominent button without reading it. Here one tap
+  removes the event with no chance to back out.
+- Source: https://developer.apple.com/design/human-interface-guidelines/buttons (recommendation);
+  https://developer.apple.com/design/human-interface-guidelines/action-sheets (recommendation)
+- Fix: Drop the prominent style and confirm first:
+  `Button("Delete Event", role: .destructive) { confirmDelete = true }` with
+  `.confirmationDialog("Delete this event?", isPresented: $confirmDelete, titleVisibility: .visible) {`
+  `Button("Delete Event", role: .destructive) { store.delete(event); dismiss() } }`.
+  A SwiftUI confirmation dialog includes Cancel by default.
 
-### 7. Top-level menu behind a "hamburger" icon
+### 5. Done has no Cancel beside it
+- Class: Recommended improvement
+- Severity: Medium
+- Where: the `.toolbar` with a single `.confirmationAction` item
+- Why: With Done alone, saving looks like the only way out. People who opened the sheet by mistake, or changed
+  their mind, have no visible way to leave without saving.
+- Source: https://developer.apple.com/design/human-interface-guidelines/sheets (recommendation)
+- Fix: Add `ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }`.
+
+### 6. The sheet is pinned to a light appearance
 - Class: Platform convention mismatch
 - Severity: Medium
-- Where: the `line.3.horizontal` control
-- Why: On iPhone, people expect top-level sections in a tab bar, where they stay visible. A hidden drawer makes
-  sections harder to discover. The HIG does not mention this pattern by name; this finding rests on its
-  guidance to use a tab bar for navigating between sections.
-- Source: https://developer.apple.com/design/human-interface-guidelines/tab-bars (recommendation)
-- Fix: If the menu holds top-level sections, move them to a `TabView`. If it holds occasional actions, use a
-  `Menu` in the toolbar.
+- Where: `.preferredColorScheme(.light)`, `.scrollContentBackground(.hidden)`, `.background(Color.white)`
+- Why: The modifier overrides the person's Dark Mode choice for this presentation, so a white sheet appears
+  over an otherwise dark app. It works, but people expect a sheet to follow the system appearance.
+- Source: https://developer.apple.com/design/human-interface-guidelines/dark-mode (recommendation);
+  https://developer.apple.com/documentation/swiftui/view/preferredcolorscheme(_:) (API documentation)
+- Fix: Delete all three modifiers. The `Form` then uses its system background in both appearances.
 
-### 8. Deprecated APIs
+### 7. The link field shows the default keyboard
+- Class: Recommended improvement
+- Severity: Low
+- Where: `TextField("Video call link", text: $event.link)`
+- Why: A URL typed on the default keyboard is slower to enter. The HIG asks for the keyboard type that matches
+  the content.
+- Source: https://developer.apple.com/design/human-interface-guidelines/text-fields (recommendation)
+- Fix: Add `.keyboardType(.URL)`, `.textContentType(.URL)`, `.textInputAutocapitalization(.never)`, and
+  `.autocorrectionDisabled()`.
+
+### 8. Deprecated `onChange(of:perform:)`
 - Class: Confirmed guideline or API violation
 - Severity: Low
-- Where: `NavigationView`, `navigationBarHidden`, `alert(isPresented:content:)` with `Alert`
-- Why: All three are deprecated, and their replacements are available on the stated minimum of iOS 17.
-- Source: https://developer.apple.com/documentation/swiftui/navigationview (API documentation)
-- Fix: `NavigationStack` (iOS 16+). The other two disappear with findings 4 and 6.
+- Where: `.onChange(of: event.start) { newStart in ... }`
+- Why: The one-parameter form was deprecated in iOS 17.0, and its replacement `onChange(of:initial:_:)` is
+  available from iOS 17.0, which is this project's minimum.
+- Source: https://developer.apple.com/documentation/swiftui/view/onchange(of:perform:) (API documentation)
+- Fix: `.onChange(of: event.start) { _, newStart in ... }`. Apple notes that the replacement's closure captures
+  state after the change, not before; this body only uses the parameter and the current `event.end`.
+
+### 9. Title and Delete do not depend on whether the event is new
+- Class: Subjective design suggestion
+- Severity: Low
+- Where: `.navigationTitle("New Event")` and the Delete button
+- Why: Opinion, no source. When the sheet edits an existing event the title is wrong, and a new event has
+  nothing to delete yet.
+- Fix: Pass an `isNew` flag; use "Edit Event" as the title and show Delete only when `isNew` is false.
 
 ### Not verified
-- Contrast of the row text and status colors: needs the rendered screen. Check with Accessibility Inspector in
-  light and dark appearances.
-- Behaviour at the largest accessibility text sizes: test in the simulator after applying finding 3.
-- Whether `showMenu` leads to sections or actions: the drawer's content was not provided (affects finding 7).
+- What VoiceOver actually announces for the "-" and "+" text and for the tinted button: run the screen with
+  VoiceOver or Accessibility Inspector (affects findings 2 and 3).
+- Whether a deleted event can be restored elsewhere in the app. If it can, undo may serve better than a
+  confirmation (finding 4). Check: https://developer.apple.com/design/human-interface-guidelines/alerts
+- What a swipe down on the sheet does with unsaved edits: the presenting view was not provided.
+- How the sheet is sized on iPad under iOS 17 and iOS 18: run both in the simulator after applying finding 1.
 
 ### What already works
-- The order list uses the system `List`, so rows get standard spacing, separators, and scrolling behaviour.
-- Row content is in a leading-aligned stack, which mirrors correctly for right-to-left languages.
+- The editor is a `Form` in a `NavigationStack`, so rows, spacing, scrolling, and the title bar are the system's.
+- Done uses the `.confirmationAction` placement, so the system decides where it goes on each platform.
+- Text uses default styles with no fixed font sizes, and the start time is formatted with the person's locale.

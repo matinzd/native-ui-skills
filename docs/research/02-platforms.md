@@ -1,5 +1,9 @@
 # 02 — Apple platform specifics (iOS, iPadOS, macOS, watchOS, tvOS, visionOS)
 
+> Historical research notes from 2026-11-23. They record what each workstream found before the skill was written
+> and are not maintained. Where they differ from `skills/apple-hig/`, the skill is correct: several facts here
+> were corrected during writing and review (see `docs/validation.md`).
+
 Research date 2026-11-23. Agent 2 (platform specialist).
 
 **Source convention.** `HIG:<slug>` = `https://developer.apple.com/design/human-interface-guidelines/<slug>`

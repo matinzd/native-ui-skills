@@ -21,19 +21,22 @@ iPadOS, macOS, watchOS, tvOS, and visionOS.
 
 What makes it different from a prompt that says "follow the HIG":
 
-- **Every rule carries its strength.** `[Req]` requirement, `[HIG]` recommendation, `[API]` documentation fact,
-  `[Conv]` convention, `[Unverified]`. Most of the HIG is recommendation, and the skill says so.
+- **Rules carry their strength.** Each rule bullet is tagged `[Req]` mandatory, `[HIG]` recommendation, `[API]`
+  documentation or platform fact, `[Conv]` convention or the skill's own interpretation, or `[Unverified]`. Most
+  of the HIG is recommendation, and the skill says so.
 - **Current guidance.** Verified against Apple's live pages on 2026-11-23 (OS 27 SDK cycle), including the
   Liquid Glass design, the 2026 design principles, top tab bars on iPad, and the foldable iPhone Duo. It also
   lists popular "rules" that the HIG does not contain, such as a fixed maximum number of tabs.
 - **Deployment-target aware.** The agent finds the minimum OS first and gates newer APIs.
-- **Small context footprint.** A 200-line entry point routes to 29 focused reference files; a typical task loads
-  two or three.
+- **Progressive disclosure.** A 219-line entry point (about 4,000 tokens) answers common questions on its own and
+  routes to 29 reference files of about 5,000 tokens each. In the eight evaluated tasks the agent opened between
+  zero and two of them.
 - **No bundled Apple text.** Summaries, short factual values, and links only.
 
 ## Install
 
-The skill is the directory [`skills/apple-hig/`](skills/apple-hig/). Install only that directory.
+The skill is the directory [`skills/apple-hig/`](skills/apple-hig/). The manual routes below install only that
+directory; the Claude Code plugin route caches the whole repository, of which Claude Code loads only the skill.
 
 Commands marked *verified* were checked against the tool's own documentation or run against a local copy of this
 layout. Commands marked *unverified* come from secondary sources because the vendor's documentation could not be
@@ -117,11 +120,14 @@ relative file links, so it should load in any client that implements the specifi
 
 | Checked | Result |
 |---------|--------|
-| Agent Skills reference validator (`skills-ref` 0.1.1) | Passes |
-| Claude Code plugin validator (`claude plugin validate`) | Passes |
-| Repository validator ([`tools/validate_skill.py`](tools/validate_skill.py)) | Passes, including an online check that every cited Apple page exists |
-| Activation and reference loading in Claude Code | See [docs/validation.md](docs/validation.md) |
-| Activation in Codex, Cursor, Copilot, Gemini CLI, and others | **Not tested.** Expected to work; not measured |
+| Agent Skills reference validator (`skills-ref` 0.1.1) | Valid (local run and CI) |
+| Claude Code plugin validator (`claude plugin validate`, Claude Code 2.1.330) | Passed (local run on 2026-11-23, not in CI) |
+| Repository validator ([`tools/validate_skill.py`](tools/validate_skill.py)) | 0 errors (local run and CI). Its online check that every cited Apple page exists passed locally and runs weekly in CI |
+| Activation in Claude Code | 12 of 14 held-out trigger queries correct, one run each |
+| Eight task scenarios in Claude Code, with and without the skill | 47 of 50 assertions against 38 of 49, one run each |
+| Codex, Cursor, Copilot, Gemini CLI, and others | **Not tested.** Expected to load the skill; nothing was measured |
+
+Details, caveats, and what the skill did not improve are in [docs/validation.md](docs/validation.md).
 
 Activation is decided by each agent's model from the skill description, so triggering differs between agents and
 models. Nothing in the skill needs network access. If the agent has it, the skill tells it how to verify a claim
@@ -130,7 +136,7 @@ against Apple's documentation.
 ## Repository layout
 
 ```
-skills/apple-hig/          The skill (the only part that gets installed)
+skills/apple-hig/          The skill
   SKILL.md                 Entry point: ground rules, workflows, routing table, review format
   references/              29 focused reference files: foundations, components, patterns,
                            platforms, accessibility, implementation, review
@@ -139,6 +145,7 @@ skills/apple-hig/          The skill (the only part that gets installed)
 tests/evals/               Trigger queries, 18 task scenarios, and Swift fixtures
 tests/test_hig_lint.py     Linter self-test
 tools/validate_skill.py    Repository validator
+tools/run_evals.py         Runs the evals in Claude Code, with and without the skill
 docs/                      Architecture decisions, validation results, research notes
 .claude-plugin/            Claude Code plugin and marketplace manifests
 ```
@@ -169,10 +176,12 @@ python3 tests/test_hig_lint.py
 
 ## Limitations
 
-- **The Swift examples were not compiled.** No Swift toolchain was available where the skill was built. Every
-  API name and availability was checked against Apple's documentation, but build the examples before relying on
-  them.
-- **Only Claude Code was exercised.** Other agents are untested.
+- **The Swift examples were not compiled.** No Swift toolchain was available where the skill was built. API
+  names and availability in the examples and code snippets were checked against Apple's documentation by the
+  writers and again by a reviewer, but build the examples before relying on them.
+- **Only Claude Code was exercised**, on one model, with one run per query. Other agents are untested.
+- **The measured benefit is narrow.** In the evaluation the skill mainly stopped the agent overstating rules
+  and made it cite sources; on half the scenarios it changed nothing measurable and cost more tokens.
 - **Guidance dates quickly.** Each reference file states when it was verified. The scheduled CI job checks that
   cited Apple pages still exist, but not that their content is unchanged.
 - **Coverage is selective.** The skill covers interface design and the common components and patterns. It does

@@ -1,5 +1,9 @@
 # 06 - Evaluation strategy and eval assets for `apple-hig`
 
+> Historical research notes from 2026-11-23. They record what each workstream found before the skill was written
+> and are not maintained. Where they differ from `skills/apple-hig/`, the skill is correct: several facts here
+> were corrected during writing and review (see `docs/validation.md`).
+
 Agent 6 (QA/evaluation). Fetched 2026-11-23. Tags: **[V]** fetched this session and the source says this; **[M]** memory/secondary, unverified.
 URL shorthand: `H:<slug>` = `https://developer.apple.com/design/human-interface-guidelines/<slug>` (read via
 `https://developer.apple.com/tutorials/data/design/human-interface-guidelines/<slug>.json`); `A:<path>` =
