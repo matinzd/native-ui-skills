@@ -1,0 +1,242 @@
+[
+  {
+    "query": "my Compose bottom bar has 7 items and looks cramped on small phones, labels get cut off. what should I do with it",
+    "should_trigger": true,
+    "split": "train",
+    "note": "never says Material; destination count"
+  },
+  {
+    "query": "make this Android settings screen feel native - right now it's a Column of custom rows with a toggle I drew myself and it looks like a web page",
+    "should_trigger": true,
+    "split": "validation",
+    "note": "never says Material; native feel"
+  },
+  {
+    "query": "why does my app look wrong on a foldable? when I unfold the Pixel Fold it's just the phone layout stretched, with a giant bottom bar and one huge list",
+    "should_trigger": true,
+    "split": "train",
+    "note": "never says Material; phone to foldable"
+  },
+  {
+    "query": "can you do a Material 3 review of app/src/main/java/com/acme/checkout/CheckoutScreen.kt before we ship 3.0 on friday",
+    "should_trigger": true,
+    "split": "train",
+    "note": "explicit review"
+  },
+  {
+    "query": "should this be a dialog, a bottom sheet or a snackbar? it's a filters panel with 6 options in our Android app, phone and tablet",
+    "should_trigger": true,
+    "split": "train",
+    "note": "component choice"
+  },
+  {
+    "query": "audit RatingBar.kt for TalkBack and font scale problems, QA says the labels get clipped at 200% font size",
+    "should_trigger": true,
+    "split": "validation",
+    "note": "accessibility; never says Material"
+  },
+  {
+    "query": "we're migrating from androidx.compose.material to material3. what replaces BottomNavigation and ScaffoldState, and is ModalBottomSheet still experimental",
+    "should_trigger": true,
+    "split": "train",
+    "note": "M2 to M3 migration; API status"
+  },
+  {
+    "query": "bringing our Compose phone app to Wear OS. it has 4 bottom tabs and long lists - what should navigation and lists look like on the watch",
+    "should_trigger": true,
+    "split": "validation",
+    "note": "phone to Wear OS"
+  },
+  {
+    "query": "Android TV version of our streaming app in Compose: focus jumps around the rows and the cards near the edge are cut off on some TVs. what are the layout rules",
+    "should_trigger": true,
+    "split": "train",
+    "note": "TV focus and overscan"
+  },
+  {
+    "query": "res/layout/activity_login.xml - the fields have no visible labels and the button style doesn't match the rest of the app. fix it to follow the guidelines. Views with MaterialComponents, not Compose",
+    "should_trigger": true,
+    "split": "train",
+    "note": "Views/XML"
+  },
+  {
+    "query": "what's the minimum touch target size on android",
+    "should_trigger": true,
+    "split": "validation",
+    "note": "quick fact"
+  },
+  {
+    "query": "pick colour roles for success / warning / error banners in my Compose app that still work with dynamic color and dark theme",
+    "should_trigger": true,
+    "split": "train",
+    "note": "colour roles"
+  },
+  {
+    "query": "the FAB covers the last list item and my snackbar shows up behind the navigation bar. I'm using Scaffold, what am I doing wrong",
+    "should_trigger": true,
+    "split": "train",
+    "note": "Scaffold slots and padding; never says Material"
+  },
+  {
+    "query": "is it ok to have a hamburger drawer and a bottom bar in the same Android app? product wants both",
+    "should_trigger": true,
+    "split": "validation",
+    "note": "navigation pattern conflict"
+  },
+  {
+    "query": "navigation rail or bottom bar for our tablet layout? 4 destinations, Compose, landscape supported",
+    "should_trigger": true,
+    "split": "train",
+    "note": "window size classes"
+  },
+  {
+    "query": "we want the M3 Expressive look - button groups, a floating toolbar, the wavy progress bar. we're pinned to material3 1.4.0. which of those exist there and which need an opt-in",
+    "should_trigger": true,
+    "split": "train",
+    "note": "Expressive; API availability by version"
+  },
+  {
+    "query": "refactor this Compose screen so sizes and colours come from the theme instead of hard-coded sp and hex values, change as little as possible",
+    "should_trigger": true,
+    "split": "validation",
+    "note": "minimal-diff refactor"
+  },
+  {
+    "query": "we have an iOS app with a tab bar and large titles and are designing the Android version now. what should change so it doesn't feel like an iPhone port",
+    "should_trigger": true,
+    "split": "validation",
+    "note": "cross-skill: Android is the target"
+  },
+  {
+    "query": "after targeting Android 15 my top app bar draws under the status bar and the list is hidden behind the gesture bar. how should insets work with a Scaffold",
+    "should_trigger": true,
+    "split": "train",
+    "note": "edge-to-edge UI"
+  },
+  {
+    "query": "write a Compose sign-up form with inline validation errors, should look like a proper Google-style form",
+    "should_trigger": true,
+    "split": "train",
+    "note": "form implementation; never says Material"
+  },
+  {
+    "query": "make this SwiftUI settings screen feel native - right now it's a ScrollView with custom toggle rows and my designer says it looks like a web page",
+    "should_trigger": false,
+    "split": "train",
+    "note": "Apple UI: belongs to apple-hig"
+  },
+  {
+    "query": "my UITabBarController has 7 tabs and the More tab looks ugly. what does the HIG say about tab count",
+    "should_trigger": false,
+    "split": "validation",
+    "note": "Apple UI: UIKit / HIG"
+  },
+  {
+    "query": "what's the minimum tap target on iOS per the Human Interface Guidelines",
+    "should_trigger": false,
+    "split": "train",
+    "note": "Apple UI quick fact"
+  },
+  {
+    "query": "MUI v6: how do I override the theme palette and set AppBar elevation to 0 in dark mode in our React dashboard",
+    "should_trigger": false,
+    "split": "train",
+    "note": "Material UI for React (web)"
+  },
+  {
+    "query": "Angular Material mat-form-field shows the error under the input but the layout jumps. how do I reserve space with subscriptSizing",
+    "should_trigger": false,
+    "split": "validation",
+    "note": "Angular Material (web)"
+  },
+  {
+    "query": "Flutter: switch between NavigationRail on tablets and NavigationBar on phones with useMaterial3: true, and keep the selected index",
+    "should_trigger": false,
+    "split": "train",
+    "note": "Flutter Material widgets"
+  },
+  {
+    "query": "my StateFlow collection in a Compose screen restarts every time I rotate. collectAsStateWithLifecycle or repeatOnLifecycle?",
+    "should_trigger": false,
+    "split": "train",
+    "note": "coroutines / lifecycle, not design"
+  },
+  {
+    "query": "Room migration from version 3 to 4 fails with 'expected column not found' after I added a nullable field",
+    "should_trigger": false,
+    "split": "train",
+    "note": "Room"
+  },
+  {
+    "query": "Gradle sync fails after bumping the Compose BOM: Duplicate class androidx.compose.material3.internal... how do I align the versions",
+    "should_trigger": false,
+    "split": "validation",
+    "note": "build problem that mentions material3"
+  },
+  {
+    "query": "write the Play Store listing for version 4.1 of our hiking app: short description, full description, what's new",
+    "should_trigger": false,
+    "split": "train",
+    "note": "Play Console metadata"
+  },
+  {
+    "query": "Compose Multiplatform desktop app (JVM, Windows and macOS): how do I add a native menu bar and a tray icon",
+    "should_trigger": false,
+    "split": "validation",
+    "note": "Compose Multiplatform desktop target"
+  },
+  {
+    "query": "Compose Multiplatform on iOS: my UIKitView map doesn't receive touches inside a LazyColumn",
+    "should_trigger": false,
+    "split": "train",
+    "note": "Compose Multiplatform iOS target"
+  },
+  {
+    "query": "CSS only: card with a material-like shadow and a ripple on click, no library",
+    "should_trigger": false,
+    "split": "train",
+    "note": "generic web CSS that says material"
+  },
+  {
+    "query": "LazyColumn with 5000 items janks and Layout Inspector shows recomposition on every scroll frame. how do I profile and fix it",
+    "should_trigger": false,
+    "split": "validation",
+    "note": "Compose performance, not design"
+  },
+  {
+    "query": "WorkManager periodic job stops running after reboot on some Xiaomi devices",
+    "should_trigger": false,
+    "split": "train",
+    "note": "background work"
+  },
+  {
+    "query": "Navigation Compose with type-safe routes: how do I pass a Parcelable argument with kotlinx.serialization",
+    "should_trigger": false,
+    "split": "train",
+    "note": "navigation plumbing, not navigation design"
+  },
+  {
+    "query": "@material/web md-filled-button: change the container shape with CSS custom properties in a Lit component",
+    "should_trigger": false,
+    "split": "validation",
+    "note": "Material Web components"
+  },
+  {
+    "query": "generate an adaptive launcher icon foreground for my Android app, a green fox, 432x432 png",
+    "should_trigger": false,
+    "split": "train",
+    "note": "image generation"
+  },
+  {
+    "query": "write Compose UI tests with createComposeRule for LoginScreen - button disabled until both fields are filled",
+    "should_trigger": false,
+    "split": "validation",
+    "note": "UI testing, not design"
+  },
+  {
+    "query": "React Native Paper BottomNavigation: the badge doesn't update when my redux state changes",
+    "should_trigger": false,
+    "split": "train",
+    "note": "React Native Paper"
+  }
+]

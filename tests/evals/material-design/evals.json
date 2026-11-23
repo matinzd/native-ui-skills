@@ -1,0 +1,308 @@
+{
+  "skill_name": "material-design",
+  "evals": [
+    {
+      "id": 1,
+      "name": "formfactor-ambiguous-settings",
+      "category": "form-factor-detection",
+      "prompt": "Build me a settings screen for my app. Needs notifications on/off, theme (system / light / dark), account, and about.",
+      "expected_output": "Notices that toolkit (Compose or Views), form factor and Material library version are unstated. Inspects the project, asks one concise question, or proceeds on an explicit assumption (for example phone and tablet, Jetpack Compose, material3 1.5.0). Builds the screen from Material 3 components with theme colours and typography.",
+      "files": [],
+      "references_expected": [],
+      "max_reference_files": 3,
+      "assertions": [
+        "The response either asks about, or explicitly states the assumption it made for, the UI toolkit (Jetpack Compose or Views) and the form factor or device class",
+        "Any Compose code uses components from androidx.compose.material3 and imports nothing from androidx.compose.material other than the icons package",
+        "On/off settings use the Material Switch component (or SwitchPreference / MaterialSwitch in Views), not a hand-drawn toggle",
+        "The code contains no hard-coded Color(0x...) or hex colour literals; colours come from MaterialTheme.colorScheme, theme attributes, or component defaults",
+        "If the code uses Scaffold, the PaddingValues passed to the content lambda are applied to the content",
+        "The code does not call the deprecated material3 Divider composable (HorizontalDivider is fine)"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "design-navigation-window-size-classes",
+      "category": "design",
+      "prompt": "No code yet. Android app for a local news outlet with five top-level sections: Top stories, Local, Sport, Saved, Podcasts. It has to work on phones, foldables and tablets. Which navigation component should show at each window size, and where are the breakpoints?",
+      "expected_output": "Navigation bar at compact width, bar or rail at medium, navigation rail at expanded and larger; breakpoints at 600dp and 840dp; five destinations is inside the three-to-five range; keyed on window size class, not device type. Cites sources.",
+      "files": [],
+      "references_expected": [],
+      "max_reference_files": 3,
+      "assertions": [
+        "The response recommends a navigation bar for compact-width windows",
+        "The response recommends a navigation rail for expanded-width windows and does not recommend a navigation bar there",
+        "The response gives 600dp and 840dp as the width breakpoints between compact, medium and expanded",
+        "The response treats five destinations as acceptable for a navigation bar (for example by citing the three-to-five guidance) and does not say five is too many",
+        "The response bases the choice on the window size class or available window width, not on device model or an isTablet check",
+        "The response cites at least one m3.material.io or developer.android.com URL",
+        "The response contains no code block longer than 5 lines"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "design-dialog-sheet-snackbar",
+      "category": "design",
+      "prompt": "Three moments in my Android notes app. Which component for each, and why? (1) 'Note moved to trash', with a way to undo. (2) 'Delete all 42 notes forever?'. (3) A list of actions for one note on a phone: Share, Duplicate, Move to folder, Export as PDF, Add label, Print. No code.",
+      "expected_output": "(1) Snackbar with an Undo action. (2) Basic dialog with explicit confirm and dismiss actions. (3) Modal bottom sheet (a menu is an acceptable alternative). Reasons tied to message priority and how interruptive each component is, with sources.",
+      "files": [],
+      "references_expected": [],
+      "max_reference_files": 2,
+      "assertions": [
+        "For (1) the response recommends a snackbar with an Undo action and does not recommend a dialog",
+        "For (2) the response recommends a dialog that requires an explicit confirm or cancel choice",
+        "For (3) the response recommends a modal bottom sheet (it may mention a menu as an alternative)",
+        "The reasoning distinguishes low-priority, non-blocking messages (snackbar) from critical, blocking decisions (dialog)",
+        "The response cites at least one m3.material.io or developer.android.com URL",
+        "The response contains no code block longer than 5 lines"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "implement-form-validation",
+      "category": "implementation",
+      "prompt": "Compose, material3 1.5.0, minSdk 26, phones. Write a sign-up form: email, password, confirm password and a Create account button. Validate inline and show errors the Material way. Full composable please.",
+      "expected_output": "OutlinedTextField or TextField (or the secure variants) with labels, isError plus supportingText for error messages, obscured password input, theme colours only, and nothing that needs an alpha release. Brief notes with sources.",
+      "files": [],
+      "references_expected": [],
+      "max_reference_files": 3,
+      "assertions": [
+        "Every input is a material3 TextField, OutlinedTextField, SecureTextField or OutlinedSecureTextField with a label",
+        "Invalid input sets isError on the field and puts the error message in the field's supportingText (not in a Toast, dialog, or a separate Text placed outside the field)",
+        "Password inputs are obscured, using SecureTextField / OutlinedSecureTextField or a password visual transformation",
+        "The code contains no hard-coded Color(0x...) literal for the error state; it relies on component defaults or MaterialTheme.colorScheme.error",
+        "Any API the code uses that is marked experimental carries a matching @OptIn, and the response does not tell the user to move to an alpha or beta release",
+        "The explanation cites at least one m3.material.io or developer.android.com URL"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "review-compose-inbox",
+      "category": "review",
+      "prompt": "Material review please: tests/evals/material-design/files/InboxScreen.kt. Phone app, Compose, material3 1.5.0, minSdk 26. Tell me what actually matters before release.",
+      "expected_output": "A structured review in the skill's format: each finding has one of the five classes, a severity, a rationale, a source URL and a fix. Finds at least 5 of the 6 planted issues, separates the deprecated API and the accessibility problem from recommendations, and orders by severity.",
+      "files": [
+        "tests/evals/material-design/files/InboxScreen.kt"
+      ],
+      "references_expected": [],
+      "max_reference_files": 4,
+      "assertions": [
+        "Every finding carries exactly one of the skill's five classification labels, a severity, a concrete fix, and a source URL or an explicit note that no source exists",
+        "The androidx.compose.material imports (FloatingActionButton, Text) are flagged as Material 2 components mixed into a Material 3 screen, with the material3 equivalents as the fix",
+        "The ignored Scaffold content padding is flagged, and the fix applies the PaddingValues to the list (padding modifier or contentPadding)",
+        "Divider is flagged as deprecated with HorizontalDivider as the replacement, and the response does not state the library version in which it was deprecated",
+        "contentDescription = null on the search icon button is flagged as an accessibility issue, with a text description as the fix",
+        "The AlertDialog that only confirms 'Conversation archived.' is flagged, a snackbar is proposed instead, and the finding is not classified as a confirmed guideline or API violation",
+        "The hard-coded top app bar colours are flagged with theme colour roles as the fix, and the finding is not classified as a confirmed guideline or API violation"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "review-views-xml-appointment",
+      "category": "review",
+      "prompt": "Review tests/evals/material-design/files/fragment_appointment.xml against Material and Android accessibility guidance. This is a Views app on Material Components for Android with a Theme.Material3 DayNight theme; we are not moving to Compose.",
+      "expected_output": "A structured review that stays in XML. Finds the dp text size, the unlabelled 32dp ImageButton, the hint on the wrong element, the hard-coded colours that break the night theme, and the colour-only status dot, each with a source and an XML fix.",
+      "files": [
+        "tests/evals/material-design/files/fragment_appointment.xml"
+      ],
+      "references_expected": [],
+      "max_reference_files": 4,
+      "assertions": [
+        "All fixes are given as XML or View-system changes; the response does not rewrite the layout in Jetpack Compose",
+        "android:textSize=\"20dp\" is flagged because dp text does not follow the user's font size setting, with sp or a textAppearance attribute as the fix",
+        "The ImageButton is flagged for having no contentDescription, classified as an accessibility issue",
+        "The 32dp ImageButton is flagged as smaller than the 48dp touch target guidance",
+        "The android:hint on the TextInputEditText is flagged, with moving it to the TextInputLayout as the fix",
+        "The hard-coded #FFFFFF background and/or #212121 text colour is flagged as breaking the dark (night) theme, with theme attributes such as ?attr/colorSurface and ?attr/colorOnSurface as the fix",
+        "The status dot is flagged as conveying availability by colour alone, with a text, icon or shape cue (or a content description) proposed"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "refactor-minimal-diff-dark-theme",
+      "category": "refactor",
+      "prompt": "In tests/evals/material-design/files/ForecastCard.kt the card stays white with dark grey text when the phone is in dark theme. Fix that. Don't restyle or restructure anything else - the diff has to be tiny.",
+      "expected_output": "Replaces the five colour literals with MaterialTheme.colorScheme roles (or removes them so component defaults apply). No other pre-existing line changes. The 28.sp size and everything else are at most listed as optional follow-ups.",
+      "files": [
+        "tests/evals/material-design/files/ForecastCard.kt"
+      ],
+      "references_expected": [],
+      "max_reference_files": 2,
+      "assertions": [
+        "No Color(0xFF...) literal remains in the edited composable",
+        "Each replaced colour is a MaterialTheme.colorScheme role, or the argument is removed so the component default or content colour applies",
+        "Text and icon colours are roles meant for content on the chosen container (for example onSurface / onSurfaceVariant on a surface role), not unrelated roles such as primary for body text",
+        "No pre-existing line that lacks a colour literal is modified in the applied change (import lines may be added or removed)",
+        "The composable's name, parameters and layout structure (Card > Row > Icon, Column, Text) are unchanged",
+        "Any other observation (for example the 28.sp font size) is presented as optional and is not applied"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "accessibility-audit-quantity-stepper",
+      "category": "accessibility",
+      "prompt": "Accessibility audit of tests/evals/material-design/files/QuantityStepper.kt please. A TalkBack user told us they can't tell what the two buttons do, and someone else says the number is unreadable. Compose, material3 1.5.0.",
+      "expected_output": "Finds the unlabelled icons, the clickable Boxes with no button role, the 32dp targets, the dp-derived font size that ignores font scale, and the low-contrast number. Gives corrected code that keeps the composable's signature, with sources.",
+      "files": [
+        "tests/evals/material-design/files/QuantityStepper.kt"
+      ],
+      "references_expected": [],
+      "max_reference_files": 3,
+      "assertions": [
+        "The two controls are flagged as having no accessible name (contentDescription = null and no click label), with a description or onClickLabel as the fix",
+        "The clickable Boxes are flagged as not exposing a button role, and the fix uses IconButton (or another Material button) or passes role = Role.Button",
+        "The 32dp controls are flagged against the 48dp minimum touch target guidance, with a fix such as IconButton, minimumInteractiveComponentSize, or a 48dp minimum size",
+        "The 14.dp.toSp() font size is flagged because it does not scale with the user's font size setting, with sp or a MaterialTheme.typography style as the fix",
+        "The #BDBDBD text on white is flagged as failing the 4.5:1 contrast guidance; if a ratio is stated it is between 1.7:1 and 2.1:1",
+        "The corrected code keeps the QuantityStepper(quantity, onChange, modifier) signature"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "adapt-phone-to-tablet-foldable",
+      "category": "adaptation",
+      "prompt": "Tablet and foldable users say our app looks like a blown-up phone: tests/evals/material-design/files/TrailShell.kt. We target API 36. Make the shell adaptive and show the new root composable.",
+      "expected_output": "Switches navigation by window size class (NavigationSuiteScaffold, or NavigationBar at compact and NavigationRail at wider sizes), deals with six destinations, removes the fixed 360dp column in favour of a layout that uses the width, and removes the portrait lock, explaining that large screens ignore it for apps targeting API 36.",
+      "files": [
+        "tests/evals/material-design/files/TrailShell.kt"
+      ],
+      "references_expected": [],
+      "max_reference_files": 4,
+      "assertions": [
+        "The new code uses NavigationSuiteScaffold, or chooses between NavigationBar and NavigationRail from the window size class (for example currentWindowAdaptiveInfo().windowSizeClass)",
+        "The navigation choice is not based on device model, an isTablet flag, or screen orientation",
+        "Six destinations are flagged against the three-to-five navigation bar guidance, with a concrete proposal (reduce to five, or move the rest into a rail or drawer)",
+        "The fixed width(360.dp) is removed, and the response says how wide windows use the extra space (for example list-detail panes, a grid, or a maximum content width)",
+        "The portrait lock is removed or flagged, and the response says that orientation restrictions are ignored on large screens (smallest width 600dp and up) for apps targeting API level 36, or that they conflict with large-screen quality guidance",
+        "The response cites at least one developer.android.com or m3.material.io URL"
+      ]
+    },
+    {
+      "id": 10,
+      "name": "adapt-phone-to-wear-and-tv",
+      "category": "adaptation",
+      "prompt": "Our Compose phone app is a workout timer: a list of routines, a routine detail screen with start / pause, and a bottom navigation bar with Routines, History, Settings. We now need a Wear OS version and an Android TV version. What changes in navigation, components and input on each? Outline first; short code only where the API differs.",
+      "expected_output": "Wear OS: the Wear Compose Material 3 library, no bottom bar, swipe-to-dismiss navigation, a watch list component inside the Wear scaffolds. TV: the TV Material library, D-pad focus navigation with every control reachable, overscan-safe margins. Does not carry the phone navigation bar to either.",
+      "files": [],
+      "references_expected": [],
+      "max_reference_files": 4,
+      "assertions": [
+        "For Wear OS the response says to use the Wear Compose Material 3 library (androidx.wear.compose) rather than the phone androidx.compose.material3 components",
+        "For Wear OS the response replaces the bottom navigation bar and describes swipe-to-dismiss back navigation (for example SwipeDismissableNavHost)",
+        "For Wear OS the response uses a watch list component such as TransformingLazyColumn or ScalingLazyColumn for the routine list",
+        "For TV the response says to use the TV Material library (androidx.tv.material3 / tv-material) rather than the phone components",
+        "For TV the response says navigation is by D-pad focus and that every control must be reachable and show focus",
+        "For TV the response says to keep important content inside overscan-safe margins",
+        "The response does not propose reusing the phone NavigationBar on the watch or on TV"
+      ]
+    },
+    {
+      "id": 11,
+      "name": "migrate-m2-to-m3",
+      "category": "migration",
+      "prompt": "We're still on androidx.compose.material and planning the move to material3 1.5.0. What do BottomNavigation, scaffoldState.snackbarHostState, ContentAlpha.medium and Scaffold's backgroundColor become? And can we migrate screen by screen, or is it all at once?",
+      "expected_output": "BottomNavigation and BottomNavigationItem become NavigationBar and NavigationBarItem; ScaffoldState is gone, use SnackbarHostState with the snackbarHost slot; ContentAlpha does not exist, use colour roles such as onSurfaceVariant; backgroundColor is containerColor. A phased migration is possible, but the two libraries should not coexist long-term. Cites the migration guide.",
+      "files": [],
+      "references_expected": [],
+      "max_reference_files": 2,
+      "assertions": [
+        "The response maps BottomNavigation / BottomNavigationItem to NavigationBar / NavigationBarItem",
+        "The response says ScaffoldState does not exist in material3 and shows SnackbarHostState passed through the Scaffold's snackbarHost slot",
+        "The response says ContentAlpha / LocalContentAlpha do not exist in material3 and maps medium emphasis to a colour role such as onSurfaceVariant",
+        "The response maps Scaffold's backgroundColor to containerColor",
+        "The response says a phased, screen-by-screen migration is possible while both libraries are present, and that using both long-term is discouraged",
+        "The response cites the Material 2 to Material 3 migration guide on developer.android.com"
+      ]
+    },
+    {
+      "id": 12,
+      "name": "experimental-or-unavailable-api",
+      "category": "deprecated-unsupported-api",
+      "prompt": "We're pinned to androidx.compose.material3:material3:1.5.0. Stable releases only, and every @OptIn needs tech-lead sign-off. I want (a) the morphing LoadingIndicator for pull-to-refresh, (b) a ModalBottomSheet for filters, (c) FadeThroughNavigationTransitions with predictive back. Which can I use as is, which need an opt-in, and which aren't there?",
+      "expected_output": "(a) LoadingIndicator exists in 1.5.0 but is experimental: needs @OptIn(ExperimentalMaterial3ExpressiveApi::class). (b) ModalBottomSheet exists but is annotated @ExperimentalMaterial3Api. (c) FadeThroughNavigationTransitions is not in 1.5.0; it first appears in 1.6.0-alpha01. Offers an alternative for (a) that needs no opt-in and does not push an alpha upgrade against the stated policy.",
+      "files": [],
+      "references_expected": [],
+      "max_reference_files": 2,
+      "assertions": [
+        "The response says LoadingIndicator is experimental in 1.5.0 and needs an opt-in to ExperimentalMaterial3ExpressiveApi",
+        "The response says ModalBottomSheet is available in 1.5.0 but needs an opt-in to ExperimentalMaterial3Api",
+        "The response says FadeThroughNavigationTransitions is not available in 1.5.0 (it was added in 1.6.0-alpha01)",
+        "The response does not present upgrading to an alpha release as the solution without noting that it conflicts with the stable-only policy",
+        "The response offers at least one alternative for (a) that needs no opt-in (for example the default PullToRefreshBox indicator or CircularProgressIndicator)",
+        "The response cites the Compose Material 3 release notes or API reference on developer.android.com"
+      ]
+    },
+    {
+      "id": 13,
+      "name": "conflict-brand-vs-material",
+      "category": "conflicting-guidance",
+      "prompt": "Brand rules for our Android app, non-negotiable according to the brand team: (1) the bottom navigation bar shows icons only, no labels; (2) links are brand lime #C6FF00 on our white background; (3) every icon button is 36dp and they sit edge to edge in a row; (4) dynamic colour off, our palette only. Implement it in Compose with material3 1.5.0 and tell me which of these are real problems and which are just 'not Material'.",
+      "expected_output": "Separates accessibility problems (lime links at about 1.2:1 on white; 36dp touch targets packed together) from departures from Material recommendations (no labels) and non-issues (dynamic colour is optional). Pushes back on the accessibility items with a concrete alternative, then implements what the user decides, with content descriptions on label-less navigation icons.",
+      "files": [],
+      "references_expected": [],
+      "max_reference_files": 3,
+      "assertions": [
+        "The response says Material guidance asks for labels on navigation bar items, and presents removing them as a departure from a recommendation rather than a hard requirement",
+        "If the code implements icon-only navigation items, each icon has a non-null contentDescription",
+        "The response says #C6FF00 on white fails the 4.5:1 text contrast guidance and proposes an alternative (for example a darker brand variant); if it states the ratio, the value is between 1.0:1 and 1.4:1",
+        "The response flags 36dp edge-to-edge icon buttons against the 48dp touch target guidance and offers a way to keep the 36dp visual size with a 48dp target or spacing",
+        "The response says turning dynamic colour off is acceptable and not a guideline violation",
+        "The response explicitly separates accessibility problems from brand or style preferences",
+        "The response does not claim that Google Play will reject the app for any of the four rules"
+      ]
+    },
+    {
+      "id": 14,
+      "name": "hallucination-and-unspecified-numbers",
+      "category": "hallucination-trap",
+      "prompt": "My lead left review comments on our Compose code (material3 1.5.0): wrap the small icons in Modifier.accessibleTouchTarget() from material3, swap our bar-plus-rail switching for the new AdaptiveNavigationBar composable, and shorten the tab labels because Material 3 caps navigation bar labels at 12 characters. Can you tell me how to apply all three? Also, what is Material's official minimum font size in sp, and exactly how many seconds does a snackbar have to stay on screen?",
+      "expected_output": "Says Modifier.accessibleTouchTarget and AdaptiveNavigationBar do not exist in material3 and offers the real APIs (minimumInteractiveComponentSize; NavigationSuiteScaffold or NavigationBar / NavigationRail). Does not confirm a 12-character rule; gives the actual label guidance. Says Material publishes no minimum font size, and no single required snackbar duration (guidance is a 4 to 10 second range for snackbars without actions).",
+      "files": [],
+      "references_expected": [],
+      "max_reference_files": 2,
+      "assertions": [
+        "The response says Modifier.accessibleTouchTarget() is not a material3 API and offers minimumInteractiveComponentSize or a 48dp minimum size instead",
+        "The response says AdaptiveNavigationBar is not a material3 composable and offers NavigationSuiteScaffold or NavigationBar / NavigationRail switching instead",
+        "The response does not confirm a 12-character limit; it says the guidance is short labels (one or two words, not truncated) or that no character limit is published",
+        "The response does not state a minimum font size in sp as a Material rule; it says none is published (it may mention the smallest type scale style)",
+        "The response does not give a single required snackbar duration as a Material rule; it says none is fixed, or gives the 4 to 10 second guidance for snackbars without actions",
+        "The response contains no code that calls accessibleTouchTarget or AdaptiveNavigationBar"
+      ]
+    },
+    {
+      "id": 15,
+      "name": "token-efficiency-simple-question",
+      "category": "context-efficiency",
+      "prompt": "what's the minimum touch target size on android?",
+      "expected_output": "A short answer: 48 x 48 dp, a Material accessibility recommendation that Android's core app quality guidelines also list; the visible element can be smaller than the target. One source link. No review, no long code, at most one reference file read.",
+      "files": [],
+      "references_expected": [],
+      "max_reference_files": 1,
+      "assertions": [
+        "The answer states 48 x 48 dp (or 48dp)",
+        "The answer does not say that Android or Google Play enforces the size or rejects apps below it",
+        "The answer includes one m3.material.io or developer.android.com URL",
+        "The answer is at most 120 words, excluding URLs and table syntax",
+        "The answer contains no code block longer than 5 lines and mentions platforms other than Android in at most one clause",
+        "At most one skill reference file was read to produce the answer"
+      ]
+    },
+    {
+      "id": 16,
+      "name": "cross-skill-port-ios-tab-bar",
+      "category": "cross-skill",
+      "prompt": "We're porting our iOS app to Android in Compose (material3 1.5.0). On iPhone it has a UITabBar with five tabs - Home, Search, a centre + that opens the composer, Inbox, Me - a large title that collapses on scroll, and swipe from the left edge to go back. The designer wants the Android app to look identical. What should I build?",
+      "expected_output": "Applies Android conventions instead of copying iOS chrome: a Material navigation bar with labelled destinations (rail on wider windows), the composer action moved out of the destinations (for example a FAB), a collapsing Material top app bar, and the system back gesture instead of a custom edge swipe. Explains the trade-off of an identical look once and leaves the decision to the user.",
+      "files": [],
+      "references_expected": [],
+      "max_reference_files": 3,
+      "assertions": [
+        "The response recommends the Material 3 NavigationBar with labelled destinations rather than a custom replica of the iOS tab bar",
+        "The response proposes a FloatingActionButton or another placement outside the navigation destinations for the composer action, or explicitly explains the trade-off of keeping an action among the destinations",
+        "The response says back navigation should use the Android system back gesture (predictive back) and does not implement a custom left-edge swipe",
+        "The response maps the collapsing large title to a Material top app bar with a scroll behaviour (for example LargeTopAppBar or a flexible top app bar)",
+        "The response explains that copying iOS chrome departs from Android conventions, and leaves the final choice to the user instead of refusing",
+        "The response gives no SwiftUI or UIKit code and does not cite Apple's Human Interface Guidelines as the rule for the Android app"
+      ]
+    }
+  ]
+}
