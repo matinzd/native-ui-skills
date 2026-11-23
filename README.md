@@ -6,7 +6,7 @@ user interfaces according to each platform's official design guidelines.
 | Skill | Covers | Status |
 |-------|--------|--------|
 | [`apple-hig`](skills/apple-hig/) | Apple's [Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/) for iOS, iPadOS, macOS, watchOS, tvOS, and visionOS, with SwiftUI, UIKit, and AppKit | Available. Verified against Apple's pages on 2026-11-23 |
-| `material-design` | Google's [Material Design 3](https://m3.material.io/) and Android design guidance, with Jetpack Compose and Views | In progress |
+| [`material-design`](skills/material-design/) | Google's [Material Design 3](https://m3.material.io/) (including Material 3 Expressive) and Android design guidance for phones, foldables, tablets, Wear OS, TV, and cars, with Jetpack Compose and Views | Available. Verified against Google's pages on 2026-11-23 |
 
 > Independent project. Not affiliated with, endorsed by, or sponsored by Apple Inc. or Google LLC. The skills
 > paraphrase and link to the official documentation instead of reproducing it; the official pages are
@@ -29,9 +29,12 @@ pay context for the other.
 
 What makes these different from a prompt that says "follow the guidelines":
 
-- **Rules carry their strength.** Each rule bullet is tagged `[Req]` mandatory, `[HIG]` recommendation, `[API]`
-  documentation or platform fact, `[Conv]` convention or the skill's own interpretation, or `[Unverified]`. Most
-  design guidance is recommendation, and the skills say so.
+- **Rules carry their strength.** Each rule bullet is tagged `[Req]` mandatory, `[HIG]` or `[MD]` recommendation
+  (Apple's guidelines or Material and Android guidance), `[API]` documentation or platform fact, `[Conv]`
+  convention or the skill's own interpretation, or `[Unverified]`. Most design guidance is recommendation, and
+  the skills say so.
+- **Contradictions are reported, not hidden.** Where the official pages disagree with each other, the skills
+  give both statements instead of picking one.
 - **Current guidance, with dates.** Each reference file states when it was verified against the official pages,
   and lists popular "rules" that the guidelines do not contain.
 - **Version aware.** The agent finds the minimum OS or library version first and gates newer APIs.
@@ -111,6 +114,17 @@ Example prompts for `apple-hig`:
 - "Does this feel native? It's an iPad app, but my designer says it looks like a stretched phone app."
 - "Is it fine to put a big + button in the middle of the tab bar?"
 
+Example prompts for `material-design`:
+
+- "Design the navigation for an Android app with Home, Search, Library, and Profile that works on phones and tablets."
+- "Build a Compose settings screen with notifications, appearance, and account sections. material3 1.5."
+- "Review `InboxScreen.kt` against Material 3 and list the findings by severity."
+- "Tablet users say our app looks like a blown-up phone. Make the root adaptive."
+- "Should this be a dialog, a bottom sheet, or a snackbar?"
+- "Is `ModalBottomSheet` stable in material3 1.5, and what do I use for a loading state?"
+- "We're porting our iOS app to Android. It has a tab bar with a centre + button and large titles. What changes?"
+- "Migrate this screen from Material 2 to Material 3 with the smallest diff."
+
 `apple-hig` also bundles a small linter the agent can run for mechanically detectable leads in Swift sources.
 It needs only Python 3:
 
@@ -173,24 +187,36 @@ Per skill:
 | Skill | Evals | Validation report | Architecture and research |
 |-------|-------|-------------------|---------------------------|
 | `apple-hig` | [`tests/evals/apple-hig/`](tests/evals/apple-hig/): 40 trigger queries, 18 task scenarios, 5 Swift fixtures | [docs/apple-hig/validation.md](docs/apple-hig/validation.md) | [docs/apple-hig/architecture.md](docs/apple-hig/architecture.md), [docs/apple-hig/research/](docs/apple-hig/research/) |
+| `material-design` | [`tests/evals/material-design/`](tests/evals/material-design/): 38 trigger queries, 16 task scenarios, 5 Kotlin and XML fixtures | [docs/material-design/validation.md](docs/material-design/validation.md) | [docs/material-design/architecture.md](docs/material-design/architecture.md), [docs/material-design/research/](docs/material-design/research/) |
 
-Headline results for `apple-hig` in Claude Code, one run each: 12 of 14 held-out trigger queries correct, and on
-eight task scenarios 47 of 50 assertions passed with the skill against 38 of 49 without. The report explains
-what the skill did not improve.
+Headline results in Claude Code, one run per query or scenario:
+
+| Skill | Held-out trigger queries | Task scenarios, assertions passed with / without the skill |
+|-------|--------------------------|-------------------------------------------------------------|
+| `apple-hig` | 12 of 14 installed alone; 11 of 14 with both skills installed | 47 of 50 / 38 of 49 (8 scenarios) |
+| `material-design` | 13 of 14 with both skills installed | 35 of 37 / 30 of 36 (6 scenarios) |
+
+With both installed, neither skill activated on the other's queries. The reports explain what the skills did
+not improve.
 
 ## Limitations
 
-- **Code examples were not compiled.** No Swift toolchain was available where `apple-hig` was built. API names
-  and availability were checked against Apple's documentation by the writers and again by a reviewer, but build
-  the examples before relying on them.
+- **Code examples were not compiled.** Neither a Swift toolchain nor an Android SDK was available where the
+  skills were built. Swift was checked against Apple's documentation and Kotlin against the androidx API
+  signature files, by the writers and again by a reviewer, but build the examples before relying on them. The
+  Compose Material 3 1.5.0 surface was read from a beta snapshot of the API file.
 - **Only Claude Code was exercised**, on one model, with one run per query. Other agents are untested.
-- **The measured benefit is narrow.** In the `apple-hig` evaluation the skill mainly stopped the agent
-  overstating rules and made it cite sources; on half the scenarios it changed nothing measurable and cost more
-  tokens.
+- **The measured benefit is narrow.** In both evaluations the skills mainly stopped the agent overstating rules
+  or inventing API details and made it cite sources; on about half the scenarios they changed nothing measurable
+  and cost more tokens.
 - **Guidance dates quickly.** Each reference file states when it was verified. The scheduled CI job checks that
   cited pages still exist, but not that their content is unchanged.
 - **Coverage is selective.** The skills cover interface design and the common components and patterns, not
-  every technology page (for `apple-hig`: Apple Pay, HealthKit, CarPlay, games, and similar get pointers only).
+  every technology page (for `apple-hig`: Apple Pay, HealthKit, CarPlay, games, and similar get pointers only;
+  for `material-design`: Wear OS, TV, cars, and XR are covered at overview depth, and Views less deeply than
+  Compose).
+- **Google publishes its own Android skills** for specific migrations (edge-to-edge, adaptive layouts, Wear and
+  TV, iOS to Android). `material-design` covers design guidance and review and is meant to sit alongside them.
 - **A linter cannot judge design.** `hig_lint.py` finds a narrow set of code patterns.
 - **This is not store-review guidance.** Following the guidelines does not guarantee approval by App Review or
   Google Play.
