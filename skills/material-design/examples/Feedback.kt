@@ -2,7 +2,7 @@
 //
 // Purpose: choosing the right feedback surface. A dialog for a decision that must be made
 // before continuing (destructive confirmation), a modal bottom sheet for a short list of
-// secondary actions, and a snackbar for brief, non-blocking confirmation with Undo.
+// secondary actions, and a snackbar for low-priority, non-blocking confirmation with Undo.
 //
 // Library versions: Compose BOM 2026.11.01; material3 1.5.x (also valid on 1.4.x: the sheet
 //   uses its default state, so neither rememberBottomSheetState (1.5+) nor the 1.4 state
@@ -78,16 +78,17 @@ fun DocumentScreen(onArchive: () -> Unit, onUndoArchive: () -> Unit, onDelete: (
             onArchive = {
                 showActions = false
                 onArchive()
-                // Snackbar: the action already happened and is reversible, so confirm it
-                // briefly without blocking and offer Undo. showSnackbar suspends until the
-                // snackbar is gone, hence the coroutine.
+                // Snackbar: the action already happened and is reversible, so confirm it without
+                // blocking and offer Undo. showSnackbar suspends until the snackbar is gone,
+                // hence the coroutine.
                 scope.launch {
                     val result = snackbarHostState.showSnackbar(
                         message = archivedMessage,
-                        actionLabel = undoLabel,
-                        // Explicit duration: a confirmation should leave by itself, and the
-                        // default for a snackbar with an action is to stay until dismissed.
-                        duration = SnackbarDuration.Long,
+                        actionLabel = undoLabel, // a single text action
+                        // Material: a snackbar with an action stays until the user acts on it
+                        // or dismisses it, so give it a dismiss affordance.
+                        duration = SnackbarDuration.Indefinite,
+                        withDismissAction = true,
                     )
                     if (result == SnackbarResult.ActionPerformed) onUndoArchive()
                 }

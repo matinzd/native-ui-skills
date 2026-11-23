@@ -11,7 +11,7 @@
 // Opt-ins: none.
 // Resources assumed: R.string.create_account, back, name_label, name_error, email_label,
 //   email_helper, email_error, password_label, password_helper, password_error;
-//   R.drawable.ic_arrow_back. Manifest: android:windowSoftInputMode="adjustResize".
+//   R.drawable.ic_arrow_back, ic_error. Manifest: android:windowSoftInputMode="adjustResize".
 //
 // Pages applied:
 //   https://m3.material.io/components/text-fields/guidelines
@@ -108,8 +108,10 @@ fun CreateAccountScreen(onSubmit: (NewAccount) -> Unit, onBack: () -> Unit) {
                 // A persistent label, never a placeholder as the only label: it stays visible
                 // after typing and is what TalkBack announces.
                 label = { Text(stringResource(R.string.name_label)) },
-                // Error = isError (error colors) plus text that says how to fix it; never color alone.
+                // Error = isError (error colors) plus an icon and text that says how to fix it;
+                // never color alone.
                 isError = nameError,
+                trailingIcon = if (nameError) { { ErrorIcon() } } else null,
                 supportingText = { if (nameError) Text(stringResource(R.string.name_error)) },
                 lineLimits = TextFieldLineLimits.SingleLine,
                 // The action key moves to the next field.
@@ -120,6 +122,7 @@ fun CreateAccountScreen(onSubmit: (NewAccount) -> Unit, onBack: () -> Unit) {
                 modifier = Modifier.fillMaxWidth(),
                 label = { Text(stringResource(R.string.email_label)) },
                 isError = emailError,
+                trailingIcon = if (emailError) { { ErrorIcon() } } else null,
                 // Helper text gives the expected format up front; the error text replaces it.
                 supportingText = {
                     Text(stringResource(if (emailError) R.string.email_error else R.string.email_helper))
@@ -136,6 +139,7 @@ fun CreateAccountScreen(onSubmit: (NewAccount) -> Unit, onBack: () -> Unit) {
                 modifier = Modifier.fillMaxWidth(),
                 label = { Text(stringResource(R.string.password_label)) },
                 isError = passwordError,
+                trailingIcon = if (passwordError) { { ErrorIcon() } } else null,
                 supportingText = {
                     Text(stringResource(if (passwordError) R.string.password_error else R.string.password_helper))
                 },
@@ -150,4 +154,10 @@ fun CreateAccountScreen(onSubmit: (NewAccount) -> Unit, onBack: () -> Unit) {
             }
         }
     }
+}
+
+@Composable
+private fun ErrorIcon() {
+    // Decorative: the error text below the field already carries the message.
+    Icon(painterResource(R.drawable.ic_error), contentDescription = null)
 }
