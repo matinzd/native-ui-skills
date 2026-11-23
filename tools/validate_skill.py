@@ -45,7 +45,7 @@ DEPRECATED = {
     r"\.tabItem\b": "tabItem (use Tab)",
     r"\bActionSheet\(": "ActionSheet (use confirmationDialog)",
     r"\bAlert\(title:": "Alert value (use alert(_:isPresented:actions:message:))",
-    r"\.navigationBarHidden\(": "navigationBarHidden (use toolbar(.hidden, for:))",
+    r"\.navigationBarHidden\(": "navigationBarHidden (use toolbarVisibility)",
     r"\.navigationBarTitle\(": "navigationBarTitle (use navigationTitle)",
     r"\.navigationBarItems\(": "navigationBarItems (use toolbar)",
     r"\.edgesIgnoringSafeArea\(": "edgesIgnoringSafeArea (use ignoresSafeArea)",
@@ -163,7 +163,7 @@ def check_frontmatter(rep: Report, skill_md: Path) -> tuple[dict, str]:
 
 
 LINK = re.compile(r"\[[^\]]*\]\(([^)\s]+)\)")
-TICKED = re.compile(r"`((?:references|examples|scripts|assets)/[A-Za-z0-9_./-]+)`")
+TICKED = re.compile(r"(?<![\w/.-])((?:references|examples|scripts|assets)/[A-Za-z0-9_/-]+\.[a-z]+)")
 
 
 def local_targets(text: str) -> list[str]:
@@ -213,6 +213,9 @@ def check_swift(rep: Report, where: Path, code: str, first_line: int, context: l
     if not balanced or stack:
         rep.error(where, f"Swift block starting at line {first_line} has unbalanced brackets")
     lines = code.splitlines()
+    first = next((ln for ln in lines if ln.strip()), "")
+    if first.lstrip().startswith("//") and MARKER.search(first):
+        return  # the whole block is labelled as a before / avoid sample
     for i, line in enumerate(lines):
         window = "\n".join((context + lines)[max(0, i + len(context) - 3): i + len(context) + 1])
         for pattern, label in DEPRECATED.items():
