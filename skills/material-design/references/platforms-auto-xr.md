@@ -42,7 +42,7 @@ Source: https://developer.android.com/training/cars, https://developer.android.c
 
 - [API] A driving app supplies models; the host (Android Auto or AAOS) renders them with vehicle-optimised templates and handles screen sizing. The app does not draw its own widgets, choose fonts, or control layout. Only navigation, POI and weather maps and the parked categories draw their own surface.
 - [API] Structure: a `CarAppService` creates a `Session`, which manages a stack of `Screen` objects; each screen returns a template. The host's back button or the hardware back button pops the stack.
-- [Req] The screen stack can have a maximum depth of five screens.
+- [API] The screen stack can have a maximum depth of five screens.
 
 | Template | Shows |
 |---|---|

@@ -182,7 +182,7 @@ Source: https://m3.material.io/components/progress-indicators/guidelines, https:
 - [API] The page states the loading indicator is used for pull to refresh on Jetpack Compose only.
 - [Req] Pull to refresh: the indicator "must" pass a threshold before the app refreshes; reversing the gesture past the threshold cancels.
 - [MD] Keep the indicator in view until the refresh completes; do not let it scroll off screen. Pull to refresh belongs at the start of lists, grids and card collections with frequently updated content.
-- [Req] Pull to refresh cannot be the only way to refresh: provide a single-pointer alternative, such as a refresh action in a menu or app bar.
+- [MD] Pull to refresh cannot be the only way to refresh: provide a single-pointer alternative, such as a refresh action in a menu or app bar.
 - [Req] The indicator "must" have 3:1 contrast with its background (the container need not). Progress bar role, with a label such as "Refreshing page".
 
 Source: https://m3.material.io/components/loading-indicator/guidelines, https://m3.material.io/components/loading-indicator/specs, https://m3.material.io/components/loading-indicator/accessibility

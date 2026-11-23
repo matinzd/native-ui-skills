@@ -210,12 +210,6 @@
     "note": "background work"
   },
   {
-    "query": "Navigation Compose with type-safe routes: how do I pass a Parcelable argument with kotlinx.serialization",
-    "should_trigger": false,
-    "split": "train",
-    "note": "navigation plumbing, not navigation design"
-  },
-  {
     "query": "@material/web md-filled-button: change the container shape with CSS custom properties in a Lit component",
     "should_trigger": false,
     "split": "validation",
@@ -226,12 +220,6 @@
     "should_trigger": false,
     "split": "train",
     "note": "image generation"
-  },
-  {
-    "query": "write Compose UI tests with createComposeRule for LoginScreen - button disabled until both fields are filled",
-    "should_trigger": false,
-    "split": "validation",
-    "note": "UI testing, not design"
   },
   {
     "query": "React Native Paper BottomNavigation: the badge doesn't update when my redux state changes",

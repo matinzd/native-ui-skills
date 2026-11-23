@@ -153,16 +153,16 @@ Details: `references/components-navigation.md`, `references/components-presentat
   A compact window uses a navigation bar, not a standard navigation rail.
 - [MD] A navigation bar and a navigation rail are never shown together, and a toolbar at the bottom of the
   window is not shown at the same time as a navigation bar.
-- [MD] Every navigation item keeps its text label, which is not wrapped or truncated. Material asks for one
-  or two words and publishes no character limit.
+- [Req] Every navigation item has a text label (the page says items "require" one). [MD] It is not wrapped
+  or truncated; Material asks for one or two words and publishes no character limit.
 - [MD] A collapsed navigation rail has three to seven items and is not hidden.
 - [MD] The navigation drawer is no longer recommended (Material 3 Expressive); new work uses the expanded
   navigation rail. An existing drawer is not a violation.
 - [MD] A dialog is for critical information or a decision that needs an answer. Low- and medium-priority
   information belongs in a snackbar.
-- [MD] A dialog has at most two actions: a single action only as an acknowledgement, otherwise one confirming
-  and one dismissing action with the confirming one nearest the trailing edge. A third action such as "Learn
-  more" is not recommended.
+- [MD] A dialog has at most two actions, the confirming one nearest the trailing edge; a third action such as
+  "Learn more" is not recommended. [Req] The page words the make-up as a "must": a single action is an
+  acknowledgement; of two, one confirms and one dismisses.
 - [MD] A dialog headline is a brief, specific statement or question, not "Are you sure?".
 - [MD] Full-screen dialogs are for compact breakpoints only; from medium up use a basic dialog.
 - [MD] Only one snackbar shows at a time, with at most one action, shown as a text button. A snackbar with an
@@ -183,7 +183,7 @@ Details: `references/components-controls.md`, `references/implementation-availab
   actions and is not shown disabled: when its action is unavailable it does not appear.
 - [MD] Filled buttons mark the most important actions. Button labels are sentence case, on one line, never
   truncated, and ideally one to three words.
-- [MD] Every text field has a label that stays visible. Error text replaces the supporting text instead of
+- [MD] Every text field has a label that stays visible (or a separate adjacent label). Error text replaces the supporting text instead of
   being added below it. [Conv] A placeholder alone is not a label, because it disappears on input.
 - [MD] A switch is for a setting that takes effect immediately, without a save step. Use checkboxes to
   select several related options in a list.
@@ -227,7 +227,7 @@ Source: https://developer.android.com/guide/navigation/custom-back/predictive-ba
 | Mistake | Fix |
 |---------|-----|
 | Calling every departure from Material a "violation" | State the strength: "Don't" captions and "should" are recommendations |
-| Citing numbers Material does not publish (minimum font size, FAB edge margin, one snackbar duration, a label character limit) | Cite only numbers from a linked page; otherwise say Material gives none |
+| Citing numbers Material does not publish (minimum font size, FAB edge margin, one snackbar duration, a label character limit) | Cite only numbers from a linked page; otherwise say Material gives none (Android's design page, not Material, says body text no smaller than 12sp) |
 | Reporting a deprecated API on a library version that lacks the replacement | Check the project's version first |
 | Reviewing a tablet, foldable, watch, TV, or car screen by phone rules | Load the form factor's file first and review against the window size, not the device |
 | Copying iOS conventions (a tab bar's rules, Cancel and Done placement, an in-app back button on every screen) | Review against Android navigation, system Back, and Material components |

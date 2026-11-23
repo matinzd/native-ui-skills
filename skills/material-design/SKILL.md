@@ -56,8 +56,8 @@ Do this before giving advice, because the right answer changes with each.
   phone app in Jetpack Compose with Material 3 on the current stable library line, mark anything experimental,
   and state the assumption in one line.
 - Match the project's toolkit. Do not rewrite Views in Compose, or Material 2 in Material 3, unless asked.
-- If Google's official Android skills are installed and one covers the task as a migration (for example
-  edge-to-edge), use it for the mechanical steps and this skill for the design decisions and review.
+- If another installed skill covers the task as a mechanical migration (Google publishes Android skills for
+  some, such as edge-to-edge), use it for the steps and this skill for the design decisions and review.
 
 ## Step 2: Identify the task and follow its workflow
 
@@ -66,7 +66,7 @@ Do this before giving advice, because the right answer changes with each.
 | Design (no code yet) | Clarify content and goals. Choose navigation for each window size class, then the presentations, then the controls (the `components-*` files), checked against the form-factor file. Give the structure per size class, the reason for each choice with its source, and the accessibility implications. |
 | Implement | Pick Material components first. Pair the `components-*` file for the design rule with the `implementation-*` file for the API, and start from the closest example. Write code for the project's library versions, with opt-ins for experimental APIs. Use theme colors, type styles in sp, and Scaffold insets. Add content descriptions and semantics for anything TalkBack cannot infer. |
 | Review | Follow `references/review-guide.md`. Report findings in the format below. Review what exists; do not redesign. |
-| Refactor or migrate | Change only what the request and the confirmed findings require. Keep behavior, naming, and structure. List other improvements as optional instead of applying them. |
+| Refactor or migrate | For Material 2 to Material 3, start from the name mapping in `references/implementation-availability.md`. Change only what the request and the confirmed findings require. Keep behavior, naming, and structure. List other improvements as optional instead of applying them. |
 | Accessibility audit | Use `references/accessibility-guidelines.md` and `references/accessibility-implementation.md`. Cover vision, mobility, hearing, and cognition, not only content descriptions. |
 | Adapt to another form factor, or from iOS | Use `references/platforms-adaptation.md` plus the target form factor's file. Keep content and identity; rebuild navigation, input, and density for the target. |
 
@@ -90,15 +90,15 @@ three; adaptation needs the target form-factor file plus the adaptation playbook
 | Type scale, sizes, font scaling | `references/foundations-typography.md` |
 | Shape, elevation, motion, Material 3 Expressive | `references/foundations-shape-motion.md` |
 | Material Symbols, interface copy, capitalization | `references/foundations-icons-writing.md` |
-| Navigation bar, rail, drawer, app bars, tabs, search | `references/components-navigation.md` |
+| Navigation bar, rail, drawer, app bars, toolbars, tabs, search | `references/components-navigation.md` |
 | Dialogs, bottom and side sheets, snackbars, menus, tooltips | `references/components-presentation.md` |
 | Buttons, FABs, chips, switches, checkboxes, sliders, pickers, text fields | `references/components-controls.md` |
-| Cards, lists, carousels, dividers, progress and loading indicators, badges | `references/components-content.md` |
+| Cards, lists, carousels, dividers, progress and loading indicators, badges; numbers Material does not publish | `references/components-content.md` |
 | Accessibility guidance and audit checklist | `references/accessibility-guidelines.md` |
 | Compose semantics, touch target APIs, accessibility testing | `references/accessibility-implementation.md` |
-| Library versions, stable versus experimental, deprecated APIs and replacements | `references/implementation-availability.md` |
+| Library versions, stable versus experimental, deprecated APIs and replacements, Material 2 to Material 3 name mapping | `references/implementation-availability.md` |
 | Theme, color scheme, dynamic color, typography, shapes, icons in code | `references/implementation-theming.md` |
-| Scaffold, app bars, navigation components, adaptive scaffolds, Back, insets in code | `references/implementation-navigation.md` |
+| Scaffold, app bars, navigation components, tabs, search, adaptive scaffolds, navigation libraries, Back, insets in code | `references/implementation-navigation.md` |
 | Buttons, selection controls, text fields, dialogs, sheets, snackbars, lists in code | `references/implementation-components.md` |
 | Views and XML with Material Components for Android | `references/implementation-views.md` |
 | Review procedure, severity, checkable rules | `references/review-guide.md` |
@@ -123,14 +123,13 @@ All of these are recommendations unless a reference says otherwise (verified 202
 | Window width | Breakpoint | Navigation | Panes |
 |--------------|------------|------------|-------|
 | Under 600dp | Compact | Navigation bar | One |
-| 600 to 839dp | Medium | Navigation bar or navigation rail | One |
+| 600 to 839dp | Medium | Navigation rail; a bar is allowed (pages disagree) | One |
 | 840 to 1199dp | Expanded | Navigation rail | Up to two |
 | 1200 to 1599dp | Large | Navigation rail | Up to two |
 | 1600dp and wider | Extra-large | Navigation rail | Up to three |
 
-Material's pages disagree about medium width (the navigation bar page allows a bar or a rail; the navigation
-rail and desktop pages say rail) and about pane counts at the largest sizes; `references/foundations-layout.md`
-gives each page's wording. Breakpoints describe the window, not the device: the same app is compact in split screen and expanded when
+Material's pages disagree about navigation at medium width and about pane counts at the largest sizes;
+`references/foundations-layout.md` gives each page's wording and a working rule. Breakpoints describe the window, not the device: the same app is compact in split screen and expanded when
 unfolded. Material renamed "window size classes" to "breakpoints" in 2026; the Android libraries still say window
 size class.
 
@@ -166,7 +165,7 @@ https://developer.android.com/docs/quality-guidelines/core-app-quality
 - **Component motion uses spring-based motion schemes**, not easing-and-duration tokens.
 - **Do not set status bar or navigation bar colors, lock orientation on large screens, or override
   `onBackPressed`.** Edge-to-edge, large-screen resizability, and predictive back are platform behaviour tied to
-  `targetSdk` 35 and 36; see `references/platforms-system.md`.
+  `targetSdk` 35 and 36; see `references/platforms-system.md` and `references/platforms-large-screens.md`.
 - **Compose renames and deprecations are frequent** (`Divider`, `TabRow`, older `ListItem`, `Slider`, and search
   bar overloads; the Material icons library is no longer bundled). Material 2 Compose is deprecated, and the
   Views library is in maintenance mode.
@@ -219,9 +218,13 @@ when one fix resolves several of them. Keep fixes minimal. A full example is in 
 
 - Each reference section ends with a `Source:` link and each file states when it was verified. Cite the official
   URL in your answer, not this skill.
-- What the references state is already verified; do not fetch Google's pages to re-confirm it. Check online only
-  when the answer depends on something this skill does not cover, and try once: if the fetch fails, say the
-  point is unverified and move on.
+- What the references state was checked on the date in each file, except bullets tagged `[Unverified]`. API
+  status comes from the nearest published API snapshot and can differ slightly from a final release. Do not
+  re-fetch pages to re-confirm it. Check online only when the answer depends on something this skill does not
+  cover, and try once: if the fetch fails, say the point is unverified and move on.
+- API names, stability, and replacements are not in this file. For any question about whether a composable or
+  modifier exists, is experimental, or is deprecated, open `references/implementation-availability.md` before
+  answering.
 - To check a claim: `https://m3.material.io/` pages are rendered by JavaScript, so a plain HTTP fetch returns an
   empty shell and needs a browser. `https://developer.android.com/` pages are plain HTML. Compose Material 3
   signatures, experimental annotations, and deprecations are in the public API file

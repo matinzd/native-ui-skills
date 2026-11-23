@@ -26,7 +26,7 @@ Verified: 2026-11-23 against the sources linked in each section (Android 16/17, 
 
 | Level | Change relevant to UI | Tag |
 |---|---|---|
-| targetSdk 33 (Android 13) | Notifications need the `POST_NOTIFICATIONS` runtime permission; the app decides when to ask. Themed icons use the `monochrome` layer | [API] |
+| targetSdk 33 (Android 13) | Notifications need the `POST_NOTIFICATIONS` runtime permission; the app decides when to ask. (Android 13 devices, any target: themed icons use the `monochrome` layer) | [API] |
 | Android 14 device | Font scale up to 200% with a non-linear curve (all apps) | [API] |
 | targetSdk 35 (Android 15) | Edge-to-edge enforced; status bar and gesture navigation bar transparent; `setStatusBarColor` and `R.attr#statusBarColor` have no effect; non-floating windows always lay out into the cutout; `Configuration` screen size no longer excludes system bars; opt-out `R.attr#windowOptOutEdgeToEdgeEnforcement` available | [API] |
 | Android 15 device | Predictive back system animations no longer sit behind a developer option; they show for apps that opted in | [API] |
@@ -72,7 +72,7 @@ Source: https://developer.android.com/design/ui/mobile/guides/foundations/system
 - [API] Supported from Android 9 (API 28). At targetSdk 35 on Android 15+, or after `enableEdgeToEdge`, non-floating windows draw into the cutout area: `DEFAULT`, `SHORT_EDGES` and `NEVER` are read as `LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS`.
 - [MD] Keep important text, controls and fine-touch elements out of the cutout using `WindowInsets.displayCutout`, `safeDrawing` or `safeContent`. The design page words this as something apps "must" do; it is guidance, not an enforced rule.
 - [MD] Solid app-bar backgrounds and horizontal carousels should extend into the cutout; only their content is inset.
-- [API] Never hard-code the status bar height.
+- [MD] Do not hard-code the status bar height.
 
 Source: https://developer.android.com/develop/ui/compose/system/cutouts, https://developer.android.com/design/ui/mobile/guides/layout-and-content/edge-to-edge
 

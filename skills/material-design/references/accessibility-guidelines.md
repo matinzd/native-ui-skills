@@ -70,14 +70,14 @@ Source: https://m3.material.io/foundations/designing/structure , https://m3.mate
 - [MD] Android's design page states the simpler pair: text to background at least 4.5:1, and 3:1 between surfaces and non-text elements.
 - [MD] Use color roles in their intended pairs; "on" roles are designed to contrast with their partner, and wrong pairs fail when the user raises the contrast level. See `references/foundations-color.md`.
 - [API] Material color roles support three user contrast levels: standard, medium (a 3:1 minimum) and high (7:1 on essential elements). A static scheme is listed as not offering user-controlled contrast.
-- [MD] Icons in a navigation bar must have at least 3:1 against the container (component page wording); see `references/components-navigation.md`.
+- [Req] Icons in a navigation bar must have at least 3:1 against the container (component page wording); see `references/components-navigation.md`.
 
 Source: https://m3.material.io/foundations/designing/color-contrast , https://m3.material.io/styles/color/roles , https://m3.material.io/styles/color/system/how-the-system-works , https://m3.material.io/foundations/writing/best-practices , https://developer.android.com/guide/topics/ui/accessibility/apps , https://developer.android.com/design/ui/mobile/guides/foundations/accessibility , https://developer.android.com/docs/quality-guidelines/core-app-quality
 
 ## Color independence
 
 - [MD] Do not let color be the only cue. Android: distinguish elements with shape, size, text, patterns, or audio and haptic feedback in addition to color.
-- [MD] Use more than one visual affordance for actions such as links (Android design). Material requires hyperlinked text to be underlined as well as colored.
+- [MD] Use more than one visual affordance for actions such as links (Android design). [Req] Material states that hyperlinked text must also be underlined.
 - [MD] Material states have two visual indicators for accessibility; a focused element shows a state layer plus a ring-like focus indicator.
 - [MD] Text fields in error: an error icon is strongly recommended as a second indicator next to the error color.
 - [MD] Do not replace colors with conventional meaning (error red, positive green) with dynamic content-based color.

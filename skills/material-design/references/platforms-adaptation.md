@@ -148,7 +148,7 @@ Keep
 Change
 - [Req] First check the category: only media, messaging and calling, navigation, POI, IoT and weather apps may be used while driving; video, games and browsers only while parked (`PC-1`).
 - [API] Driving UI is assembled from Car App Library templates rendered by the host; media apps expose a media browser and session instead of screens.
-- [Req] Flows of 5 steps or fewer (aim for 2 or 3); at most five screens on the stack.
+- [Req] Flows of 5 steps or fewer (2 to 3 is a SHOULD). [API] At most five screens on the stack.
 - [MD] Text short enough to read at a glance (1 to 3 lines, 120 characters); voice entry points.
 
 Add

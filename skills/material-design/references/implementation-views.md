@@ -110,7 +110,7 @@ Source: https://raw.githubusercontent.com/material-components/material-component
 
 ## Edge-to-edge and Back in Views
 
-- [Req] Edge-to-edge is enforced on Android 15+ once the app targets SDK 35, and the opt-out is disabled for apps targeting API 36 on Android 16; View apps must handle insets too.
+- [API] Edge-to-edge is enforced on Android 15+ once the app targets SDK 35, and the opt-out is disabled for apps targeting API 36 on Android 16; View apps must handle insets too.
 - [API] Enable it on older versions in `onCreate`: the Views guide calls `WindowCompat.enableEdgeToEdge(window)`; `ComponentActivity.enableEdgeToEdge()` from `androidx.activity` does the same through activity 1.13 (deprecated in 1.14.0-alpha03).
 - [API] Apply insets with `ViewCompat.setOnApplyWindowInsetsListener(view) { v, windowInsets -> val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars()); ...; WindowInsetsCompat.CONSUMED }`: margins for floating controls such as a FAB, padding plus `android:clipToPadding="false"` for a `RecyclerView` so content scrolls behind the bars. Combine `Type.systemBars()` with `Type.displayCutout()` for lists; use `Type.systemGestures()` for gesture conflicts.
 - [API] Material widgets help: set `android:fitsSystemWindows="true"` on `AppBarLayout` (or on the `MaterialToolbar` when there is no `AppBarLayout`) so the bar pads itself below the status bar; `BottomSheetBehavior` handles insets with `app:paddingBottomSystemWindowInsets` and its siblings; `NavigationView` and `NavigationRailView` fit system windows by default.

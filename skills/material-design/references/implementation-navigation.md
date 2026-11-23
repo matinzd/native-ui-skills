@@ -261,7 +261,7 @@ Source: https://developer.android.com/guide/navigation/custom-back/predictive-ba
 
 ## Edge-to-edge and window insets
 
-- [Req] Edge-to-edge is enforced on Android 15+ devices for apps targeting SDK 35; apps targeting API 36 cannot opt out on Android 16. The app must handle insets.
+- [API] Edge-to-edge is enforced on Android 15+ devices for apps targeting SDK 35; apps targeting API 36 cannot opt out on Android 16. The app must handle insets.
 - [MD] Enable edge-to-edge in `onCreate` so older Android versions behave the same. Bars become transparent, with a translucent scrim only for three-button navigation.
 - [API] Two spellings: `ComponentActivity.enableEdgeToEdge(statusBarStyle, navigationBarStyle)` from `androidx.activity` (added in 1.8.0, not deprecated in stable 1.13, deprecated in 1.14.0-alpha03) and `WindowCompat.enableEdgeToEdge(window)` from `androidx.core`, which the 1.14 alpha notes and the Views guide name as the replacement. [Unverified] The androidx.core version that introduced the latter was not checked.
 - [API] `window.statusBarColor` and `android:statusBarColor` are deprecated and have no effect on Android 15; draw your own background behind the bar instead.

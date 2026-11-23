@@ -95,7 +95,7 @@ Source: https://m3.material.io/components/button-groups/overview, https://m3.mat
 - [MD] In dialogs, text buttons align to the trailing edge.
 - [MD] Toggle buttons are for binary selections (Save, Favorite): outlined icon when unselected, filled when selected (or a heavier weight if no filled icon exists); shape flips between round and square on selection. Keep the label length similar in both states. There is no toggle text button.
 - [MD] Enabled buttons need 3:1 against the background (container for elevated, filled and tonal; label for outlined and text). On Android a label should fit within two lines at 200% text size. The accessibility label matches the visible label.
-- [Req] The specs page says extra small and small buttons "must" have a 48 x 48 or larger target.
+- [Req] The specs page says extra small and small sizes "must" have a 48 x 48 or larger target (its sentence names "icon buttons").
 
 | Size | Height | Icon | Leading and trailing space | Square corner | Pressed corner |
 |---|---|---|---|---|---|
