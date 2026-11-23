@@ -38,7 +38,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/launching,
 ## Launching and launch screens
 
 - [HIG] Launch as fast as possible; people may not want to wait more than a couple of seconds.
-- [Req] iOS, iPadOS and tvOS display a launch screen the moment the app starts. macOS, visionOS and watchOS do not require one.
+- [Req] iOS, iPadOS and tvOS require a launch screen, which the system displays the moment the app starts. [API] macOS, visionOS and watchOS do not require one.
 - [HIG] The launch screen exists only to make launch feel fast. It is not onboarding, a splash screen or artistic expression.
 - [HIG] Make it nearly identical to the first screen (a solid color if the app starts with one), matching current orientation and appearance mode.
 - [HIG] No text on the launch screen, even if the first screen has text: it is static and cannot be localized.
@@ -121,7 +121,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/entering-d
 | Platform | Rules |
 |---|---|
 | macOS | [HIG] Provide a Settings item in the App menu (document-level options in the File menu); no settings button in the window toolbar. Settings window: minimize and maximize dimmed; noncustomizable toolbar that always shows the active pane; window title is the current pane name ("App Name Settings" if there is one pane); reopen on the last viewed pane. |
-| watchOS | [Req] Apps cannot add custom settings to the system Settings app. [HIG] Put a few essential options at the bottom of the main view or in a More menu. |
+| watchOS | [API] Apps cannot add custom settings to the system Settings app. [HIG] Put a few essential options at the bottom of the main view or in a More menu. |
 | iOS, iPadOS, tvOS, visionOS | No additional considerations. |
 
 Source: https://developer.apple.com/design/human-interface-guidelines/settings, https://developer.apple.com/design/human-interface-guidelines/dark-mode
@@ -182,7 +182,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/searching
 
 ## Going full screen
 
-- [Req] Full-screen modes exist on iPhone, iPad and Mac. Not supported in tvOS or watchOS (apps already fill the screen) or visionOS (immersion instead).
+- [API] Full-screen modes exist on iPhone, iPad and Mac. Not supported in tvOS or watchOS (apps already fill the screen) or visionOS (immersion instead).
 - [HIG] Offer full screen for games, media viewing and in-depth tasks that benefit from fewer distractions.
 - [HIG] Adjust layout subtly if needed, but do not programmatically resize the window.
 - [HIG] Keep essential controls available or easy to reveal (playback controls).
@@ -211,7 +211,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/offering-h
 - [HIG] Do not interrupt a task or gameplay; pick natural pauses.
 - [HIG] Do not pester: leave at least a week or two between requests and wait for further engagement.
 - [HIG] Prefer the system-provided prompt (iOS, iPadOS, macOS; `RequestReviewAction`).
-- [Req] The system limits the prompt to three displays per app in a 365-day period, and people can turn the prompts off for all apps; a request may therefore show nothing.
+- [API] The system limits the prompt to three displays per app in a 365-day period, and people can turn the prompts off for all apps; a request may therefore show nothing.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/ratings-and-reviews
 
@@ -220,7 +220,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/ratings-an
 - [HIG] Put the Share button somewhere convenient such as the toolbar; use the system share sheet or sharing popover (SwiftUI `ShareLink`).
 - [HIG] Summarize sharing permissions in a short phrase ("Only invited people can edit") and keep custom sharing options few and grouped.
 - [HIG] Show the system Collaboration button prominently once collaboration starts, next to the Share button; add custom actions to its popover only if essential.
-- [HIG] Activity view rules: `references/components-presentation.md`. Not available in tvOS.
+- Activity view rules: `references/components-presentation.md`. [API] Not available in tvOS.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/collaboration-and-sharing
 
@@ -245,7 +245,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/patterns
 | Prefilled or plain-text password field | Secure field, empty |
 | Form that reports all errors only on submit | Validate as values are entered; message next to the field |
 | Blank screen with a centered spinner while everything loads | Placeholders and progressive content; determinate progress when measurable |
-| In-app Dark Mode or text-size switch duplicating system settings | Follow the system setting |
+| In-app Dark Mode switch, or a text-size switch on a platform with Dynamic Type (iOS, iPadOS, tvOS, visionOS, watchOS), duplicating system settings | Follow the system setting (macOS has no Dynamic Type; in-app text sizing is fine there) |
 | View options (sort, filter) buried in a settings screen | Put task-specific options in the task |
 | Modal flow with its own deep navigation and several close-like buttons | Single path, one obvious dismiss control |
 | Dismissing an edited modal silently discards work | Confirm and offer save |

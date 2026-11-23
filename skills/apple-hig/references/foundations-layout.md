@@ -128,10 +128,10 @@ These numbers come from the Accessibility and Buttons pages, not the Layout page
 
 - [HIG] Padding of about 12 pt around elements that have a bezel; about 24 pt around the visible edges of elements
   without a bezel.
-- [HIG] HIG inconsistency to flag: common lore and the Buttons page say a button needs a hit region of at least
+- [Conv] HIG inconsistency to flag (the reconciliation below is this skill's working rule): common lore and the Buttons page say a button needs a hit region of at least
   44x44 pt (60x60 pt in visionOS), while the Accessibility table lists 44x44 as the iOS default and 28x28 as the
-  minimum. Use 44x44 pt (60x60 in visionOS) as the target for buttons; treat 28x28 as the floor for dense secondary
-  controls, and report anything below 44 as a warning, not a hard failure.
+  minimum. Keep tappable regions at the default size (44x44 pt; 60x60 in visionOS); treat the 28x28 minimum as a floor for
+  dense layouts, not a target, and report anything below 44 as a warning, not a hard failure.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/accessibility
 Source: https://developer.apple.com/design/human-interface-guidelines/buttons

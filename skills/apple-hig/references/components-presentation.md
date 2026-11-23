@@ -65,7 +65,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/alerts, ht
 
 ## Sheets
 
-- [Req] Sheets are always modal on macOS, tvOS, visionOS and watchOS. On iOS and iPadOS a sheet can be modal or nonmodal.
+- [API] Sheets are always modal on macOS, tvOS, visionOS and watchOS. On iOS and iPadOS a sheet can be modal or nonmodal.
 - [HIG] Use a sheet for a scoped task closely related to the current context. For complex or long flows use a full-screen modal, a window, or full-screen mode instead.
 - [HIG] Show one sheet at a time from the main interface. If an action in a sheet needs another sheet, close the first, show the second, and reopen the first afterwards if needed.
 - [HIG] Button meanings: Cancel (or Close) dismisses without saving; Done dismisses after completing or saving; Back moves to a previous step and is not a dismiss control.
@@ -89,7 +89,7 @@ When to use:
 - [HIG] At startup problems (no network), show cached or placeholder content plus a nonintrusive label instead.
 
 Content:
-- [Req] An alert has a title, optional informative text and up to three buttons. Text fields are available on iOS, iPadOS, macOS, visionOS; icon and accessory view on macOS and visionOS; suppression checkbox and Help button on macOS.
+- [API] An alert has a title, optional informative text and up to three buttons. Text fields are available on iOS, iPadOS, macOS, visionOS; icon and accessory view on macOS and visionOS; suppression checkbox and Help button on macOS.
 - [HIG] Title: specific and succinct (what happened, context, why). Not "Error" or an error code; no more than two lines. Full sentence: sentence-style capitalization with ending punctuation. Fragment: title-style capitalization, no ending punctuation.
 - [HIG] Informative text only when it adds value; short complete sentences.
 - [HIG] Do not explain the buttons in the text. Include a text field only when input is needed to resolve the situation.
@@ -116,7 +116,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/alerts
 - [HIG] Destructive choices use the destructive style and go at the top.
 - [HIG] iOS, iPadOS: use an action sheet, not a menu, for choices following an action (menus appear when people ask for them). Do not let it scroll.
 - [HIG] watchOS: no more than four buttons including Cancel (Cancel is required there).
-- [Req] Not supported in visionOS.
+- [API] Not supported in visionOS.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/action-sheets
 
@@ -132,7 +132,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/action-she
 - [HIG] Do not use a popover for a warning.
 - [HIG] iOS, iPadOS: avoid popovers in compact width; present a sheet instead, deciding by size class.
 - [HIG] macOS: consider detachable popovers that become panels; keep the detached look close to the original.
-- [Req] Not supported in tvOS or watchOS.
+- [API] Not supported in tvOS or watchOS.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/popovers
 
@@ -166,7 +166,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/menus, htt
 - [HIG] iOS, iPadOS, visionOS: put destructive items at the end and mark them destructive.
 - [HIG] iOS, iPadOS: offer a context menu or an edit menu for an item, not both. Previews should clarify the target and keep a matching clipping shape during animation. On iPadOS a context menu on empty space can create new objects.
 - [HIG] visionOS: keep the menu shorter than the window height; a context menu can replace a panel or inspector for frequent functions.
-- [Req] Not supported in watchOS. No additional considerations for tvOS.
+- [API] Not supported in watchOS. No additional considerations for tvOS.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/context-menus
 
@@ -184,7 +184,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/context-me
 - [HIG] Pop-up: provide a useful default selection; make options predictable from an introductory label or the button label; a Custom item can hold rarely needed options.
 - [HIG] iPadOS: inside a popover or modal view, a pop-up button can replace a disclosure-indicator row for a small, well-defined option set.
 - [HIG] visionOS: avoid pull-down menus in toolbars.
-- [Req] Neither is supported in tvOS or watchOS.
+- [API] Neither is supported in tvOS or watchOS.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/pull-down-buttons, https://developer.apple.com/design/human-interface-guidelines/pop-up-buttons
 
@@ -196,13 +196,13 @@ Source: https://developer.apple.com/design/human-interface-guidelines/pull-down-
 - [HIG] Let people select and copy useful noneditable content text, but not control labels.
 - [HIG] Support undo and redo; avoid other controls that duplicate edit menu commands.
 - [HIG] iOS, iPadOS: the menu is a compact horizontal bar for touch and a vertical context-style menu for keyboard or pointer; make it work in both, and move it if it covers important content.
-- [Req] tvOS and watchOS provide no edit menu.
+- [API] tvOS and watchOS provide no edit menu.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/edit-menus
 
 ## Panels and inspectors (macOS)
 
-- [Req] Panels are macOS only. On other platforms present supplementary content with a modal view, a nonmodal sheet (iOS, iPadOS) or a split view pane.
+- [API] Panels are macOS only. On other platforms present supplementary content with a modal view, a nonmodal sheet (iOS, iPadOS) or a split view pane.
 - [HIG] Use a panel for controls or information about the active window or selection. An inspector updates with the selection and fits a panel or a split view pane; an Info window (fixed content) is a regular window.
 - [HIG] Prefer simple adjustment controls (sliders, steppers) over text entry in panels.
 - [HIG] Give it a short noun title in title-style capitalization ("Inspector"). Bring panels forward when the app activates, hide them when it deactivates, keep them out of the Window menu's document list, and generally disable minimize.
@@ -217,7 +217,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/panels
 - [HIG] Exclude system activities that make no sense for the content; show custom ones only when applicable.
 - [HIG] Custom action titles: a verb or short verb phrase, no company or product name. Custom icons: prefer SF Symbols; a custom icon is centered in an area of about 70x70 px.
 - [HIG] Extensions: keep interaction to a few steps; do not stack another modal over an extension (an alert is the exception); report long-running progress in the main app, not with a completion notification.
-- [Req] Activity views are not supported in macOS (share and action extensions are), tvOS or watchOS. watchOS can present the share sheet through `ShareLink` (Collaboration and sharing page).
+- [API] Activity views are not supported in macOS (share and action extensions are), tvOS or watchOS. watchOS can present the share sheet through `ShareLink` (Collaboration and sharing page).
 
 Source: https://developer.apple.com/design/human-interface-guidelines/activity-views, https://developer.apple.com/design/human-interface-guidelines/collaboration-and-sharing
 

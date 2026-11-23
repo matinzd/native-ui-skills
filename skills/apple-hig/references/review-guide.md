@@ -22,16 +22,14 @@ Verified: 2026-11-23 against the sources linked in each section (SDK cycle: OS 2
    the top of the report.
 2. Read the whole screen before judging parts of it: what is the content, what is the main task, how does a
    person get in and out.
-3. For Swift code, optionally run `python3 scripts/hig_lint.py <path>` to collect leads. Confirm each lead by
-   reading the surrounding code; drop leads that the context makes fine (a deprecated API inside an availability
+3. For Swift code, optionally run `scripts/hig_lint.py` (in this skill's directory; call it by absolute path
+   with Python 3 and pass the path to scan) to collect leads. Confirm each lead by reading the surrounding code; drop leads that the context makes fine (a deprecated API inside an availability
    fallback, a fixed size on a decorative shape, a tap gesture that is not an action).
 4. Walk the checkable rules below in order. Open the linked reference only for areas where something looks off.
 5. Write findings in the format given in `SKILL.md`: class, severity, where, why, source, fix. Group repeated
    instances into one finding and list the locations.
 6. Finish with what could not be verified and what already works. Do not pad the report: five findings that
    matter are more useful than twenty.
-
-Source: https://developer.apple.com/design/human-interface-guidelines
 
 ## What evidence allows which claims
 
@@ -54,10 +52,10 @@ Use exactly one class per finding. Ask the questions in order and stop at the fi
 
 | Question | Class |
 |----------|-------|
-| Does it use an API that is unavailable or deprecated for the stated minimum OS, or contradict an explicit HIG statement you can link? | Confirmed guideline or API violation |
+| Does it use an API that is unavailable on the minimum OS, or a deprecated API whose replacement is available on it, or break something Apple states as mandatory (tagged `[Req]`)? | Confirmed guideline or API violation |
 | Is a person using an assistive setting or technology blocked or disadvantaged? | Accessibility issue |
 | Does it work but differ from what people expect on this platform? | Platform convention mismatch |
-| Would following a HIG recommendation make it better, though nothing is broken? | Recommended improvement |
+| Does it depart from a HIG recommendation you can link, though nothing is broken? | Recommended improvement |
 | Is it your judgment, with no source? | Subjective design suggestion |
 
 - [Conv] When a problem is both an accessibility barrier and a HIG statement, class it as an accessibility
@@ -68,8 +66,6 @@ Use exactly one class per finding. Ask the questions in order and stop at the fi
   convention mismatches. Do not present them as HIG violations.
 - [Conv] A deprecated API is a violation only as "deprecated, replacement available for this target". If the
   replacement needs a newer OS than the project supports, it is not a finding.
-
-Source: https://developer.apple.com/design/human-interface-guidelines
 
 ## Choosing the severity
 

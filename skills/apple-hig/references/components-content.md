@@ -64,7 +64,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/lists-and-
 - [HIG] Default interactions are tap to select, touch and hold to edit, swipe to scroll; add custom gestures only if required.
 - [HIG] Consider animations for insert, delete and reorder.
 - [HIG] iOS, iPadOS: be careful with dynamic layout changes; avoid changing layout while people are viewing or interacting unless they asked for it.
-- [Req] Not supported in watchOS.
+- [API] Not supported in watchOS.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/collections
 
@@ -77,7 +77,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/collection
 - [HIG] In editable cells, a single click edits; a double click may do something else (open).
 - [HIG] Prefer a centered ellipsis to clipping. Consider a toolbar search field for long outlines.
 - [HIG] Column view: root level in the first column; show information about the selected item when it has no children; let people resize columns.
-- [Req] Neither is supported in iOS, iPadOS, tvOS, visionOS or watchOS.
+- [API] Neither is supported in iOS, iPadOS, tvOS, visionOS or watchOS.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/outline-views, https://developer.apple.com/design/human-interface-guidelines/column-views
 
@@ -91,7 +91,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/outline-vi
 - [HIG] If zooming is supported, set sensible minimum and maximum scale values.
 - [HIG] iOS, iPadOS: in page-by-page mode consider a page control, and then hide the scroll indicator on that axis.
 - [HIG] macOS: small or mini scroll bars are acceptable in panels if all controls in the panel use the same size.
-- [Req] tvOS has no scroll indicators; the system scrolls to keep the focused item visible.
+- [API] tvOS has no scroll indicators; the system scrolls to keep the focused item visible.
 - [HIG] visionOS: the scroll indicator is small and slightly thicker than on iOS; widen tight margins so it does not overlap content. Add Look to Scroll to reading and browsing views (it is off by default), keep it consistent across similar views, give such views the full window width or height or clear boundaries, and remove scroll-position-driven effects such as parallax first. Do not use it for control-dense secondary content.
 - [HIG] watchOS: prefer vertical scrolling (Digital Crown). Use vertical tab views for page-by-page scrolling; aim for one screen height per page and put variable-height pages after fixed-height ones.
 
@@ -129,7 +129,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/boxes, htt
 - [HIG] Animated sequences: use one consistent image size.
 - [HIG] macOS: editable image is an image well; clickable image is an image button.
 - [HIG] Web view: add back and forward controls if people will visit multiple pages (not provided by default).
-- [HIG] Do not build a web browser from a web view; brief in-context web content is fine. Web views are not supported in tvOS or watchOS.
+- [HIG] Do not build a web browser from a web view; brief in-context web content is fine. [API] Web views are not supported in tvOS or watchOS.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/image-views, https://developer.apple.com/design/human-interface-guidelines/web-views
 

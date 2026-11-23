@@ -1,0 +1,286 @@
+{
+  "correct": 38,
+  "total": 40,
+  "rows": [
+    {
+      "query": "make this SwiftUI settings screen feel native - right now it's a ScrollView with custom toggle rows I drew myself and my designer says it looks like a web page",
+      "should_trigger": true,
+      "triggered": true,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "why does my iPad app look like a stretched phone app? it's a single NavigationStack with a list, runs on iPad Pro 13 and there's just a huge empty right side",
+      "should_trigger": true,
+      "triggered": true,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "can you do a HIG review of Sources/Checkout/CheckoutView.swift before we ship 2.0 on friday",
+      "should_trigger": true,
+      "triggered": true,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "we're porting our iOS recipe app to Apple Watch. what should the navigation look like? on the phone it has 5 tabs",
+      "should_trigger": true,
+      "triggered": true,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "audit ProfileHeader.swift for VoiceOver and Dynamic Type problems, my QA says text gets cut off at the largest size",
+      "should_trigger": true,
+      "triggered": true,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "should this be a sheet, a popover or a full screen cover? it's a filter panel with 6 options on iphone and ipad",
+      "should_trigger": true,
+      "triggered": true,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "design the tab structure for a banking app on iPhone - accounts, cards, payments, insights, support, settings, profile. is 7 tabs ok",
+      "should_trigger": true,
+      "triggered": true,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "I need to add Liquid Glass to our custom floating toolbar but we still support iOS 17. how do I do that safely in SwiftUI",
+      "should_trigger": true,
+      "triggered": true,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "our mac app is a Catalyst build of the iPad app and reviewers say it doesn't feel like a mac app. what do we fix first",
+      "should_trigger": true,
+      "triggered": true,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "refactor this UIKit view controller so the buttons and text respect the user's text size setting, change as little as possible",
+      "should_trigger": true,
+      "triggered": false,
+      "correct": false,
+      "error": null
+    },
+    {
+      "query": "is it ok to put a hamburger menu in an iphone app? product wants one because the android app has it",
+      "should_trigger": true,
+      "triggered": true,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "building a visionOS version of our SwiftUI dashboard - what changes for buttons, spacing and the tab bar",
+      "should_trigger": true,
+      "triggered": true,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "write a SwiftUI onboarding flow for iOS 18, three pages then a notification permission ask. want it to look like something apple would ship",
+      "should_trigger": true,
+      "triggered": false,
+      "correct": false,
+      "error": null
+    },
+    {
+      "query": "my delete confirmation is an alert with OK / Cancel and design says it's wrong but can't tell me why. here's the code",
+      "should_trigger": true,
+      "triggered": true,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "tvOS: focus keeps jumping to the wrong card in my shelf and the cards near the edge are cut off on some TVs. layout advice?",
+      "should_trigger": true,
+      "triggered": true,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "what's the minimum tap target size on iOS and does it differ on mac",
+      "should_trigger": true,
+      "triggered": true,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "we have one SwiftUI codebase for iPhone, iPad and Mac. propose the navigation architecture so each platform gets what users expect",
+      "should_trigger": true,
+      "triggered": true,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "pick colors for success/warning/error badges in my SwiftUI app that work in dark mode and for color blind users",
+      "should_trigger": true,
+      "triggered": true,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "review this AppKit preferences window - toolbar, tabs, button order. does it follow mac conventions",
+      "should_trigger": true,
+      "triggered": true,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "which SF Symbol and label should I use for these toolbar actions: share, duplicate, archive, mark unread - and where do they go on iPad vs iPhone",
+      "should_trigger": true,
+      "triggered": true,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "convert this Jetpack Compose screen to Material 3, the bottom navigation has 6 items and the FAB overlaps it",
+      "should_trigger": false,
+      "triggered": false,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "my CSS grid breaks on iPhone Safari - the sticky header jumps when the address bar collapses. how do I fix it",
+      "should_trigger": false,
+      "triggered": false,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "Flutter: build a responsive master-detail layout with a NavigationRail on tablets and a BottomNavigationBar on phones",
+      "should_trigger": false,
+      "triggered": false,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "in React Native my FlatList rerenders every row when I toggle one switch, how do I memoize the rows",
+      "should_trigger": false,
+      "triggered": false,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "getting 'Sending main actor-isolated value of type ViewModel risks causing data races' after moving to Swift 6, here's the view model",
+      "should_trigger": false,
+      "triggered": false,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "write the App Store Connect description, keywords and what's new text for version 3.2 of our meditation app",
+      "should_trigger": false,
+      "triggered": false,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "set up a Vapor 4 server with Fluent and Postgres and a /users CRUD route",
+      "should_trigger": false,
+      "triggered": false,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "review my code: Sources/Networking/APIClient.swift - retry logic and error mapping, is the async/await usage right",
+      "should_trigger": false,
+      "triggered": false,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "in Figma, set up auto layout and breakpoints for our marketing website hero section (desktop / tablet / mobile web)",
+      "should_trigger": false,
+      "triggered": false,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "my SwiftData @Query crashes with a fatal error when I add a new property to the model, how do I write the migration plan",
+      "should_trigger": false,
+      "triggered": false,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "xcodebuild archive fails on CI with 'No profiles for com.acme.app were found' - fastlane match setup",
+      "should_trigger": false,
+      "triggered": false,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "write XCTest unit tests for PriceFormatter.swift covering locale and rounding edge cases",
+      "should_trigger": false,
+      "triggered": false,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "implement Sign in with Apple token validation on our Node backend, we get invalid_client from the token endpoint",
+      "should_trigger": false,
+      "triggered": false,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "design a Windows 11 settings page in WinUI 3 following Fluent design",
+      "should_trigger": false,
+      "triggered": false,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "my SwiftUI List scrolls at 40fps with 5000 rows, Instruments shows lots of time in body - how do I profile and fix it",
+      "should_trigger": false,
+      "triggered": false,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "generate an app icon image of a blue fox for my iOS game, 1024x1024 png",
+      "should_trigger": false,
+      "triggered": false,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "add a Tailwind dark mode toggle to our Next.js dashboard and persist it in localStorage",
+      "should_trigger": false,
+      "triggered": false,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "Kotlin Multiplatform: share the view models between Android and iOS, how do I expose StateFlow to Swift",
+      "should_trigger": false,
+      "triggered": false,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "our push notifications arrive on TestFlight builds but not production - APNs environment and entitlements checklist please",
+      "should_trigger": false,
+      "triggered": false,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "make an accessible data table for our React admin panel - aria roles, keyboard nav, screen reader announcements",
+      "should_trigger": false,
+      "triggered": false,
+      "correct": true,
+      "error": null
+    }
+  ]
+}

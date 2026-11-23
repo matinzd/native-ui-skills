@@ -9,7 +9,7 @@ Standard library only. Exit status 0 when there are no errors, 1 otherwise.
 
 Checks (E = error, W = warning):
   frontmatter   spec fields only, name/description/metadata constraints, name == directory      E
-  budget        SKILL.md under 500 lines / ~5000 tokens; reference files under 300 lines        E/W
+  budget        SKILL.md under 500 lines / ~5000 tokens; references at most 300 lines and 30 KB   E
   links         every relative link and backticked skill path resolves inside the skill         E
   orphans       every file in references/, examples/, scripts/ is linked from SKILL.md          E
   provenance    each reference has a title, a "Verified: YYYY-MM-DD" line and Apple source URLs  E/W
@@ -24,6 +24,7 @@ import datetime as dt
 import json
 import re
 import sys
+import time
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -52,7 +53,7 @@ DEPRECATED = {
     r"\.accentColor\(": "accentColor modifier (use tint)",
     r"\bUIScreen\.main\b": "UIScreen.main (use the view's geometry or trait collection)",
 }
-MARKER = re.compile(r"avoid|deprecated|before|fallback|don't|do not|legacy|wrong|mistake|instead of|replace", re.I)
+MARKER = re.compile(r"//.*\b(avoid|deprecated|before|fallback)\b", re.I)
 
 # Names that do not exist in SwiftUI. Evals use them as traps; shipped skill files must never present them.
 FAKE_APIS = (
@@ -140,6 +141,8 @@ def check_frontmatter(rep: Report, skill_md: Path) -> tuple[dict, str]:
             rep.error(skill_md, f"description is {len(desc)} characters (limit 1024)")
         if "<" in desc or ">" in desc:
             rep.error(skill_md, "description must not contain '<' or '>'")
+        if ": " in desc or " #" in desc:
+            rep.error(skill_md, "description contains ': ' or ' #', which strict YAML parsers reject in a plain scalar")
         if "use when" not in desc.lower():
             rep.warn(skill_md, "description has no 'Use when' clause")
     comp = data.get("compatibility")
@@ -193,10 +196,10 @@ def check_links(rep: Report, md: Path) -> set[Path]:
 
 
 def strip_swift(code: str) -> str:
-    code = re.sub(r"//[^\n]*", "", code)
-    code = re.sub(r"/\*.*?\*/", "", code, flags=re.S)
     code = re.sub(r'"""(?:.|\n)*?"""', '""', code)
-    return re.sub(r'"(?:\\.|[^"\\\n])*"', '""', code)
+    code = re.sub(r'"(?:\\.|[^"\\\n])*"', '""', code)
+    code = re.sub(r"//[^\n]*", "", code)
+    return re.sub(r"/\*.*?\*/", "", code, flags=re.S)
 
 
 def check_swift(rep: Report, where: Path, code: str, first_line: int, context: list[str]) -> None:
@@ -265,10 +268,12 @@ def check_reference(rep: Report, md: Path, today: dt.date) -> None:
         rep.error(md, "no developer.apple.com source URL")
     if not any(tag in text for tag in RULE_TAGS):
         rep.warn(md, "no rule tags ([Req]/[HIG]/[API]/[Conv]/[Unverified]) found")
-    if len(lines) > 350:
-        rep.error(md, f"{len(lines)} lines (hard limit 350); split the file")
-    elif len(lines) > 300:
-        rep.warn(md, f"{len(lines)} lines (target is 300 or fewer)")
+    if len(lines) > 300:
+        rep.error(md, f"{len(lines)} lines (hard limit 300); split the file")
+    if len(text.encode("utf-8")) > 30_000:
+        rep.error(md, f"{len(text.encode('utf-8')) // 1000} KB (hard limit 30 KB); split the file")
+    if not text.isascii():
+        rep.warn(md, "contains non-ASCII characters")
     if len(lines) > 100 and not re.search(r"^## Contents", text, re.M):
         rep.warn(md, "file is over 100 lines but has no '## Contents' section")
     sections = re.split(r"^## ", text, flags=re.M)[1:]
@@ -276,8 +281,9 @@ def check_reference(rep: Report, md: Path, today: dt.date) -> None:
         title = sec.splitlines()[0].strip()
         if title.lower() in {"contents", "common mistakes"} or title.lower().startswith(("see also", "how to use")):
             continue
-        if "https://developer.apple.com/" not in sec and "https://docs.swift.org/" not in sec:
-            rep.warn(md, f"section '{title}' has no source URL")
+        cites_apple = any(f"- {tag}" in sec for tag in ("[Req]", "[HIG]", "[API]"))
+        if cites_apple and "https://developer.apple.com/" not in sec and "https://docs.swift.org/" not in sec:
+            rep.warn(md, f"section '{title}' states Apple guidance but has no source URL")
     if re.search(r"\b(TODO|TBD|FIXME)\b", text):
         rep.warn(md, "contains TODO/TBD/FIXME")
 
@@ -333,6 +339,11 @@ def check_evals(rep: Report) -> None:
             for f in ev.get("files", []):
                 if not (ROOT / f).exists():
                     rep.error(evals_path, f"eval {eid}: fixture {f} does not exist")
+            if not ev.get("name"):
+                rep.error(evals_path, f"eval {eid}: missing name")
+            budget = ev.get("max_reference_files")
+            if budget is not None and budget < len(ev.get("references_expected", [])):
+                rep.error(evals_path, f"eval {eid}: max_reference_files is below the number of expected references")
             for r in ev.get("references_expected", []):
                 if not (SKILL / r).exists():
                     rep.error(evals_path, f"eval {eid}: expected reference {r} does not exist")
@@ -362,18 +373,21 @@ def check_evals(rep: Report) -> None:
         rep.warn(trig_path, "missing")
 
 
-def fetch_ok(url: str) -> bool:
+def fetch_state(url: str) -> str:
+    """Return 'ok', 'missing' (404 or 410), or 'unknown' (network trouble, throttling, other statuses)."""
     req = urllib.request.Request(url, headers={"User-Agent": "skill-validator"})
-    for _ in range(3):
+    for attempt in range(3):
         try:
             with urllib.request.urlopen(req, timeout=20) as resp:
-                return resp.status == 200
+                if resp.status == 200:
+                    return "ok"
         except urllib.error.HTTPError as exc:
             if exc.code in (404, 410):
-                return False
+                return "missing"
         except (urllib.error.URLError, TimeoutError, OSError):
             pass
-    return False
+        time.sleep(1 + attempt)
+    return "unknown"
 
 
 def check_online(rep: Report, files: list[Path]) -> None:
@@ -401,8 +415,12 @@ def check_online(rep: Report, files: list[Path]) -> None:
         else:
             continue
         checked += 1
-        if not fetch_ok(probe):
+        state = fetch_state(probe)
+        if state == "missing":
             rep.error(where, f"Apple page not found: {url}")
+        elif state == "unknown":
+            rep.warn(where, f"could not check (network or throttling): {url}")
+        time.sleep(0.05)
     print(f"online: checked {checked} Apple URLs")
 
 
@@ -450,7 +468,8 @@ def main() -> int:
     check_packaging(rep, front)
     check_evals(rep)
     if args.online:
-        check_online(rep, shipped_md)
+        swift = sorted((SKILL / "examples").glob("*.swift")) + sorted((SKILL / "scripts").glob("*.py"))
+        check_online(rep, shipped_md + swift)
 
     for w in rep.warnings:
         print(f"warning: {w}")

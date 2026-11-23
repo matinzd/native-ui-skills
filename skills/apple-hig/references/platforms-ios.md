@@ -112,13 +112,13 @@ Source: https://developer.apple.com/documentation/technologyoverviews/adopting-l
 - [HIG] StandBy shows small-family widgets scaled up; mark the widget background removable and favor large text over color.
 - [HIG] Always On display (iPhone models that have it): hide sensitive data, dim secondary content, keep the layout stable and make updates infrequent.
 - [HIG] Multitasking on iPhone is app switching plus Picture in Picture for video and FaceTime; pause attention-demanding activity when people switch away and finish user-started tasks in the background.
-- [HIG] A launch screen is required on iOS and should look nearly identical to the first screen, with no text and no branding.
+- [Req] A launch screen is required on iOS. [HIG] It should look nearly identical to the first screen, with no text and no branding.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/designing-for-ios, https://developer.apple.com/design/human-interface-guidelines/widgets, https://developer.apple.com/design/human-interface-guidelines/live-activities, https://developer.apple.com/design/human-interface-guidelines/always-on, https://developer.apple.com/design/human-interface-guidelines/multitasking, https://developer.apple.com/design/human-interface-guidelines/launching
 
 ## Not available on iPhone
 
-[HIG] The HIG marks these as not supported in iOS; do not design them into an iPhone UI: windows, the menu bar, panels, tab views, keyboard focus and selection (focus system), Apple Pencil and Scribble, Mac Catalyst, the Digital Crown, remotes and Top Shelf, complications and watch faces, ornaments and immersive spaces, column views, outline views, combo boxes, token fields, path controls, image wells, Dock menus.
+[API] The HIG marks these as not supported in iOS; do not design them into an iPhone UI: windows, the menu bar, panels, tab views, keyboard focus and selection (focus system), Apple Pencil and Scribble, Mac Catalyst, the Digital Crown, remotes and Top Shelf, complications and watch faces, ornaments and immersive spaces, column views, outline views, combo boxes, token fields, path controls, image wells, Dock menus.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/windows, https://developer.apple.com/design/human-interface-guidelines/the-menu-bar, https://developer.apple.com/design/human-interface-guidelines/panels, https://developer.apple.com/design/human-interface-guidelines/focus-and-selection
 
@@ -169,7 +169,8 @@ Source: https://developer.apple.com/design/human-interface-guidelines/designing-
 | `ArrangementView`, `ReservedRegion` (SwiftUI) | iOS 27.1 | [API] |
 | `UIArrangementViewController` (UIKit) | iOS 27.1 | [API] |
 | `ToolbarVerticalCompressionBehavior` (SwiftUI) | iOS 27.1 | [API] |
-| `ToolbarItemVisibilityPriority`, `ToolbarOverflowMenu` (SwiftUI) | iOS 27.0 | [API] |
+| `ToolbarItemVisibilityPriority` (SwiftUI) | iOS 27.0 (also macOS 26.1, tvOS 27.0, watchOS 27.0, visionOS 27.0) | [API] |
+| `ToolbarOverflowMenu` (SwiftUI) | iOS 27.0 (also visionOS 27.0) | [API] |
 
 - [Conv] A project whose deployment target is below 27.1 needs availability guards around these; the size-class and standard-bar guidance above needs no new API.
 

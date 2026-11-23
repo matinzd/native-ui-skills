@@ -170,10 +170,11 @@ Availability anchors worth remembering (all read from documentation metadata on 
 | `TabView` `.sidebarAdaptable` | iOS/iPadOS 18.0, macOS 15.0, tvOS 18.0, visionOS 2.0 |
 | `TabView` `.verticalPage` | watchOS 10.0 |
 | `handGestureShortcut(_:isEnabled:)` (double tap primary action) | watchOS 11.0, iOS 18.0, macOS 15.0, tvOS 18.0 |
-| `glassEffect(_:in:)` and Liquid Glass APIs | 26.0 on iOS, iPadOS, macOS, tvOS, watchOS; not available on visionOS |
+| `glassEffect(_:in:)`, `GlassEffectContainer`, `buttonStyle(.glass)` (glass effect and glass button style) | 26.0 on iOS, iPadOS, macOS, tvOS, watchOS; no visionOS availability listed. Other OS 26 APIs do list visionOS 26: see `references/implementation-availability.md` |
 | `TabBarMinimizeBehavior` | 26.0 |
 | `UIRequiresFullScreen` | deprecated 26.0 |
-| `ToolbarItemVisibilityPriority`, `ToolbarOverflowMenu` | iOS/iPadOS 27.0 (visibility priority: macOS 26.1) |
+| `ToolbarOverflowMenu` | iOS/iPadOS 27.0, visionOS 27.0 |
+| `ToolbarItemVisibilityPriority` | iOS/iPadOS 27.0, macOS 26.1, tvOS 27.0, watchOS 27.0, visionOS 27.0 |
 | `ArrangementView`, `ReservedRegion`, `ToolbarVerticalCompressionBehavior`, `UIArrangementViewController` | 27.1 |
 
 - [API] Standard components pick up the OS 26 look when the app is built with the current SDK and run on OS 26 or later; on older OS versions the same code shows the older appearance. Do not promise Liquid Glass to a user whose deployment target and test device are below 26.
@@ -183,11 +184,11 @@ Source: https://developer.apple.com/documentation/technologyoverviews/adopting-l
 
 ## When the target is ambiguous
 
-- [Conv] No codebase and no platform named: assume iPhone (iOS, current cycle), say so in one sentence, and continue. Ask a question only when the answer changes the deliverable materially (for example "Mac or iPad?" for a document editor).
+- [Conv] No codebase and no platform named: assume iPhone with the default minimum OS below (iOS 17), say so in one sentence, and continue. Ask a question only when the answer changes the deliverable materially (for example "Mac or iPad?" for a document editor).
 - [Conv] Ask at most one question, and make it closed: "Is this for iPhone only, or iPhone and iPad?"
 - [Conv] "Mac app" with UIKit code: check Catalyst settings before assuming AppKit conventions are reachable.
 - [Conv] "Universal" or "multiplatform": enumerate the destinations found and treat iPhone and iPad as two layouts of one iOS target, not one layout.
-- [Conv] No deployment target visible (snippet, single file): assume the current cycle minus one for API advice, state the assumption, and guard anything newer.
+- [Conv] Minimum OS neither stated nor discoverable (snippet, single file) and asking is not worthwhile: write for iOS 17 / macOS 14 / tvOS 17 / watchOS 10 / visionOS 1, state the assumption, and gate anything newer. Details: `references/implementation-availability.md`.
 - [Conv] Always report: platforms detected, flavour (native, Catalyst idiom, Designed for iPad), minimum OS per platform, and which evidence produced each conclusion.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/layout
@@ -213,7 +214,7 @@ Universal on every platform [HIG]: use system components first; modality only wh
 | Dark Mode | Yes | Yes | Yes | No | Yes | No (glass adapts to surroundings) |
 | Windows | No | Yes, resizable, multiple | Yes, core model | No | No | Windows, volumes, immersive spaces |
 | Multitasking | App switching, Picture in Picture; Split View on iPhone Duo inner display | Full screen or windowed, Picture in Picture | Always | Not supported | Picture in Picture | Shared Space |
-| Liquid Glass (OS 26+) | Yes | Yes | Yes | Minimal, automatic | Yes, mostly on focus; Apple TV 4K (2nd generation) and newer | No Liquid Glass APIs; system glass material |
+| Liquid Glass (OS 26+) | Yes | Yes | Yes | Minimal, automatic | Yes, mostly on focus; Apple TV 4K (2nd generation) and newer | No glass effect or glass button style APIs (`glassEffect`, `buttonStyle(.glass)`); system glass material |
 | Glanceable surfaces | Widgets (Home, Lock Screen, StandBy), Live Activities | Widgets, Live Activities | Widgets; iPhone Live Activities in the menu bar | Complications, Smart Stack widgets, Live Activities | Top Shelf; no widgets, no Live Activities | Widgets placed on surfaces; no Live Activities |
 
 Source: https://developer.apple.com/design/human-interface-guidelines/accessibility, https://developer.apple.com/design/human-interface-guidelines/typography, https://developer.apple.com/design/human-interface-guidelines/dark-mode, https://developer.apple.com/design/human-interface-guidelines/tab-bars, https://developer.apple.com/design/human-interface-guidelines/toolbars, https://developer.apple.com/design/human-interface-guidelines/windows, https://developer.apple.com/design/human-interface-guidelines/multitasking, https://developer.apple.com/design/human-interface-guidelines/widgets, https://developer.apple.com/design/human-interface-guidelines/settings

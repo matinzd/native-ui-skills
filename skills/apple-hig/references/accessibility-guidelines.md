@@ -214,14 +214,14 @@ The Accessibility and VoiceOver pages state no additional considerations for iOS
 |----------|-------|
 | iOS, iPadOS | [HIG] Dynamic Type with larger accessibility sizes; Assistive Access; Music Haptics and Audio Graphs; Full Keyboard Access covers controls and drag and drop. |
 | macOS | [HIG] No Dynamic Type; 13 pt default and 10 pt minimum text; 28 pt default and 20 pt minimum controls; Full Keyboard Access and VoiceOver can perform drag and drop; touch is secondary input, enlarge tap targets only. |
-| tvOS | [HIG] 29 pt default and 23 pt minimum text; 66 pt default and 56 pt minimum controls; everything must be focusable; Dynamic Type is available. |
-| watchOS | [HIG] Text enlargement ideal is 140 percent; 16 pt default and 12 pt minimum text; 44 pt default and 28 pt minimum controls; Dark Mode is not supported. |
-| visionOS | [HIG] See the list below. Dark Mode is not supported. |
+| tvOS | [HIG] 29 pt default and 23 pt minimum text; 66 pt default and 56 pt minimum controls; make sure every element can receive focus; Dynamic Type is available. |
+| watchOS | [HIG] Text enlargement ideal is 140 percent; 16 pt default and 12 pt minimum text; 44 pt default and 28 pt minimum controls. [API] Dark Mode is not supported. |
+| visionOS | [HIG] See the list below. [API] Dark Mode is not supported. |
 
 visionOS:
 
 - [HIG] System accessibility features include VoiceOver, Switch Control, Dwell Control, Guided Access, head and hand Pointer Control, and Zoom.
-- [Req] With VoiceOver on, apps that define custom gestures do not receive hand input by default; a person must enable Direct Gesture mode to pass hand input through. Do not make a custom gesture the only way to do something.
+- [API] With VoiceOver on, apps that define custom gestures do not receive hand input by default; a person must enable Direct Gesture mode to pass hand input through. [HIG] Do not make a custom gesture the only way to do something.
 - [HIG] Do not anchor content to the wearer's head: it feels confining and blocks assistive technologies such as Pointer Control.
 - [HIG] Keep interface elements inside the field of view, prefer horizontal over vertical layouts, and do not demand attention in different places in quick succession.
 - [HIG] Reduce the speed and intensity of animated objects, above all in peripheral vision; keep camera and video motion gentle; avoid making the world seem to move without the person's control; avoid sustained oscillation, in particular around 0.2 Hz.

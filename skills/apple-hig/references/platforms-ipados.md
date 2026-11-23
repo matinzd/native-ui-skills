@@ -59,7 +59,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/split-view
 ## Windows and multitasking
 
 - [HIG] People choose in Multitasking & Gestures settings between Full screen (each app window fills the screen; switch with the app switcher) and Windowed (freely resizable, overlapping, repositionable windows; the system remembers size and placement).
-- [Req] Apps cannot control the multitasking configuration and receive no indication of which one is in use. The only correct strategy is a layout that adapts to any size.
+- [API] Apps cannot control the multitasking configuration and receive no indication of which one is in use. The only correct strategy is a layout that adapts to any size.
 - [HIG] In windowed mode the system draws window controls at the leading edge of the toolbar. Move leading toolbar buttons inward when the controls appear so they are not covered.
 - [HIG] The frontmost window is identified by colored window controls and a drop shadow on windows behind it; do not draw custom window chrome or imitate system window UI.
 - [HIG] An app can have several windows. Open a new window when it helps people multitask or keep context (compose alongside the inbox); do not open windows by default without that benefit.
@@ -160,7 +160,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/accessibil
 
 ## Not available on iPad
 
-[HIG] Marked not supported in iPadOS: panels, tab views (use a segmented control), column views, outline views, combo boxes, token fields, path controls, image wells, Dock menus, the Digital Crown, the Action button, Camera Control, Always On, CarPlay, complications, Top Shelf, ornaments and immersive spaces.
+[API] Marked not supported in iPadOS: panels, tab views (use a segmented control), column views, outline views, combo boxes, token fields, path controls, image wells, Dock menus, the Digital Crown, the Action button, Camera Control, Always On, CarPlay, complications, Top Shelf, ornaments and immersive spaces.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/panels, https://developer.apple.com/design/human-interface-guidelines/tab-views
 

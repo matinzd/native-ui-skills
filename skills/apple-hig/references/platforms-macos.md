@@ -179,7 +179,7 @@ Source: https://developer.apple.com/documentation/apple-silicon/running-your-ios
 
 ## Not available on the Mac
 
-[HIG] Marked not supported in macOS: Dynamic Type, status bars, page controls, virtual keyboards, activity views, Home Screen quick actions, App Clips, Always On, the Digital Crown, Apple Pencil and Scribble, remotes and Top Shelf, complications, ornaments and immersive spaces. Tab bars have no macOS-specific guidance; app navigation uses sidebars.
+[API] Marked not supported in macOS: Dynamic Type, status bars, page controls, virtual keyboards, activity views, Home Screen quick actions, App Clips, Always On, the Digital Crown, Apple Pencil and Scribble, remotes and Top Shelf, complications, ornaments and immersive spaces. Tab bars have no macOS-specific guidance; app navigation uses sidebars.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/typography, https://developer.apple.com/design/human-interface-guidelines/status-bars, https://developer.apple.com/design/human-interface-guidelines/page-controls, https://developer.apple.com/design/human-interface-guidelines/virtual-keyboards
 

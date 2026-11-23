@@ -1,0 +1,118 @@
+{
+  "correct": 12,
+  "total": 16,
+  "rows": [
+    {
+      "query": "make this SwiftUI settings screen feel native - right now it's a ScrollView with custom toggle rows I drew myself and my designer says it looks like a web page",
+      "should_trigger": true,
+      "triggered": false,
+      "correct": false,
+      "error": null
+    },
+    {
+      "query": "why does my iPad app look like a stretched phone app? it's a single NavigationStack with a list, runs on iPad Pro 13 and there's just a huge empty right side",
+      "should_trigger": true,
+      "triggered": false,
+      "correct": false,
+      "error": null
+    },
+    {
+      "query": "can you do a HIG review of Sources/Checkout/CheckoutView.swift before we ship 2.0 on friday",
+      "should_trigger": true,
+      "triggered": true,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "we're porting our iOS recipe app to Apple Watch. what should the navigation look like? on the phone it has 5 tabs",
+      "should_trigger": true,
+      "triggered": true,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "audit ProfileHeader.swift for VoiceOver and Dynamic Type problems, my QA says text gets cut off at the largest size",
+      "should_trigger": true,
+      "triggered": true,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "should this be a sheet, a popover or a full screen cover? it's a filter panel with 6 options on iphone and ipad",
+      "should_trigger": true,
+      "triggered": false,
+      "correct": false,
+      "error": null
+    },
+    {
+      "query": "design the tab structure for a banking app on iPhone - accounts, cards, payments, insights, support, settings, profile. is 7 tabs ok",
+      "should_trigger": true,
+      "triggered": true,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "I need to add Liquid Glass to our custom floating toolbar but we still support iOS 17. how do I do that safely in SwiftUI",
+      "should_trigger": true,
+      "triggered": false,
+      "correct": false,
+      "error": null
+    },
+    {
+      "query": "convert this Jetpack Compose screen to Material 3, the bottom navigation has 6 items and the FAB overlaps it",
+      "should_trigger": false,
+      "triggered": false,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "my CSS grid breaks on iPhone Safari - the sticky header jumps when the address bar collapses. how do I fix it",
+      "should_trigger": false,
+      "triggered": false,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "Flutter: build a responsive master-detail layout with a NavigationRail on tablets and a BottomNavigationBar on phones",
+      "should_trigger": false,
+      "triggered": false,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "in React Native my FlatList rerenders every row when I toggle one switch, how do I memoize the rows",
+      "should_trigger": false,
+      "triggered": false,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "getting 'Sending main actor-isolated value of type ViewModel risks causing data races' after moving to Swift 6, here's the view model",
+      "should_trigger": false,
+      "triggered": false,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "write the App Store Connect description, keywords and what's new text for version 3.2 of our meditation app",
+      "should_trigger": false,
+      "triggered": false,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "set up a Vapor 4 server with Fluent and Postgres and a /users CRUD route",
+      "should_trigger": false,
+      "triggered": false,
+      "correct": true,
+      "error": null
+    },
+    {
+      "query": "review my code: Sources/Networking/APIClient.swift - retry logic and error mapping, is the async/await usage right",
+      "should_trigger": false,
+      "triggered": false,
+      "correct": true,
+      "error": null
+    }
+  ]
+}

@@ -44,7 +44,7 @@ Source: https://developer.apple.com/documentation/xcode/running-code-on-a-specif
 - [API] `if #available(iOS 18, macOS 15, *) { } else { }` is a run-time version check. List every platform the file compiles for; `*` means "any version" on the platforms you did not list.
 - [API] Because `*` matches unlisted platforms, an API missing from one platform needs `#if os` as well as `#available`. Example: the glass effect modifiers have no visionOS availability, so `#available(iOS 26, macOS 26, *)` alone still fails to compile for visionOS.
 - [API] `@available(iOS 18, macOS 15, *)` on a type, function or extension marks a whole declaration, which removes repeated checks inside it. Callers must then check before using it.
-- [Req] An API newer than the deployment target must not appear outside an availability check; the project will not build.
+- [API] An API newer than the deployment target must not appear outside an availability check; the project will not build.
 - [Conv] Always write the `else` branch as working UI with the same content and actions. An empty view, a missing button or a silently skipped feature is a regression for everyone on the older OS.
 - [Conv] A deprecated API is the correct choice inside the fallback branch when its replacement needs a newer OS (`tabItem(_:)` below iOS 18). Mark the branch with a comment such as `// Fallback for iOS 17 and earlier`.
 - [Conv] A modifier cannot be made conditional in the middle of a chain. Put the branch in a small `ViewModifier` or a `@ViewBuilder` helper and call that.

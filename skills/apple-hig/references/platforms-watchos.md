@@ -27,14 +27,14 @@ Verified: 2026-11-23 against the sources linked in each section (SDK cycle: OS 2
 - [HIG] Anticipate needs: use on-device data to surface content relevant now or very soon.
 - [HIG] Design the app to function independently of the iPhone; it complements notifications and complications with more detail.
 - [API] `WKRunsIndependentlyOfCompanionApp` and `WKWatchOnly` (watchOS 6.0+) declare an independent or watch-only app.
-- [HIG] No launch screen is required on watchOS. Avoid loading indicators; show content immediately.
+- [API] No launch screen is required on watchOS. [HIG] Avoid loading indicators; show content immediately.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/designing-for-watchos, https://developer.apple.com/design/human-interface-guidelines/launching, https://developer.apple.com/documentation/bundleresources/information-property-list/wkrunsindependentlyofcompanionapp
 
 ## Inputs
 
 - [HIG] Digital Crown: since watchOS 10 it is the primary input for navigation. Turning it scrolls lists and variable-height pages and switches between vertically paginated tabs.
-- [Req] Apps cannot respond to presses of the Digital Crown; the system reserves them (for example to show the Home Screen).
+- [API] Apps cannot respond to presses of the Digital Crown; the system reserves them (for example to show the Home Screen).
 - [HIG] Back every Crown interaction with an equivalent touch interaction, and always show visual feedback when the Crown turns, at a rate matched to how fast it turns.
 - [HIG] Where navigation is not needed, use the Crown to inspect data (advance a time value, scrub a chart).
 - [HIG] Keep the default haptic detents unless they fight your animation; tables can use linear instead of row-based detents when row heights vary a lot.
@@ -43,7 +43,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/designing-
 - [HIG] Do not set a primary action in views that contain lists, scroll views or vertical tabs, because it conflicts with the default double-tap navigation. In a non-scrolling view pick the most-used button (play/pause in media controls).
 - [API] `handGestureShortcut(_:isEnabled:)` is watchOS 11.0+.
 - [HIG] Haptics have defined meanings: Notification, Up, Down, Success, Failure, Retry, Start, Stop, Click. Use each only for its meaning.
-- [HIG] Hardware keyboard shortcuts, pointing devices and the keyboard focus system are not supported.
+- [API] Hardware keyboard shortcuts, pointing devices and the keyboard focus system are not supported.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/digital-crown, https://developer.apple.com/design/human-interface-guidelines/gestures, https://developer.apple.com/design/human-interface-guidelines/playing-haptics, https://developer.apple.com/documentation/swiftui/handgestureshortcut
 
@@ -95,14 +95,14 @@ Source: https://developer.apple.com/design/human-interface-guidelines/toolbars, 
 - [HIG] Support autorotation only in views people show to someone else (a photo, a QR code).
 - [HIG] Present a text field only when necessary; prefer a list of options. A text field shows a keyboard on larger screens and otherwise dictation or Scribble; you cannot choose the keyboard type but can set the content type.
 - [HIG] A search field opens a full-screen text input and returns only after Cancel or Search.
-- [HIG] The app cannot add entries to the system Settings app. Put a small number of essential options at the bottom of the main view, or use a More menu.
+- [API] The app cannot add entries to the system Settings app. [HIG] Put a small number of essential options at the bottom of the main view, or use a More menu.
 - [HIG] The HIG publishes no screen dimensions for Apple Watch in the layout page; lay out relative to the container and test on the smallest and largest sizes.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/layout, https://developer.apple.com/design/human-interface-guidelines/typography, https://developer.apple.com/design/human-interface-guidelines/accessibility, https://developer.apple.com/design/human-interface-guidelines/buttons, https://developer.apple.com/design/human-interface-guidelines/virtual-keyboards, https://developer.apple.com/design/human-interface-guidelines/settings, https://developer.apple.com/design/human-interface-guidelines/widgets
 
 ## Appearance
 
-- [HIG] Dark Mode is not supported on watchOS; there is no light variant to design.
+- [API] Dark Mode is not supported on watchOS; there is no light variant to design.
 - [HIG] Use background color to support content or carry extra information and to give a sense of place; use materials to show hierarchy.
 - [API] Liquid Glass changes on watchOS are minimal and appear on the current release even without rebuilding; to be sure of picking them up, use the standard toolbar APIs and button styles available since watchOS 10. Toolbar buttons take the glass appearance.
 - [HIG] Dynamic Type is supported; use text styles.
@@ -157,7 +157,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/always-on
 
 ## Not available on Apple Watch
 
-[HIG] Marked not supported in watchOS: tab bars, sidebars, windows, multitasking, popovers, context menus, edit menus, pop-up and pull-down buttons, segmented controls, steppers, collections, disclosure controls, the menu bar, panels, drag and drop, hardware keyboards and keyboard shortcuts, focus and selection, pointing devices, undo and redo, web views, printing, activity views, status bars, Dark Mode, game controllers, AirPlay and SharePlay.
+[API] Marked not supported in watchOS: tab bars, sidebars, windows, multitasking, popovers, context menus, edit menus, pop-up and pull-down buttons, segmented controls, steppers, collections, disclosure controls, the menu bar, panels, drag and drop, hardware keyboards and keyboard shortcuts, focus and selection, pointing devices, undo and redo, web views, printing, activity views, status bars, Dark Mode, game controllers, AirPlay and SharePlay.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/tab-bars, https://developer.apple.com/design/human-interface-guidelines/sidebars, https://developer.apple.com/design/human-interface-guidelines/context-menus, https://developer.apple.com/design/human-interface-guidelines/multitasking, https://developer.apple.com/design/human-interface-guidelines/drag-and-drop, https://developer.apple.com/design/human-interface-guidelines/keyboards
 

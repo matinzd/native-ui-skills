@@ -92,7 +92,7 @@ standard. It is worded "strive to meet".
   on. Check both light and dark appearances.
 - [HIG] The Dark Mode page gives stricter numbers for all appearances: never below 4.5:1, and aim for 7:1 for
   custom foreground and background colors, especially small text.
-- [HIG] The two pages differ (3:1 allowed for large or bold text vs. a flat 4.5:1 floor). Use 4.5:1 as the working
+- [Conv] The two pages differ (3:1 allowed for large or bold text vs. a flat 4.5:1 floor). Use 4.5:1 as the working
   floor, accept 3:1 only for bold text or text at 18 pt (the table row says only "18 pts"; read it as 18 pt and
   larger, as in WCAG), and target 7:1 for custom small text.
 

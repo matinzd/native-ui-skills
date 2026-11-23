@@ -61,7 +61,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/feedback, 
 - [HIG] Add dedicated undo and redo buttons only when necessary; use the standard symbols and put them in a toolbar.
 - [HIG] iOS, iPadOS: do not redefine the standard undo gestures (three-finger swipe, shake). The alert title gets an automatic "Undo " or "Redo " prefix; supply one or two words after it ("Undo Name").
 - [HIG] macOS: Undo and Redo at the top of the Edit menu, with Command-Z and Shift-Command-Z.
-- [Req] Not supported in tvOS or watchOS.
+- [API] Not supported in tvOS or watchOS.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/undo-and-redo
 
@@ -69,7 +69,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/undo-and-r
 
 - [HIG] Support drag and drop throughout the app; system text fields and text views already do.
 - [HIG] Always offer a non-drag alternative (menu commands such as copy and move); on iOS and iPadOS expose drag sources and drop points to assistive technologies.
-- [HIG] Default semantics: within the same container a drop moves; to a different container it copies. [Req] Between apps it is always a copy.
+- [HIG] Default semantics: within the same container a drop moves; to a different container it copies. [API] Between apps it is always a copy.
 - [HIG] With a hardware keyboard, check the Option key at drop time: held means copy within the same container.
 - [HIG] Support multi-item drags. iPadOS lets people add items to a drag in progress; accept multiple simultaneous drops.
 - [HIG] Prefer making drops undoable; ask for confirmation before a drop that cannot be undone.
@@ -80,7 +80,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/undo-and-r
 - [HIG] Consider spring loading (dragging over a button or segmented control activates it; force click on a Magic Trackpad, hover on iPad).
 - [HIG] macOS: let people drag to the Finder in a format the app can reopen; allow dragging from an inactive window without activating it; badge multi-item drags with a count; use the copy, link, disappearing-item and not-allowed pointers; select and drag in one motion.
 - [HIG] visionOS: when content is dropped into empty space, open the app's window for it.
-- [Req] Not supported in tvOS or watchOS.
+- [API] Not supported in tvOS or watchOS.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/drag-and-drop
 
@@ -122,7 +122,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/gestures
 
 | Platform | Rules |
 |---|---|
-| iOS, iPadOS | [Req] System gestures people expect: three-finger swipe (left undo, right redo), three-finger pinch (in copy, out paste), four-finger swipe to switch apps (iPadOS only), shake (undo, redo). [HIG] Do not redefine them. Simultaneous gesture recognition is mainly useful in games. |
+| iOS, iPadOS | [API] System gestures people expect: three-finger swipe (left undo, right redo), three-finger pinch (in copy, out paste), four-finger swipe to switch apps (iPadOS only), shake (undo, redo). [HIG] Do not redefine them. Simultaneous gesture recognition is mainly useful in games. |
 | macOS | [HIG] Standard gestures work on Magic Trackpad and Magic Mouse; do not redefine systemwide trackpad gestures (Dock, Mission Control), which people can also customize. Touch is covered under Touch on Mac. |
 | tvOS | [HIG] Standard gestures through the remote; see Remotes. |
 | visionOS | [HIG] Support both indirect gestures (look, then pinch) and direct touch; prefer indirect for UI and standard components, and reserve direct and custom gestures for close-up objects. Do not require specific body movements or positions. Details under Eyes and hands. |
@@ -143,7 +143,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/gestures, 
 - [HIG] Let the system localize and mirror shortcuts; avoid extra modifiers with characters that are not on every keyboard layout.
 - [HIG] Keep expected modifier behaviours while dragging (Shift constrains resizing; Option duplicates) and make them identical for touch and pointer.
 - [HIG] visionOS: holding Command shows a flat shortcut list grouped by menu category, so write shortcut titles that stand alone (`discoverabilityTitle`).
-- [Req] Physical keyboards are not supported on watchOS.
+- [API] Physical keyboards are not supported on watchOS.
 
 Standard shortcuts agents most often collide with (the page has the full table):
 
@@ -176,7 +176,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/keyboards,
 - [HIG] Support band (click-and-drag) multiple selection in custom iPadOS views when needed (`UIBandSelectionInteraction`).
 - [HIG] macOS: honour standard clicks and gestures (primary click selects or activates; secondary click opens context menus; scrolling, smart zoom, swipe between pages, force click). Use standard pointer styles to signal state: arrow, pointing hand for links, I-beam for text, open and closed hand for repositioning, resize pointers, drag copy, drag link, operation not allowed.
 - [HIG] macOS and visionOS show tooltips on hover; see `references/patterns-flows.md` (Offering help).
-- [Req] visionOS: an attached pointer follows where people look; the hover highlight from eyes is separate. No additional considerations for iOS. Not supported in tvOS or watchOS.
+- [API] visionOS: an attached pointer follows where people look; the hover highlight from eyes is separate. No additional considerations for iOS. Not supported in tvOS or watchOS.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/pointing-devices
 
@@ -211,7 +211,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/gestures, 
 - [HIG] iPadOS, macOS: provide focus for content elements (list items, text fields, search fields), not for controls such as buttons, sliders and toggles.
 - [API] iPadOS 15 and later has a focus system with focus groups: Tab moves between groups (sidebar, grid, list); arrow keys move within a group. Order is reading order; group custom views and set priorities where needed (as stated on the page).
 - [HIG] tvOS: every onscreen element must be reachable by focus. Supply assets for the larger focused size and leave room so focused items do not crowd neighbours. Do not show a pointer for interface navigation. In full-screen content, gestures act on the content, not on focus.
-- [Req] The focus system is not supported in iOS or watchOS. In visionOS it applies to connected keyboards and controllers and is separate from the eye-driven hover effect.
+- [API] The focus system is not supported in iOS or watchOS. In visionOS it applies to connected keyboards and controllers and is separate from the eye-driven hover effect.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/focus-and-selection
 
@@ -233,7 +233,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/apple-penc
 - [HIG] Where navigation is not needed, use the Crown to inspect data or drive a control.
 - [HIG] Always give visual feedback, and update at a rate that matches rotation speed so values stay selectable.
 - [HIG] Keep default haptic detents unless they mismatch the animation.
-- [Req] Apps cannot respond to Crown presses on watchOS. On Apple Vision Pro the Crown is system-only (volume, immersion level, recenter, accessibility settings, Home View).
+- [API] Apps cannot respond to Crown presses on watchOS. On Apple Vision Pro the Crown is system-only (volume, immersion level, recenter, accessibility settings, Home View).
 
 Source: https://developer.apple.com/design/human-interface-guidelines/digital-crown
 
@@ -257,7 +257,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/remotes
 
 Short pointers; the visionOS file among `references/platforms-*.md` goes deeper.
 
-- [Req] The system does not tell apps where people look before they tap; a hover effect is drawn by the system outside the app's process, so it cannot trigger app logic.
+- [API] The system does not tell apps where people look before they tap; a hover effect is drawn by the system outside the app's process, so it cannot trigger app logic.
 - [HIG] Prefer standard components; they highlight consistently when looked at.
 - [HIG] Space interactive items: at least 16 pt of margin around each, or centers at least 60 pt apart. Prefer rounded shapes. A multi-element component needs one containing shape for the highlight.
 - [HIG] For sustained viewing place content at least one meter away. Avoid patterns or textures that fill the field of view, and minimize motion near what people are looking at.

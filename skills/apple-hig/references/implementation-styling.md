@@ -147,7 +147,7 @@ Source: https://developer.apple.com/documentation/swiftui/shapestyle, https://de
 - [API] `preferredColorScheme(_:)` (iOS 13+, macOS 11+, tvOS 13+, watchOS 6+, visionOS 1+) sets the scheme for the nearest enclosing presentation (window, sheet, popover) and overrides the person's Dark Mode choice there; pass `nil` for no preference. The `colorScheme(_:)` modifier is deprecated.
 - [HIG] Avoid an app-specific appearance setting; follow the system appearance. [Conv] Force a scheme only for a presentation whose content is inherently dark or light, such as a media player.
 - [API] `@Environment(\.colorSchemeContrast)` (iOS 13+, macOS 10.15+, tvOS 13+, watchOS 6+, visionOS 1+) is `.standard` or `.increased` (Increase Contrast). [Conv] Give Color Sets high-contrast variants in the asset catalog so most code never reads it.
-- [HIG] Contrast between foreground and background no lower than 4.5:1; aim for 7:1 for custom colors in small text. Test Dark Mode together with Increase Contrast and Reduce Transparency.
+- [HIG] Text contrast: at least 4.5:1 for text up to 17 pt; 3:1 is acceptable for 18 pt or bold text (Accessibility page table). The Dark Mode page separately asks for no lower than 4.5:1 in every appearance and 7:1 for custom foreground and background colors, especially small text. Test Dark Mode together with Increase Contrast and Reduce Transparency.
 - [Conv] Preview both schemes with `.environment(\.colorScheme, .dark)` or `.preferredColorScheme(.dark)` in a preview only.
 
 Source: https://developer.apple.com/documentation/swiftui/colorscheme, https://developer.apple.com/documentation/swiftui/colorschemecontrast, https://developer.apple.com/design/human-interface-guidelines/dark-mode
@@ -200,7 +200,7 @@ struct FloatingBadge: View {
 - [API] Standard components (bars, sheets, popovers, controls) from SwiftUI, UIKit and AppKit adopt Liquid Glass automatically when built with the current SDK. Apple's adoption guide says to reduce custom backgrounds in tab bars, toolbars and split views; do that before adding any glass of your own.
 - [HIG] Liquid Glass is the layer for controls and navigation. Do not use it in the content layer (cards, list rows, backgrounds); use standard materials there.
 - [HIG] Apply glass to custom controls sparingly. Use the clear variant only over visually rich backgrounds such as photos or video, adding a dimming layer if legibility needs it.
-- [API] These SwiftUI APIs have no visionOS availability; compile them out with `#if !os(visionOS)` and use `glassBackgroundEffect` there.
+- [API] The glass effect and glass button style rows above (`glassEffect` through `buttonStyle(.glass)`) have no visionOS availability; compile them out with `#if !os(visionOS)` and use `glassBackgroundEffect` there.
 - [API] Info.plist key `UIDesignRequiresCompatibility` (iOS 26+, macOS 26+, tvOS 26+) temporarily runs an app with the previous design. The documentation states the system ignores the key when you build for OS 27 or later, so it is not an option for current SDK work.
 - [Conv] Test glass with Reduce Transparency, Increase Contrast and Reduce Motion turned on.
 

@@ -115,7 +115,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/pickers
 - [HIG] iOS, iPadOS: suitable for switching closely related subviews; for separate app sections use a tab bar.
 - [HIG] macOS: for view switching in the main window area use a tab view; use segmented controls in toolbars and inspectors. Selection may be single or multiple on macOS. Add introductory text, per-segment labels or tooltips for icon segments.
 - [HIG] tvOS: segments select on focus, so keep other focusable elements away; prefer a split view for content filtering.
-- [Req] Not supported in watchOS.
+- [API] Not supported in watchOS.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/segmented-controls
 
@@ -126,8 +126,8 @@ Source: https://developer.apple.com/design/human-interface-guidelines/segmented-
 - [HIG] For wide ranges pair the slider with a text field showing the exact value, and optionally a stepper.
 - [HIG] iOS, iPadOS: do not use a slider for audio volume; use the system volume view.
 - [HIG] macOS: give live feedback while dragging; linear slider for a fixed start and end, circular slider for values that repeat or continue; use tick marks, label at least minimum and maximum, introduce with a label ending in a colon.
-- [HIG] visionOS: prefer horizontal sliders. watchOS: sliders step by a preset amount via side buttons. Sliders are not supported in tvOS.
-- [HIG] Stepper: it shows no value itself, so place it beside the value it changes. Pair with a text field when large changes are likely. macOS: consider Shift-click for a larger step (for example 10 times). Not supported in tvOS or watchOS.
+- [HIG] visionOS: prefer horizontal sliders. watchOS: sliders step by a preset amount via side buttons. [API] Sliders are not supported in tvOS.
+- [HIG] Stepper: it shows no value itself, so place it beside the value it changes. Pair with a text field when large changes are likely. macOS: consider Shift-click for a larger step (for example 10 times). [API] Not supported in tvOS or watchOS.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/sliders, https://developer.apple.com/design/human-interface-guidelines/steppers
 
@@ -178,7 +178,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/progress-i
 - [HIG] Write short labels for the current value and both endpoints; VoiceOver reads visible labels. A gradient can reinforce meaning (hot to cold).
 - [HIG] macOS level indicator: capacity (continuous for large ranges, or discrete segments), rating, or rarely relevance; fill color defaults to green and may change at significant levels.
 - [HIG] Rating indicator (macOS only): whole symbols only; let people change a rating inline; if you replace the star, make the meaning obvious.
-- [Req] Gauges are not supported in tvOS.
+- [API] Gauges are not supported in tvOS.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/gauges, https://developer.apple.com/design/human-interface-guidelines/rating-indicators
 
@@ -209,7 +209,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/labels
 - [HIG] Custom indicator images: simple, no negative space, text or inner lines; no more than two different images in one control; do not color them.
 - [HIG] iOS, iPadOS: people tap or scrub. Do not animate page transitions during scrubbing. Background styles: automatic (shown during interaction), prominent (always; only when it is the primary navigation), minimal (never; then do not support scrubbing).
 - [HIG] With a paging scroll view, do not also show the scroll indicator on the same axis.
-- [HIG] tvOS: use on collections of full-screen pages. visionOS: display only, not interactive. watchOS: bottom for horizontal paging, beside the Digital Crown for vertical tab views. Not supported in macOS.
+- [HIG] tvOS: use on collections of full-screen pages. visionOS: display only, not interactive. watchOS: bottom for horizontal paging, beside the Digital Crown for vertical tab views. [API] Not supported in macOS.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/page-controls, https://developer.apple.com/design/human-interface-guidelines/scroll-views
 

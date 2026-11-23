@@ -52,7 +52,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/tab-bars, 
 | iOS | [HIG] (OS 26+) Floats above content at the bottom on a Liquid Glass background. With an attached accessory (for example a mini player) the bar may minimize on scroll-down and restore on tab tap or scroll-to-top (`TabBarMinimizeBehavior`). May carry a dedicated search tab at the trailing end. |
 | iPadOS | [HIG] Appears near the top. Choose fixed (`tabBarOnly`) or convertible to a sidebar (`sidebarAdaptable`). Prefer a tab bar; offer the sidebar conversion for complex apps. Let people customize tabs; if they can, ship a default set of five or fewer so compact and regular widths stay consistent. |
 | macOS | No additional considerations on the page. |
-| tvOS | [Req] Height is 68 pt and the top edge sits 46 pt from the top of the screen; neither can be changed. [HIG] The bar can scroll offscreen in single-view tabs, stays pinned above a split view, and regains focus when Menu is pressed. Extra items are truncated with a fade. Live-viewing apps order tabs: live, cloud DVR or recorded, other. |
+| tvOS | [API] Height is 68 pt and the top edge sits 46 pt from the top of the screen; neither can be changed. [HIG] The bar can scroll offscreen in single-view tabs, stays pinned above a split view, and regains focus when Menu is pressed. Extra items are truncated with a fade. Live-viewing apps order tabs: live, cloud DVR or recorded, other. |
 | visionOS | [HIG] Always vertical, fixed to the window's leading side, expands when looked at. Supply both a symbol and a short text label per tab. A sidebar inside a tab may add secondary navigation, but its selections must not change the open tab. |
 | watchOS | Not supported. |
 
@@ -84,7 +84,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/sidebars
 A toolbar holds three kinds of content: the view title, navigation controls (back, forward, search) and actions (buttons, menus). On iOS a navigation-specific top toolbar is what was called a navigation bar.
 
 - [HIG] Choose items deliberately; do not overcrowd. Decide which items collapse first as width shrinks.
-- [Req] iPadOS and macOS add the overflow menu automatically when items stop fitting. [HIG] Do not add your own overflow menu, and avoid layouts that overflow at the default size.
+- [API] iPadOS and macOS add the overflow menu automatically when items stop fitting. [HIG] Do not add your own overflow menu, and avoid layouts that overflow at the default size.
 - [HIG] Add a More menu only when really needed, and fill it with the less important actions.
 - [HIG] On iPadOS and macOS consider toolbar customization for apps with many items or long working sessions.
 - [HIG] (OS 26+, Liquid Glass) Minimize custom toolbar backgrounds and tinted controls; let the content layer inform the bar's look and use a scroll edge effect (`ScrollEdgeEffectStyle`) when the bar needs separation from content.
@@ -169,7 +169,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/split-view
 | iOS | [HIG] (1) Search tab in the tab bar: standard tab style opens a landing page for discovery and suggestions; button appearance focuses the field and shows the keyboard at once for quick lookups. (2) Toolbar: place search at the bottom when there is room (expanded field or button); place it at the top when bottom content must stay unobstructed or there is no bottom toolbar. (3) Inline field: when adjacency to the content it filters matters; put it above the list and consider pinning it to the top toolbar on scroll. |
 | iPadOS, macOS | [HIG] Trailing side of the toolbar for most apps, especially split views. Top of the sidebar when filtering the sidebar's own content. A dedicated sidebar or tab bar item when search doubles as a discovery area; focus the field on arrival, except on iPad with only the virtual keyboard. In compact iPad widths keep search where it is most useful (for example above the content list column). Keep iPad and Mac behaviour consistent. |
 | tvOS | [HIG] Search is a dedicated keyboard screen with results beneath; provide popular, contextual and recent suggestions because typing is slow. |
-| watchOS | [Req] Tapping the field opens full-screen text input; the app returns after Cancel or Search. |
+| watchOS | [API] Tapping the field opens full-screen text input; the app returns after Cancel or Search. |
 | visionOS | No additional considerations. |
 
 Source: https://developer.apple.com/design/human-interface-guidelines/search-fields, https://developer.apple.com/design/human-interface-guidelines/searching

@@ -26,8 +26,8 @@ Verified: 2026-11-23 against the sources linked in each section (SDK cycle: OS 2
 - [HIG] Passthrough shows live video of the surroundings; the Digital Crown adjusts how much is visible. Spatial Audio makes sound seem to come from places in the room.
 - [HIG] The system places content relative to the wearer's head whatever their height or posture; content comes to people, so they can stay at rest.
 - [HIG] Find the minimum level of immersion that suits each key moment; do not assume every moment should be fully immersive.
-- [Req] Safety notes Apple states for the device: not for use while operating a vehicle or heavy machinery or while moving around unsafe environments, and designed for people 13 and older.
-- [HIG] No launch screen is required on visionOS.
+- [API] Safety notes Apple states for the device: not for use while operating a vehicle or heavy machinery or while moving around unsafe environments, and designed for people 13 and older.
+- [API] No launch screen is required on visionOS.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/designing-for-visionos, https://developer.apple.com/design/human-interface-guidelines/launching
 
@@ -57,7 +57,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/windows, h
 - [HIG] Primary interaction: look at an element to target it, then make an indirect gesture such as a tap (finger and thumb together) with a hand resting anywhere. Indirect gestures work at any distance with minimal movement.
 - [HIG] Direct gestures (touching content with a finger) suit nearby objects and short, infrequent use; raised arms tire quickly. Standard components accept both; offer both where possible and prefer indirect for UI.
 - [HIG] Looking at an interactive element shows the system hover effect. Some components expand when looked at (a tab bar reveals labels; a button can reveal a tooltip).
-- [Req] The system does not tell the app where people are looking before they tap. No design may depend on gaze position; hover effects run outside the app's process.
+- [API] The system does not tell the app where people are looking before they tap. No design may depend on gaze position; hover effects run outside the app's process.
 - [HIG] Custom hover effects define two appearances the system switches between; they cannot run code. Use them rarely, keep at least one primary view unchanged between states, and pick a delay: none for subtle affordances, short for quick expansion, long for extra information. Buttons do not support custom hover effects.
 - [HIG] A multi-part interactive component needs one containing shape the system can highlight.
 - [HIG] Support the standard gestures everywhere; tap is the first thing people try. Always give people multiple ways to interact, including accessibility features.
@@ -86,7 +86,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/tab-bars, 
 - [HIG] A sheet floats in front of its parent window, which dims. Do not make it emerge from the window's bottom edge; center it in the field of view. Do not let it cover most or all of the window; resizing may be allowed.
 - [HIG] Alerts appear in front of the app's window, slightly forward on the z-axis, and stay anchored to the window if it moves. In a Full Space they are centered in the field of view.
 - [HIG] An alert accessory view is at most 154 pt high with a 16 pt corner radius.
-- [HIG] Action sheets are not supported on visionOS.
+- [API] Action sheets are not supported on visionOS.
 - [HIG] Prefer a context menu to a panel or inspector window for frequent functions; keep its height within the window's height.
 - [HIG] There is no menu bar. With a hardware keyboard, holding Command shows a shortcut interface organized into the familiar categories (File, Edit, View) that lists only commands that have shortcuts, flat, without submenu titles: write shortcut titles that stand on their own.
 
@@ -134,7 +134,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/spatial-la
 
 - [HIG] Windows use an unmodifiable system material called glass that lets light, surroundings and virtual content show through and adapts its brightness to what is behind it.
 - [HIG] There is no Dark Mode on visionOS: do not design light and dark variants. System colors use their dark values.
-- [API] The Liquid Glass APIs (`glassEffect(_:in:)`, `Glass` and related, 26.0 on other platforms) list no visionOS availability, and Apple's adoption guide names iOS, iPadOS, macOS, tvOS and watchOS only. Do not apply Liquid Glass guidance or APIs to visionOS; use the system glass and materials.
+- [API] The glass effect and glass button style APIs (`glassEffect(_:in:)`, `GlassEffectContainer`, `buttonStyle(.glass)`; 26.0 on other platforms) list no visionOS availability, and Apple's adoption guide names iOS, iPadOS, macOS, tvOS and watchOS only. Some other OS 26 APIs do list visionOS 26 (`references/implementation-availability.md`). Do not apply Liquid Glass material guidance or those APIs to visionOS; use the system glass and materials.
 - [HIG] Prefer translucency to opaque colors in windows. For custom components: thin material for interactive elements and selected items, regular to separate sections such as a sidebar, thick for a dark element on a regular background.
 - [HIG] Vibrancy has three levels: label for standard text, secondary label for descriptive text, tertiary label for inactive elements only.
 - [HIG] Use color sparingly, especially on glass; prefer it in bold text and large areas. In full immersion keep brightness balanced and avoid bright objects on very dark backgrounds.
@@ -165,7 +165,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/immersive-
 
 ## Other inputs and system behaviours
 
-- [Req] The Digital Crown is system-only on Apple Vision Pro (volume, immersion amount, recentering, Accessibility settings, Home View); apps receive no Crown input.
+- [API] The Digital Crown is system-only on Apple Vision Pro (volume, immersion amount, recentering, Accessibility settings, Home View); apps receive no Crown input.
 - [HIG] With a connected keyboard or game controller, the same focus system as iPadOS and tvOS applies. It is separate from the gaze hover effect.
 - [HIG] With an attached pointing device, where people look sets the pointer's context; the pointer hides during gestures. No app work is needed.
 - [HIG] The virtual keyboard appears in its own movable window; layouts need not make room for it. A physical keyboard brings a typing-completion overlay.
@@ -187,7 +187,7 @@ Source: https://developer.apple.com/documentation/visionos/making-your-app-compa
 
 ## Not available on visionOS
 
-[HIG] Marked not supported in visionOS: Dark Mode, action sheets, the menu bar, status bars, panels, tab views, full-screen mode, Live Activities, Mac Catalyst, Apple Pencil, remotes and Top Shelf, complications, Always On, controls (Control Center controls), App Clips, Home Screen quick actions. The Liquid Glass APIs are not available.
+[API] Marked not supported in visionOS: Dark Mode, action sheets, the menu bar, status bars, panels, tab views, full-screen mode, Live Activities, Mac Catalyst, Apple Pencil, remotes and Top Shelf, complications, Always On, controls (Control Center controls), App Clips, Home Screen quick actions. [API] The glass effect and glass button style APIs (`glassEffect`, `GlassEffectContainer`, `buttonStyle(.glass)`) list no visionOS availability.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/dark-mode, https://developer.apple.com/design/human-interface-guidelines/action-sheets, https://developer.apple.com/design/human-interface-guidelines/the-menu-bar, https://developer.apple.com/design/human-interface-guidelines/going-full-screen, https://developer.apple.com/design/human-interface-guidelines/live-activities
 

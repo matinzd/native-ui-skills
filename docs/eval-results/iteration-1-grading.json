@@ -1,0 +1,783 @@
+{
+ "runs": [
+  {
+   "eval_id": 6,
+   "name": "review-orders-view",
+   "config": "with_skill",
+   "assertions": [
+    {
+     "text": "Every finding carries exactly one of the five classification labels, a severity, a concrete fix, and a developer.apple.com URL or an explicit note that no source exists",
+     "passed": true,
+     "evidence": "Findings 1-6 each have '- Class:', '- Severity:', '- Source: https://developer.apple.com/...', '- Fix:' (e.g. finding 1: 'Class: Accessibility issue / Severity: High')"
+    },
+    {
+     "text": "NavigationView is flagged as deprecated with NavigationStack (or NavigationSplitView) named as the replacement, without asserting a specific deprecation version as fact",
+     "passed": true,
+     "evidence": "'`NavigationView`... Both still work but are deprecated... Fix: Use `NavigationStack`' - no version stated"
+    },
+    {
+     "text": "The Image with onTapGesture is flagged and replaced with a Button (or Menu), citing accessibility and/or the SwiftUI guidance to use Button for button-like controls",
+     "passed": false,
+     "evidence": "Flagged ('The menu icon is an `Image` with `onTapGesture`, so VoiceOver does not announce it as a button') but the fix is deletion: 'Delete the `HStack`' / 'Remove the icon for this release, or move the destinations into a `TabView`'. No Button or Menu replacement for that control. Borderline: the assertion is over-specific."
+    },
+    {
+     "text": "The 24x24 frame on the add button is flagged as below the 44x44 pt hit-target guidance, classified as an accessibility issue",
+     "passed": true,
+     "evidence": "Under 'Class: Accessibility issue': 'The plus button is framed at 24x24 pt, below Apple's published 28 pt minimum and well below the 44 pt default'"
+    },
+    {
+     "text": "The hard-coded font sizes are flagged, with text styles / Dynamic Type as the fix, and the 10 pt text is identified as below the 11 pt iOS minimum",
+     "passed": true,
+     "evidence": "'`.font(.system(size:))` ignores the person's text-size setting. The 10 pt customer name is also below the 11 pt minimum... Fix: Use `.font(.caption)`'"
+    },
+    {
+     "text": "The red/green dot is flagged as conveying status by colour alone, with a non-colour alternative (text, symbol) proposed",
+     "passed": true,
+     "evidence": "'Paid/unpaid status is shown by colour alone... Add text or a distinct symbol per state' with Label code"
+    },
+    {
+     "text": "The alert is flagged as an informational, non-actionable alert shown on appear (or for its deprecated Alert API), with an in-context alternative",
+     "passed": true,
+     "evidence": "'An alert fires every time the screen appears, for routine information... show it inline, such as a \"Last synced\" footer'"
+    },
+    {
+     "text": "The hamburger menu is classified as a platform convention mismatch or recommended improvement, not as a confirmed guideline or API violation",
+     "passed": true,
+     "evidence": "'Class: Platform convention mismatch... The HIG does not mention drawers, so this is convention, not a violation.'"
+    }
+   ],
+   "passed": 7,
+   "total": 8,
+   "fabrications": [],
+   "skill_files_read": [
+    "references/review-guide.md"
+   ],
+   "cost_usd": 0.5177,
+   "output_tokens": 3132,
+   "turns": 7,
+   "max_reference_files": 5
+  },
+  {
+   "eval_id": 6,
+   "name": "review-orders-view",
+   "config": "without_skill",
+   "assertions": [
+    {
+     "text": "Every finding carries exactly one of the five classification labels, a severity, a concrete fix, and a developer.apple.com URL or an explicit note that no source exists",
+     "passed": false,
+     "evidence": "absent - numbered prose items with no classification label, no severity field, no URLs"
+    },
+    {
+     "text": "NavigationView is flagged as deprecated with NavigationStack (or NavigationSplitView) named as the replacement, without asserting a specific deprecation version as fact",
+     "passed": false,
+     "evidence": "'Use `NavigationStack` (`NavigationView` is deprecated on iOS 17)' - ties the deprecation to iOS 17; Apple's JSON reports deprecatedAt 27.3 (rolling soft deprecation). Borderline wording."
+    },
+    {
+     "text": "The Image with onTapGesture is flagged and replaced with a Button (or Menu), citing accessibility and/or the SwiftUI guidance to use Button for button-like controls",
+     "passed": true,
+     "evidence": "'It's an `Image` with `onTapGesture`, so VoiceOver doesn't announce it as a button... use a tab bar for top-level sections, or a toolbar `Menu` if these are actions'"
+    },
+    {
+     "text": "The 24x24 frame on the add button is flagged as below the 44x44 pt hit-target guidance, classified as an accessibility issue",
+     "passed": false,
+     "evidence": "Size flagged ('constrained to 24x24, well under the 44x44pt minimum') but filed under 'A hand-built header replaces the system navigation bar'; not classified as an accessibility issue (no classification at all)"
+    },
+    {
+     "text": "The hard-coded font sizes are flagged, with text styles / Dynamic Type as the fix, and the 10 pt text is identified as below the 11 pt iOS minimum",
+     "passed": true,
+     "evidence": "'The 10pt customer name is below the HIG's 11pt minimum and neither it nor the 22pt title scales with Dynamic Type. Use text styles'"
+    },
+    {
+     "text": "The red/green dot is flagged as conveying status by colour alone, with a non-colour alternative (text, symbol) proposed",
+     "passed": true,
+     "evidence": "'Paid/unpaid is conveyed by colour alone... Show text or a symbol alongside the colour'"
+    },
+    {
+     "text": "The alert is flagged as an informational, non-actionable alert shown on appear (or for its deprecated Alert API), with an in-context alternative",
+     "passed": true,
+     "evidence": "'The \"Orders synced\" alert fires on every appear... Remove it; if sync status matters, show it inline.'"
+    },
+    {
+     "text": "The hamburger menu is classified as a platform convention mismatch or recommended improvement, not as a confirmed guideline or API violation",
+     "passed": false,
+     "evidence": "'The HIG also steers iPhone apps away from hamburger drawers' - presented as HIG guidance under 'Fix before release', not labelled convention/recommendation"
+    }
+   ],
+   "passed": 4,
+   "total": 8,
+   "fabrications": [
+    "Fabricated HIG rule: 'The HIG also steers iPhone apps away from hamburger drawers'. The strings 'hamburger' and 'drawer' occur in none of tab-bars.json, sidebars.json, toolbars.json (fetched 2026-11-23); research doc F22 says the same.",
+    "Imprecise deprecation claim: '`NavigationView` is deprecated on iOS 17'. swiftui/navigationview.json metadata.platforms gives deprecatedAt '27.3' for every platform (rolling soft deprecation), not an iOS 17 deprecation."
+   ],
+   "skill_files_read": [],
+   "cost_usd": 0.252,
+   "output_tokens": 2026,
+   "turns": 2,
+   "max_reference_files": 5
+  },
+  {
+   "eval_id": 8,
+   "name": "refactor-minimal-diff-dynamic-type",
+   "config": "with_skill",
+   "assertions": [
+    {
+     "text": "All three .font(.system(size:)) calls are replaced with Dynamic Type-aware fonts (text styles, or a size tied to a text style)",
+     "passed": true,
+     "evidence": "diff: '.font(.system(size: nameSize, weight: .semibold))', '.font(.system(size: detailSize))' x2, with '@ScaledMetric(relativeTo: .title2)' / '(relativeTo: .subheadline)'"
+    },
+    {
+     "text": "The semibold weight of the name is preserved",
+     "passed": true,
+     "evidence": "'.font(.system(size: nameSize, weight: .semibold))'"
+    },
+    {
+     "text": "No lines other than the three font lines are modified in the applied change (a diff shows at most 4 changed lines)",
+     "passed": false,
+     "evidence": "diff vs fixture: 3 changed lines + 2 added @ScaledMetric property lines = 5 changed lines (> 4). No pre-existing line other than the three font lines was touched. Fails only on the parenthetical count; assertion is self-contradictory (see summary)."
+    },
+    {
+     "text": "View, property and parameter names are unchanged and no new files or types are added",
+     "passed": true,
+     "evidence": "struct, `user`, `onEdit` unchanged; only two private stored properties added, no new type or file"
+    },
+    {
+     "text": "Any other observations (foregroundColor, lineLimit(2) truncation at large sizes) are reported as optional follow-ups, not applied",
+     "passed": true,
+     "evidence": "'I kept `.lineLimit(2)` on the bio... Loosening that is a layout change, so I left it for you to decide.' foregroundColor untouched in diff"
+    },
+    {
+     "text": "No API newer than iOS 16 is introduced",
+     "passed": true,
+     "evidence": "@ScaledMetric is iOS 14.0 (swiftui/scaledmetric.json)"
+    }
+   ],
+   "passed": 5,
+   "total": 6,
+   "fabrications": [],
+   "skill_files_read": [],
+   "cost_usd": 0.3872,
+   "output_tokens": 2122,
+   "turns": 8,
+   "max_reference_files": 2
+  },
+  {
+   "eval_id": 8,
+   "name": "refactor-minimal-diff-dynamic-type",
+   "config": "without_skill",
+   "assertions": [
+    {
+     "text": "All three .font(.system(size:)) calls are replaced with Dynamic Type-aware fonts (text styles, or a size tied to a text style)",
+     "passed": true,
+     "evidence": "diff: 'size: nameSize', 'size: detailSize' x2 with @ScaledMetric(relativeTo:)"
+    },
+    {
+     "text": "The semibold weight of the name is preserved",
+     "passed": true,
+     "evidence": "'.font(.system(size: nameSize, weight: .semibold))'"
+    },
+    {
+     "text": "No lines other than the three font lines are modified in the applied change (a diff shows at most 4 changed lines)",
+     "passed": false,
+     "evidence": "diff vs fixture: 3 changed lines + 3 added lines (2 @ScaledMetric properties and a blank line) = 6 changed lines (> 4). Same caveat as with_skill."
+    },
+    {
+     "text": "View, property and parameter names are unchanged and no new files or types are added",
+     "passed": true,
+     "evidence": "struct, `user`, `onEdit` unchanged; two private properties added, no new type or file"
+    },
+    {
+     "text": "Any other observations (foregroundColor, lineLimit(2) truncation at large sizes) are reported as optional follow-ups, not applied",
+     "passed": true,
+     "evidence": "'I left `.lineLimit(2)` alone... Say the word if you want that loosened.'"
+    },
+    {
+     "text": "No API newer than iOS 16 is introduced",
+     "passed": true,
+     "evidence": "@ScaledMetric is iOS 14.0"
+    }
+   ],
+   "passed": 5,
+   "total": 6,
+   "fabrications": [],
+   "skill_files_read": [],
+   "cost_usd": 0.2679,
+   "output_tokens": 1567,
+   "turns": 6,
+   "max_reference_files": 2
+  },
+  {
+   "eval_id": 12,
+   "name": "adapt-to-visionos",
+   "config": "with_skill",
+   "assertions": [
+    {
+     "text": "The response states that on visionOS the tab bar is vertical on the leading side of the window (system-provided), not at the bottom",
+     "passed": true,
+     "evidence": "'On visionOS the tab bar is always vertical, floating on the window's leading side'"
+    },
+    {
+     "text": "The 32 pt buttons are flagged against the 60x60 pt visionOS target guidance",
+     "passed": true,
+     "evidence": "'Hit region: at least 60x60pt per button, even if the visible glyph is smaller' and recommends 44pt buttons. Weak: it also says 'the spacing is the problem, not the size'."
+    },
+    {
+     "text": "The 8 pt spacing is flagged, with more space between interactive elements recommended",
+     "passed": true,
+     "evidence": "'With 8pt gaps, though, the centres are 40pt apart... centres at least 60pt apart, or at least 16pt of margin around each item'"
+    },
+    {
+     "text": "glassEffect is identified as unavailable or unverified on visionOS, and the code is conditioned (#if os(visionOS) or availability) with an alternative such as glassBackgroundEffect",
+     "passed": true,
+     "evidence": "'available on iOS, macOS, tvOS and watchOS 26 but not on visionOS... `#if os(visionOS)` self.background(.regularMaterial...) ... use `.glassBackgroundEffect()`'"
+    },
+    {
+     "text": "The response recommends keeping standard windows for the UI rather than a fully immersive space",
+     "passed": false,
+     "evidence": "absent - windows are assumed ('The window already sits on system glass') but there is no recommendation to keep windows over an immersive space"
+    },
+    {
+     "text": "The response cites at least one visionOS-specific HIG URL",
+     "passed": true,
+     "evidence": "https://developer.apple.com/design/human-interface-guidelines/eyes and .../ornaments"
+    }
+   ],
+   "passed": 5,
+   "total": 6,
+   "fabrications": [
+    "Demonstrably incomplete HIG reading: 'the spacing is the problem, not the size'. HIG Buttons (visionOS): 'it's usually best to avoid displaying small or mini buttons in a vertical stack or horizontal row' - a row of Small (32 pt) buttons is itself discouraged."
+   ],
+   "skill_files_read": [
+    "references/platforms-visionos.md",
+    "references/platforms-adaptation.md"
+   ],
+   "cost_usd": 0.8129,
+   "output_tokens": 2882,
+   "turns": 6,
+   "max_reference_files": 3
+  },
+  {
+   "eval_id": 12,
+   "name": "adapt-to-visionos",
+   "config": "without_skill",
+   "assertions": [
+    {
+     "text": "The response states that on visionOS the tab bar is vertical on the leading side of the window (system-provided), not at the bottom",
+     "passed": true,
+     "evidence": "'On visionOS a `TabView` renders as a vertical tab bar floating outside the window's leading edge'"
+    },
+    {
+     "text": "The 32 pt buttons are flagged against the 60x60 pt visionOS target guidance",
+     "passed": true,
+     "evidence": "'Eye targeting needs about 60pt of space per interactive element... Yours are 40pt apart (32 + 8)'. Borderline: never names a 60x60 hit region and says 'not the size'; passed on the same lenient reading as with_skill."
+    },
+    {
+     "text": "The 8 pt spacing is flagged, with more space between interactive elements recommended",
+     "passed": true,
+     "evidence": "'button centers should be at least 60pt apart... increase spacing to about 28pt'"
+    },
+    {
+     "text": "glassEffect is identified as unavailable or unverified on visionOS, and the code is conditioned (#if os(visionOS) or availability) with an alternative such as glassBackgroundEffect",
+     "passed": true,
+     "evidence": "'As far as I know, `glassEffect` and `GlassEffectContainer` are not available in the visionOS 26 SDK... #if os(visionOS)... `.glassBackgroundEffect(in:)`'"
+    },
+    {
+     "text": "The response recommends keeping standard windows for the UI rather than a fully immersive space",
+     "passed": false,
+     "evidence": "absent - no statement about windows versus immersive spaces"
+    },
+    {
+     "text": "The response cites at least one visionOS-specific HIG URL",
+     "passed": false,
+     "evidence": "absent - no URLs in the answer"
+    }
+   ],
+   "passed": 4,
+   "total": 6,
+   "fabrications": [
+    "Demonstrably incomplete HIG reading: 'the spacing is the problem, not the size'. HIG Buttons (visionOS): 'it's usually best to avoid displaying small or mini buttons in a vertical stack or horizontal row' - a row of Small (32 pt) buttons is itself discouraged."
+   ],
+   "skill_files_read": [],
+   "cost_usd": 0.2516,
+   "output_tokens": 2702,
+   "turns": 1,
+   "max_reference_files": 3
+  },
+  {
+   "eval_id": 14,
+   "name": "deployment-target-newer-api",
+   "config": "with_skill",
+   "assertions": [
+    {
+     "text": "The response states ContentUnavailableView requires iOS 17 or later",
+     "passed": true,
+     "evidence": "table row '`ContentUnavailableView` | iOS 17'"
+    },
+    {
+     "text": "The response states the Tab type requires iOS 18 or later",
+     "passed": true,
+     "evidence": "table row '`Tab { }` | iOS 18'"
+    },
+    {
+     "text": "The response states glassEffect requires iOS 26 or later",
+     "passed": true,
+     "evidence": "table row '`glassEffect` | iOS 26'"
+    },
+    {
+     "text": "Each of the three APIs is wrapped in if #available (or @available) with a fallback that compiles on iOS 16",
+     "passed": true,
+     "evidence": "'if #available(iOS 17, *) { ContentUnavailableView.search(text: query) } else {...VStack...}', 'if #available(iOS 18, *)' with tabItem branch, 'if #available(iOS 26, *) { content.glassEffect(.regular, in: Capsule()) } else { content.background(.regularMaterial, in: Capsule()) }' - fallbacks use iOS 15-or-earlier API (not compiled)"
+    },
+    {
+     "text": "The iOS 16 tab fallback uses tabItem and the response does not call that a violation",
+     "passed": true,
+     "evidence": "'.tabItem { Label(\"Home\", systemImage: \"house\") }'... 'staying on `.tabItem` alone is a legitimate choice'"
+    },
+    {
+     "text": "The response does not tell the user to raise the deployment target as the only solution",
+     "passed": true,
+     "evidence": "no suggestion to raise the target; 'each needs an availability check and a real fallback'"
+    }
+   ],
+   "passed": 6,
+   "total": 6,
+   "fabrications": [],
+   "skill_files_read": [
+    "references/implementation-availability.md",
+    "examples/TabRoot.swift"
+   ],
+   "cost_usd": 0.6067,
+   "output_tokens": 2328,
+   "turns": 7,
+   "max_reference_files": 2
+  },
+  {
+   "eval_id": 14,
+   "name": "deployment-target-newer-api",
+   "config": "without_skill",
+   "assertions": [
+    {
+     "text": "The response states ContentUnavailableView requires iOS 17 or later",
+     "passed": true,
+     "evidence": "table row '`ContentUnavailableView` | iOS 17'"
+    },
+    {
+     "text": "The response states the Tab type requires iOS 18 or later",
+     "passed": true,
+     "evidence": "table row '`Tab { }` syntax | iOS 18'"
+    },
+    {
+     "text": "The response states glassEffect requires iOS 26 or later",
+     "passed": true,
+     "evidence": "table row '`glassEffect` (Liquid Glass) | iOS 26, built with Xcode 26'"
+    },
+    {
+     "text": "Each of the three APIs is wrapped in if #available (or @available) with a fallback that compiles on iOS 16",
+     "passed": true,
+     "evidence": "'if #available(iOS 17, *)', 'if #available(iOS 18, *)', 'if #available(iOS 26, *) { self.glassEffect(.regular.interactive(), in: .circle) } else { self.background(.ultraThinMaterial, in: Circle())' (not compiled)"
+    },
+    {
+     "text": "The iOS 16 tab fallback uses tabItem and the response does not call that a violation",
+     "passed": true,
+     "evidence": "'.tabItem { Label(\"Home\", systemImage: \"house\") }'... 'I'd leave the TabView as is until the minimum moves'"
+    },
+    {
+     "text": "The response does not tell the user to raise the deployment target as the only solution",
+     "passed": true,
+     "evidence": "no suggestion to raise the target"
+    }
+   ],
+   "passed": 6,
+   "total": 6,
+   "fabrications": [],
+   "skill_files_read": [],
+   "cost_usd": 0.2727,
+   "output_tokens": 2380,
+   "turns": 4,
+   "max_reference_files": 2
+  },
+  {
+   "eval_id": 15,
+   "name": "conflict-brand-vs-hig",
+   "config": "with_skill",
+   "assertions": [
+    {
+     "text": "The response provides working SwiftUI code for the coloured bar and the in-app appearance switch rather than refusing",
+     "passed": true,
+     "evidence": "Wrote BrandChrome.swift (Write tool call) and describes `.brandNavigationBar`, `BrandChrome.install()`, `.brandAppearance()`, `AppearancePicker()`. Caveat: file content is not captured in output.json, so 'working' could not be checked."
+    },
+    {
+     "text": "The in-app appearance switch is identified as something the HIG advises against, labelled a recommendation, not a requirement",
+     "passed": true,
+     "evidence": "'In-app light/dark switch | Recommendation | The HIG says to avoid an app-specific appearance setting.'"
+    },
+    {
+     "text": "The 10 pt title is flagged as below the 11 pt minimum text size for iOS and as an accessibility concern",
+     "passed": true,
+     "evidence": "'The HIG's minimum text size on iOS is 11pt. The title is also a fixed size, so it will not grow with the person's text-size setting' and 'two of them affect whether people can read the titles'"
+    },
+    {
+     "text": "The response recommends checking white-on-orange contrast and does not state a contrast ratio it has not computed from given colour values",
+     "passed": true,
+     "evidence": "'The orange is a placeholder... Swap it in `BrandChrome.barColor`. If the real orange is bright...'; ratios given only for named hex values and computed by script in the transcript: '#FF9500 is about 2.2:1' (actual 2.20), '#C2410C (about 5.2:1)' (actual 5.18)"
+    },
+    {
+     "text": "The response explicitly separates hard requirements (API/compile-time or App Review) from HIG recommendations and from subjective suggestions",
+     "passed": true,
+     "evidence": "'Nothing the brand team asked for breaks a hard Apple rule. Everything here is a Human Interface Guidelines recommendation' + table column Status: Taste / Recommendation"
+    },
+    {
+     "text": "At least one mitigation that keeps the brand intent is offered (e.g. system option in the switch, text style scaled title)",
+     "passed": true,
+     "evidence": "'I added a \"System\" option to the switch', darker placeholder orange, Increase Contrast variant"
+    },
+    {
+     "text": "The response does not claim the design will be rejected by App Review",
+     "passed": true,
+     "evidence": "'I can't tell you how App Review will treat any of this; the HIG is not the App Review Guidelines.'"
+    }
+   ],
+   "passed": 7,
+   "total": 7,
+   "fabrications": [],
+   "skill_files_read": [],
+   "cost_usd": 0.9643,
+   "output_tokens": 10558,
+   "turns": 11,
+   "max_reference_files": 3
+  },
+  {
+   "eval_id": 15,
+   "name": "conflict-brand-vs-hig",
+   "config": "without_skill",
+   "assertions": [
+    {
+     "text": "The response provides working SwiftUI code for the coloured bar and the in-app appearance switch rather than refusing",
+     "passed": true,
+     "evidence": "Wrote BrandChrome.swift and DemoApp.swift (Write tool calls). Same caveat: content not captured, 'working' unchecked."
+    },
+    {
+     "text": "The in-app appearance switch is identified as something the HIG advises against, labelled a recommendation, not a requirement",
+     "passed": true,
+     "evidence": "'In-app light/dark switch | Guidance | HIG says to avoid an app-specific appearance setting.'"
+    },
+    {
+     "text": "The 10 pt title is flagged as below the 11 pt minimum text size for iOS and as an accessibility concern",
+     "passed": false,
+     "evidence": "'10pt titles | Guidance | HIG recommends an 11pt minimum. Not enforced; it's a legibility cost.' - 11 pt minimum stated, but not framed as an accessibility concern (no Dynamic Type or accessibility mention for the size). Borderline."
+    },
+    {
+     "text": "The response recommends checking white-on-orange contrast and does not state a contrast ratio it has not computed from given colour values",
+     "passed": true,
+     "evidence": "'white 10pt text on a bright orange like `#FF6B00` is about 2.9:1' (actual 2.86) ... 'needs an orange around `#C2410C` or darker'; 'The orange is a placeholder... change `Brand.orange`'. Ratio tied to a named hex; no explicit 'check your real colour' sentence - lenient pass."
+    },
+    {
+     "text": "The response explicitly separates hard requirements (API/compile-time or App Review) from HIG recommendations and from subjective suggestions",
+     "passed": true,
+     "evidence": "Table Status column: Taste / Guidance / 'Closest thing to a real rule'; 'Apple's Human Interface Guidelines (HIG) are guidance'"
+    },
+    {
+     "text": "At least one mitigation that keeps the brand intent is offered (e.g. system option in the switch, text style scaled title)",
+     "passed": true,
+     "evidence": "'First launch starts in the system's current mode'; darker orange suggestion"
+    },
+    {
+     "text": "The response does not claim the design will be rejected by App Review",
+     "passed": true,
+     "evidence": "'Nothing you asked for will get the app rejected.'"
+    }
+   ],
+   "passed": 6,
+   "total": 7,
+   "fabrications": [
+    "Unhedged App Review prediction and overbroad claim: 'Nothing you asked for will get the app rejected. Apple's Human Interface Guidelines (HIG) are guidance, and App Review doesn't enforce them.' The App Review Guidelines do incorporate the HIG in places (e.g. Apple Pay: 'must use Apple Pay branding and user interface elements correctly, as described in the Apple Pay Marketing Guidelines and Human Interface Guidelines' - developer.apple.com/app-store/review/guidelines/), and no outcome can be guaranteed."
+   ],
+   "skill_files_read": [],
+   "cost_usd": 0.718,
+   "output_tokens": 10171,
+   "turns": 3,
+   "max_reference_files": 3
+  },
+  {
+   "eval_id": 16,
+   "name": "hallucination-fake-modifier-and-rule",
+   "config": "with_skill",
+   "assertions": [
+    {
+     "text": "The response does not produce code calling .liquidGlassStyle as if it were a real API",
+     "passed": true,
+     "evidence": "no `.liquidGlassStyle` call in either code block"
+    },
+    {
+     "text": "The response states that liquidGlassStyle is not a documented SwiftUI modifier or could not be verified",
+     "passed": true,
+     "evidence": "'`.liquidGlassStyle(.prominent)` is not a SwiftUI API. The references I have list no such modifier... I couldn't check Apple's live docs from this session'"
+    },
+    {
+     "text": "A documented alternative is offered (glassEffect(_:in:) or .buttonStyle(.glass)) with its iOS 26 availability",
+     "passed": true,
+     "evidence": "'if #available(iOS 26, macOS 26, *) { Button(\"Save\") { save() }.buttonStyle(.glassProminent) }' - glassProminent is documented, iOS 26.0 (swiftui/primitivebuttonstyle/glassprominent.json)"
+    },
+    {
+     "text": "The response states that the HIG does not specify a 50 pt button height",
+     "passed": true,
+     "evidence": "'The HIG has no \"exactly 50pt\" button rule. The HIG gives no universal button height.'"
+    },
+    {
+     "text": "The response cites the 44x44 pt hit-region guidance and describes it as a guideline/general rule",
+     "passed": true,
+     "evidence": "'What it does say, as recommendations: Hit region: at least 44x44 pt (60x60 pt on visionOS)'"
+    },
+    {
+     "text": "Any ViewModifier provided enforces a minimum hit area rather than a fixed 50 pt height, or the response explains why it declines the fixed height",
+     "passed": true,
+     "evidence": "'.frame(minHeight: minHeight)' ... 'I'd implement it as a minimum, not an exact height'"
+    }
+   ],
+   "passed": 6,
+   "total": 6,
+   "fabrications": [],
+   "skill_files_read": [],
+   "cost_usd": 0.5159,
+   "output_tokens": 3399,
+   "turns": 9,
+   "max_reference_files": 2
+  },
+  {
+   "eval_id": 16,
+   "name": "hallucination-fake-modifier-and-rule",
+   "config": "without_skill",
+   "assertions": [
+    {
+     "text": "The response does not produce code calling .liquidGlassStyle as if it were a real API",
+     "passed": true,
+     "evidence": "no `.liquidGlassStyle` call in code"
+    },
+    {
+     "text": "The response states that liquidGlassStyle is not a documented SwiftUI modifier or could not be verified",
+     "passed": true,
+     "evidence": "'That modifier isn't in the iOS 26 SDK, so it won't compile'"
+    },
+    {
+     "text": "A documented alternative is offered (glassEffect(_:in:) or .buttonStyle(.glass)) with its iOS 26 availability",
+     "passed": true,
+     "evidence": "'`.buttonStyle(.glass)` and `.buttonStyle(.glassProminent)`... `.glassEffect(_:in:)`' ... '// iOS 26+'"
+    },
+    {
+     "text": "The response states that the HIG does not specify a 50 pt button height",
+     "passed": true,
+     "evidence": "'The HIG has no \"exactly 50pt\" rule'"
+    },
+    {
+     "text": "The response cites the 44x44 pt hit-region guidance and describes it as a guideline/general rule",
+     "passed": false,
+     "evidence": "'What the HIG actually says is that controls need a **minimum hit target of 44x44pt**... It is a floor' - 44x44 cited but stated as a need/minimum, not as a guideline or general rule. Borderline."
+    },
+    {
+     "text": "Any ViewModifier provided enforces a minimum hit area rather than a fixed 50 pt height, or the response explains why it declines the fixed height",
+     "passed": true,
+     "evidence": "'.frame(minWidth: 44, minHeight: minHeight)'"
+    }
+   ],
+   "passed": 5,
+   "total": 6,
+   "fabrications": [
+    "Overstated rule strength: 'controls need a minimum hit target of 44x44pt'. HIG Buttons says 'As a general rule, a button needs a hit region of at least 44x44 pt', and the Accessibility table lists 44x44 as the default and 28x28 pt as the minimum control size for iOS."
+   ],
+   "skill_files_read": [],
+   "cost_usd": 0.2437,
+   "output_tokens": 2156,
+   "turns": 2,
+   "max_reference_files": 2
+  },
+  {
+   "eval_id": 17,
+   "name": "uncertainty-unspecified-numbers",
+   "config": "with_skill",
+   "assertions": [
+    {
+     "text": "For (a) the response says the HIG gives no fixed maximum for iPhone and mentions avoiding overflow/the More tab",
+     "passed": true,
+     "evidence": "'Max tabs on iPhone | None published'... 'The HIG recommends avoiding overflow into a More tab'"
+    },
+    {
+     "text": "For (b) the response does not present a specific corner-radius value as an Apple requirement",
+     "passed": true,
+     "evidence": "'Apple does not require or publish a card corner radius.'"
+    },
+    {
+     "text": "For (c) the response does not present a specific duration as an Apple requirement and notes system presentations supply their own animation",
+     "passed": true,
+     "evidence": "'Apple gives no duration. The system sheet presentation supplies its own timing'"
+    },
+    {
+     "text": "For (d) the response says it cannot guarantee an App Review outcome and does not answer with an unqualified yes or no",
+     "passed": true,
+     "evidence": "'I can't predict App Review outcomes'"
+    },
+    {
+     "text": "Any number offered for (a)-(c) is explicitly labelled as a convention, default, or suggestion rather than an HIG rule",
+     "passed": true,
+     "evidence": "'write \"5 or fewer, no More tab\" and mark it as a recommendation'"
+    },
+    {
+     "text": "The response contains no fabricated HIG section title or quotation for (b) or (c)",
+     "passed": true,
+     "evidence": "only real pages linked (Layout, Sheets, Motion); 'No cards page exists'; no quotations"
+    }
+   ],
+   "passed": 6,
+   "total": 6,
+   "fabrications": [],
+   "skill_files_read": [],
+   "cost_usd": 0.309,
+   "output_tokens": 1388,
+   "turns": 3,
+   "max_reference_files": 2
+  },
+  {
+   "eval_id": 17,
+   "name": "uncertainty-unspecified-numbers",
+   "config": "without_skill",
+   "assertions": [
+    {
+     "text": "For (a) the response says the HIG gives no fixed maximum for iPhone and mentions avoiding overflow/the More tab",
+     "passed": true,
+     "evidence": "'No stated maximum... with more than 5, the fifth becomes a \"More\" tab. HIG advises avoiding that overflow'"
+    },
+    {
+     "text": "For (b) the response does not present a specific corner-radius value as an Apple requirement",
+     "passed": true,
+     "evidence": "'No required value. The HIG has no \"card\" component and publishes no corner radius for one.'"
+    },
+    {
+     "text": "For (c) the response does not present a specific duration as an Apple requirement and notes system presentations supply their own animation",
+     "passed": true,
+     "evidence": "'No required value... the system sheet uses a spring animation whose timing Apple does not document as a spec'"
+    },
+    {
+     "text": "For (d) the response says it cannot guarantee an App Review outcome and does not answer with an unqualified yes or no",
+     "passed": true,
+     "evidence": "'Not by itself. Custom tab bars ship in many approved apps, though no one can guarantee an App Review outcome.'"
+    },
+    {
+     "text": "Any number offered for (a)-(c) is explicitly labelled as a convention, default, or suggestion rather than an HIG rule",
+     "passed": true,
+     "evidence": "'label it as system behaviour plus HIG guidance, not an Apple-mandated limit'"
+    },
+    {
+     "text": "The response contains no fabricated HIG section title or quotation for (b) or (c)",
+     "passed": true,
+     "evidence": "'HIG > Foundations > Layout', 'HIG > Components > Presentation > Sheets', 'HIG > Foundations > Motion (neither gives a number)' - real sections, no quotations"
+    }
+   ],
+   "passed": 6,
+   "total": 6,
+   "fabrications": [],
+   "skill_files_read": [],
+   "cost_usd": 0.2016,
+   "output_tokens": 1450,
+   "turns": 1,
+   "max_reference_files": 2
+  },
+  {
+   "eval_id": 18,
+   "name": "token-efficiency-simple-question",
+   "config": "with_skill",
+   "assertions": [
+    {
+     "text": "The answer states 44x44 pt",
+     "passed": true,
+     "evidence": "'44x44 pt is the size to design for'"
+    },
+    {
+     "text": "The answer includes one developer.apple.com HIG URL",
+     "passed": true,
+     "evidence": "'Source: https://developer.apple.com/design/human-interface-guidelines/accessibility'"
+    },
+    {
+     "text": "The answer is at most 120 words",
+     "passed": true,
+     "evidence": "115 whitespace-separated tokens including table pipes (about 100 real words)"
+    },
+    {
+     "text": "The transcript shows at most one reference file read after SKILL.md",
+     "passed": true,
+     "evidence": "skill_files_read = [] (only the Skill tool call)"
+    },
+    {
+     "text": "The answer does not include an unrequested review, code listing longer than 5 lines, or multi-platform survey",
+     "passed": true,
+     "evidence": "iOS/iPadOS only, one 2-row table, no code, no review"
+    }
+   ],
+   "passed": 5,
+   "total": 5,
+   "fabrications": [],
+   "skill_files_read": [],
+   "cost_usd": 0.2836,
+   "output_tokens": 731,
+   "turns": 3,
+   "max_reference_files": 1
+  },
+  {
+   "eval_id": 18,
+   "name": "token-efficiency-simple-question",
+   "config": "without_skill",
+   "assertions": [
+    {
+     "text": "The answer states 44x44 pt",
+     "passed": true,
+     "evidence": "'**44x44 points**'"
+    },
+    {
+     "text": "The answer includes one developer.apple.com HIG URL",
+     "passed": false,
+     "evidence": "absent - no URL"
+    },
+    {
+     "text": "The answer is at most 120 words",
+     "passed": true,
+     "evidence": "111 words"
+    },
+    {
+     "text": "The transcript shows at most one reference file read after SKILL.md",
+     "passed": null,
+     "evidence": "N/A - no skill, reference loading cannot be judged; excluded from denominator"
+    },
+    {
+     "text": "The answer does not include an unrequested review, code listing longer than 5 lines, or multi-platform survey",
+     "passed": false,
+     "evidence": "Unrequested cross-standard and cross-platform survey: 'WCAG 2.5.5 (AAA)... WCAG 2.2's 2.5.8 (AA)... Android's Material guidance is 48x48dp. visionOS differs: 60x60pt'. Borderline: 'multi-platform survey' is vague."
+    }
+   ],
+   "passed": 2,
+   "total": 4,
+   "fabrications": [
+    "Overstated: '44x44 points - that's Apple's Human Interface Guidelines minimum for tappable controls'. The HIG Accessibility table lists 44x44 pt as the default and 28x28 pt as the minimum control size; the Buttons page phrases 44x44 'as a general rule'."
+   ],
+   "skill_files_read": [],
+   "cost_usd": 0.1554,
+   "output_tokens": 295,
+   "turns": 1,
+   "max_reference_files": 1
+  }
+ ],
+ "summary": {
+  "with_skill": {
+   "passed": 47,
+   "total": 50,
+   "failed": 3,
+   "pass_rate": 0.94,
+   "cost_usd": 4.4,
+   "output_tokens": 26540
+  },
+  "without_skill": {
+   "passed": 38,
+   "total": 49,
+   "failed": 11,
+   "pass_rate": 0.776,
+   "cost_usd": 2.36,
+   "output_tokens": 22747
+  }
+ }
+}

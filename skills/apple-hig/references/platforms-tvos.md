@@ -24,13 +24,13 @@ Verified: 2026-11-23 against the sources linked in each section (SDK cycle: OS 2
 - [HIG] It is a shared device: make sign-in easy and infrequent, handle shared sign-in, and switch profiles automatically when the current viewer changes.
 - [HIG] Deliver edge-to-edge artwork, subtle fluid animation and engaging audio that read clearly from across the room.
 - [HIG] System experiences to integrate with: the TV app, SharePlay, Top Shelf, TV provider accounts.
-- [HIG] A launch screen is required on tvOS and it is static (unlike the layered images used elsewhere).
+- [Req] A launch screen is required on tvOS. [API] It is static (unlike the layered images used elsewhere).
 
 Source: https://developer.apple.com/design/human-interface-guidelines/designing-for-tvos, https://developer.apple.com/design/human-interface-guidelines/launching, https://developer.apple.com/design/human-interface-guidelines/multitasking
 
 ## Focus engine
 
-- [Req] Every interactive element must be reachable by focus: people use directional gestures on the remote or controller (or arrow keys) to reach every onscreen element, unlike iPadOS and macOS where only content elements need focus.
+- [HIG] Make sure every interactive element can receive focus (the page says "you need to"): people use directional gestures on the remote or controller (or arrow keys) to reach every onscreen element, unlike iPadOS and macOS where only content elements need focus.
 - [HIG] Focusing and selecting are separate: moving focus only highlights; a press selects or activates, because selection opens things.
 - [HIG] Rely on system focus effects. tvOS generally uses the parallax effect: the focused item rises to the foreground, sways gently and is illuminated. Layered images are required for parallax.
 - [HIG] A focused item usually grows. Supply assets for the larger focused size and leave enough padding that it does not crowd or overlap neighbours.
@@ -85,8 +85,8 @@ Source: https://developer.apple.com/design/human-interface-guidelines/tab-bars, 
 | Item | Value | Tag |
 |---|---|---|
 | Safe area for primary content | inset 60 pt from top and bottom, 80 pt from the sides | [HIG] |
-| Tab bar height | 68 pt, fixed | [Req] |
-| Tab bar top edge | 46 pt from the top of the screen, fixed | [Req] |
+| Tab bar height | 68 pt, fixed | [API] |
+| Tab bar top edge | 46 pt from the top of the screen, fixed | [API] |
 | Default / minimum text size | 29 pt / 23 pt | [HIG] |
 | Default / minimum control size | 66x66 pt / 56x56 pt | [HIG] |
 | Body text style | 29 pt, 36 pt leading, Medium weight | [HIG] |
@@ -161,7 +161,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/materials,
 
 ## Not available on tvOS
 
-[HIG] Marked not supported in tvOS: windows, the menu bar, pointing devices, popovers, edit menus, pop-up and pull-down buttons, sliders, steppers, disclosure controls, tab views, panels, drag and drop, undo and redo, web views, printing, widgets, Live Activities, App Shortcuts, status bars, full-screen mode as a pattern, activity views, the Digital Crown, Apple Pencil, Always On.
+[API] Marked not supported in tvOS: windows, the menu bar, pointing devices, popovers, edit menus, pop-up and pull-down buttons, sliders, steppers, disclosure controls, tab views, panels, drag and drop, undo and redo, web views, printing, widgets, Live Activities, App Shortcuts, status bars, full-screen mode as a pattern, activity views, the Digital Crown, Apple Pencil, Always On.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/windows, https://developer.apple.com/design/human-interface-guidelines/pointing-devices, https://developer.apple.com/design/human-interface-guidelines/popovers, https://developer.apple.com/design/human-interface-guidelines/widgets, https://developer.apple.com/design/human-interface-guidelines/live-activities, https://developer.apple.com/design/human-interface-guidelines/drag-and-drop
 

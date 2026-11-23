@@ -11,6 +11,13 @@ before reporting it, and drop it when the context makes it fine (for example a d
 availability fallback, or a fixed size on a decorative shape). Absence of hits does not mean the interface
 follows the HIG; most guidance cannot be checked this way.
 
+Known blind spots (it will not report these): icon-only buttons whose label closure is on a different line
+from `Button`; fixed sizes passed through variables; frames that set only a width or only a height; contrast;
+anything that depends on layout at run time; UIKit and AppKit beyond a few font and color calls.
+
+Exit status: 0 normally; 1 with --fail-on when a lead meets the threshold; 2 when a path does not exist or no
+Swift files were found.
+
 Suppress a line with a trailing comment:  // hig-lint:ignore   or   // hig-lint:ignore rule-id
 Standard library only. Python 3.8+. Reads files, writes nothing, needs no network.
 """
@@ -33,10 +40,11 @@ PLATFORM = "Platform convention mismatch"
 IMPROVE = "Recommended improvement"
 
 
-def rule(rid, pattern, klass, severity, message, source, unless=None, unless_file=None):
+def rule(rid, pattern, klass, severity, message, source, unless=None, unless_file=None, unless_line=None):
     return {
         "id": rid, "re": re.compile(pattern), "class": klass, "severity": severity, "message": message,
         "source": source, "unless": re.compile(unless) if unless else None,
+        "unless_line": re.compile(unless_line) if unless_line else None,
         "unless_file": re.compile(unless_file) if unless_file else None,
     }
 
@@ -45,7 +53,7 @@ DEPRECATED_NOTE = " Deprecated API is acceptable inside a fallback for systems o
 
 RULES = [
     # Deprecated or removed API. The replacement's own minimum OS is listed in references/implementation-availability.md.
-    rule("deprecated-navigationview", r"\bNavigationView\b", VIOLATION, "Medium",
+    rule("deprecated-navigationview", r"\bNavigationView\b", VIOLATION, "Low",
          "NavigationView is deprecated. Use NavigationStack or NavigationSplitView (iOS 16+, macOS 13+)." + DEPRECATED_NOTE,
          DOC + "swiftui/navigationview"),
     rule("deprecated-navigationbar-modifiers", r"\.navigationBar(Title|Items|Hidden)\(", VIOLATION, "Low",
@@ -64,7 +72,7 @@ RULES = [
     rule("deprecated-tabitem", r"\.tabItem\b", VIOLATION, "Low",
          "tabItem is deprecated. Use Tab inside TabView (iOS 18+, macOS 15+)." + DEPRECATED_NOTE,
          DOC + "swiftui/tab"),
-    rule("deprecated-alert-actionsheet", r"\bActionSheet\(|\bAlert\(title:|\.actionSheet\(|\.alert\(isPresented:[^)]*\)\s*\{",
+    rule("deprecated-alert-actionsheet", r"\bActionSheet\(|\bAlert\(title:|\.actionSheet\(|\.alert\(isPresented:\s*[^,)]*\)\s*\{",
          VIOLATION, "Low",
          "Alert / ActionSheet values are deprecated. Use alert(_:isPresented:actions:message:) and confirmationDialog "
          "(iOS 15+)." + DEPRECATED_NOTE,
@@ -72,7 +80,8 @@ RULES = [
     rule("deprecated-edgesignoringsafearea", r"\.edgesIgnoringSafeArea\(", VIOLATION, "Low",
          "edgesIgnoringSafeArea is deprecated. Use ignoresSafeArea (iOS 14+), and only on backgrounds.",
          DOC + "swiftui/view/ignoressafearea(_:edges:)"),
-    rule("deprecated-onchange-perform", r"\.onChange\(of:[^)]*,\s*perform:", VIOLATION, "Low",
+    rule("deprecated-onchange-perform", r"\.onChange\(of:[^)]*,\s*perform:|\.onChange\(of:[^)]*\)\s*\{\s*\w+\s+in\b",
+         VIOLATION, "Low",
          "onChange(of:perform:) is deprecated as of iOS 17. Use the zero- or two-parameter closure form." + DEPRECATED_NOTE,
          DOC + "swiftui/view/onchange(of:initial:_:)"),
     rule("deprecated-uiscreen-main", r"\bUIScreen\.main\b", VIOLATION, "Medium",
@@ -81,7 +90,8 @@ RULES = [
          DOC + "uikit/uiscreen/main"),
 
     # Typography and Dynamic Type.
-    rule("fixed-font-size", r"\.font\(\s*\.system\(\s*size:|UIFont\.systemFont\(ofSize:|UIFont\.boldSystemFont\(ofSize:|NSFont\.systemFont\(ofSize:",
+    rule("fixed-font-size", r"\.system\(\s*size:\s*(?:\d|[^,)]*[?:]\s*\d)|\b(?:systemFont|boldSystemFont|italicSystemFont)\(ofSize:\s*\d|"
+                            r"\b(?:UIFont|NSFont)\(name:[^)]*size:\s*\d",
          A11Y, "Medium",
          "Fixed font size does not follow the person's text size setting on platforms with Dynamic Type. Use a text "
          "style (.body, .headline ...) or scale a custom size with a text style.",
@@ -99,7 +109,8 @@ RULES = [
          HIG + "typography"),
 
     # Color and appearance.
-    rule("hard-coded-color", r"\bColor\.(white|black)\b|\bColor\(\s*(red|white|hue):|\bUIColor\(\s*(red|white|hue):|"
+    rule("hard-coded-color", r"\bColor\.(white|black)\b|\bColor\(\s*(?:\.\w+\s*,\s*)?(red|white|hue):|\bColor\(\s*hex:|"
+                             r"\bUIColor\(\s*(red|white|hue):|"
                              r"\bUIColor\.(white|black)\b|\bNSColor\.(white|black)\b|#colorLiteral\(|"
                              r"\.(background|foregroundStyle)\(\s*\.(white|black)\s*[,)]",
          IMPROVE, "Medium",
@@ -120,7 +131,7 @@ RULES = [
          "Icon-only button: make sure it has a text label for VoiceOver and Voice Control, for example "
          "Label(\"Add\", systemImage: \"plus\") or an accessibilityLabel.",
          HIG + "accessibility", unless=r"accessibilityLabel|Label\("),
-    rule("small-fixed-frame", r"\.frame\(\s*width:\s*([0-3]?\d)(\.\d+)?\s*,\s*height:\s*([0-3]?\d)(\.\d+)?\s*[,)]",
+    rule("small-fixed-frame", r"\.frame\(\s*width:\s*(?:[0-3]?\d|4[0-3])(?:\.\d+)?\s*,\s*height:\s*(?:[0-3]?\d|4[0-3])(?:\.\d+)?\s*[,)]",
          A11Y, "Low",
          "Fixed frame smaller than 44x44 pt. If this element is tappable, enlarge its hit region to the platform's "
          "default control size (44 pt on iPhone and iPad; see the Accessibility page for other platforms).",
@@ -134,7 +145,7 @@ RULES = [
     rule("ignores-safe-area", r"\.ignoresSafeArea\(\s*\)", IMPROVE, "Low",
          "ignoresSafeArea() on all edges: apply it only to backgrounds so content and controls stay clear of system "
          "areas.",
-         HIG + "layout"),
+         HIG + "layout", unless_line=r"Color[.(]|Gradient|Image\(|\.background|Rectangle\("),
     rule("geometry-reader", r"\bGeometryReader\b", IMPROVE, "Low",
          "GeometryReader is often used to hand-compute layout that stacks, grids, ViewThatFits, or "
          "containerRelativeFrame handle adaptively. Confirm it is needed.",
@@ -150,16 +161,17 @@ RULES = [
 IGNORE = re.compile(r"//\s*hig-lint:ignore(?:\s+([\w-]+))?")
 
 
-def swift_files(paths):
+def swift_files(paths, missing):
     for raw in paths:
         p = Path(raw)
         if p.is_file():
             yield p
         elif p.is_dir():
             for f in sorted(p.rglob("*.swift")):
-                if not SKIP_DIRS.intersection(f.parts):
+                if not SKIP_DIRS.intersection(f.relative_to(p).parts):
                     yield f
         else:
+            missing.append(raw)
             print(f"hig_lint: no such file or directory: {raw}", file=sys.stderr)
 
 
@@ -187,7 +199,9 @@ def scan(path):
     except OSError as exc:
         print(f"hig_lint: cannot read {path}: {exc}", file=sys.stderr)
         return []
-    lines = text.splitlines()
+    # Blank out /* ... */ comments but keep line numbers.
+    text_nc = re.sub(r"/\*.*?\*/", lambda m: "\n" * m.group(0).count("\n"), text, flags=re.S)
+    lines = text_nc.splitlines()
     findings = []
     for n, line in enumerate(lines, 1):
         code = code_part(line)
@@ -196,13 +210,19 @@ def scan(path):
         ignore = IGNORE.search(line)
         if ignore and not ignore.group(1):
             continue
-        context = "\n".join(lines[n - 1:n + 3])
+        # The statement: this line plus directly following lines that continue it with a leading-dot modifier.
+        end = n
+        while end < len(lines) and end - n < 3 and lines[end].lstrip().startswith("."):
+            end += 1
+        context = "\n".join(lines[n - 1:end])
         for r in RULES:
             if not r["re"].search(code):
                 continue
             if ignore and ignore.group(1) == r["id"]:
                 continue
             if r["unless"] and r["unless"].search(context):
+                continue
+            if r["unless_line"] and r["unless_line"].search(code):
                 continue
             if r["unless_file"] and r["unless_file"].search(text):
                 continue
@@ -230,7 +250,12 @@ def main():
         ap.print_usage(sys.stderr)
         return 2
 
-    files = list(swift_files(args.paths))
+    missing = []
+    files = list(swift_files(args.paths, missing))
+    if missing or not files:
+        if not missing:
+            print("hig_lint: no Swift files found", file=sys.stderr)
+        return 2
     findings = [f for path in files for f in scan(path)]
     findings.sort(key=lambda f: (-LEVELS[f["severity"].lower()], f["file"], f["line"]))
     shown = findings[:args.max]

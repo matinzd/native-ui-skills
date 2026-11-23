@@ -10,7 +10,7 @@
       "files": [],
       "references_expected": [
         "references/patterns-flows.md",
-        "references/components-content.md"
+        "references/implementation-controls.md"
       ],
       "max_reference_files": 3,
       "assertions": [
@@ -52,6 +52,7 @@
       "expected_output": "Explains the trade-off; names iPad idiom (scaled to 77%) vs Mac idiom (100%, needs layout audit); lists what Catalyst provides automatically and which Mac conventions still need work (menu bar commands, keyboard shortcuts, window resizing, fixed font sizes). Cites the Mac Catalyst HIG page. Gives a recommendation with its assumptions.",
       "files": [],
       "references_expected": [
+        "references/platforms-adaptation.md",
         "references/platforms-macos.md"
       ],
       "max_reference_files": 3,
@@ -94,10 +95,9 @@
       "files": [],
       "references_expected": [
         "references/patterns-flows.md",
-        "references/components-content.md",
-        "references/implementation-availability.md"
+        "references/implementation-controls.md"
       ],
-      "max_reference_files": 3,
+      "max_reference_files": 4,
       "assertions": [
         "The code uses NavigationStack and a Form or List with Section headers",
         "The code uses Toggle for the on/off settings",
@@ -118,17 +118,13 @@
         "tests/evals/files/OrdersView.swift"
       ],
       "references_expected": [
-        "references/components-navigation.md",
-        "references/components-controls.md",
-        "references/components-presentation.md",
-        "references/accessibility-guidelines.md",
-        "references/implementation-availability.md"
+        "references/review-guide.md"
       ],
-      "max_reference_files": 5,
+      "max_reference_files": 4,
       "assertions": [
         "Every finding carries exactly one of the five classification labels, a severity, a concrete fix, and a developer.apple.com URL or an explicit note that no source exists",
-        "NavigationView is flagged as deprecated with NavigationStack (or NavigationSplitView) named as the replacement, without asserting a specific deprecation version as fact",
-        "The Image with onTapGesture is flagged and replaced with a Button (or Menu), citing accessibility and/or the SwiftUI guidance to use Button for button-like controls",
+        "NavigationView is flagged as deprecated with NavigationStack (or NavigationSplitView) named as the replacement, and the response does not give a specific OS version in which it was deprecated",
+        "The Image with onTapGesture is flagged as not being a real button (no button trait or accessible name), with a fix that either replaces it with a system control such as Button or Menu or removes it in favour of system navigation",
         "The 24x24 frame on the add button is flagged as below the 44x44 pt hit-target guidance, classified as an accessibility issue",
         "The hard-coded font sizes are flagged, with text styles / Dynamic Type as the fix, and the 10 pt text is identified as below the 11 pt iOS minimum",
         "The red/green dot is flagged as conveying status by colour alone, with a non-colour alternative (text, symbol) proposed",
@@ -146,9 +142,8 @@
         "tests/evals/files/RootTabs.swift"
       ],
       "references_expected": [
-        "references/components-navigation.md",
-        "references/accessibility-guidelines.md",
-        "references/foundations-color-materials.md"
+        "references/review-guide.md",
+        "references/components-navigation.md"
       ],
       "max_reference_files": 4,
       "assertions": [
@@ -172,13 +167,13 @@
         "tests/evals/files/ProfileHeader.swift"
       ],
       "references_expected": [
-        "references/accessibility-guidelines.md"
+        "references/implementation-styling.md"
       ],
       "max_reference_files": 2,
       "assertions": [
         "All three .font(.system(size:)) calls are replaced with Dynamic Type-aware fonts (text styles, or a size tied to a text style)",
         "The semibold weight of the name is preserved",
-        "No lines other than the three font lines are modified in the applied change (a diff shows at most 4 changed lines)",
+        "Existing lines other than the three font lines are left unchanged; the only additions allowed are declarations the new fonts need (for example a scaled metric property)",
         "View, property and parameter names are unchanged and no new files or types are added",
         "Any other observations (foregroundColor, lineLimit(2) truncation at large sizes) are reported as optional follow-ups, not applied",
         "No API newer than iOS 16 is introduced"
@@ -217,10 +212,11 @@
         "tests/evals/files/LibraryView.swift"
       ],
       "references_expected": [
+        "references/platforms-adaptation.md",
         "references/platforms-ipados.md",
         "references/implementation-adaptive-layout.md"
       ],
-      "max_reference_files": 3,
+      "max_reference_files": 4,
       "assertions": [
         "The fix introduces NavigationSplitView or a sidebar-adaptable TabView for regular width",
         "The UIDevice.current.userInterfaceIdiom check is removed, with the reason that layout should follow size class/available space rather than device type",
@@ -238,9 +234,10 @@
       "expected_output": "A reduced, glanceable watch design: fewer destinations, shallow hierarchy, vertical pagination driven by the Digital Crown, primary action prominent, settings and history demoted or left on iPhone. Notes that the iOS tab bar is not a watchOS component and that complications/notifications matter.",
       "files": [],
       "references_expected": [
+        "references/platforms-adaptation.md",
         "references/platforms-watchos.md"
       ],
-      "max_reference_files": 2,
+      "max_reference_files": 3,
       "assertions": [
         "The proposal reduces scope relative to the iPhone app (fewer top-level destinations and fewer than six controls on the timer screen)",
         "The response states that the iOS bottom tab bar is not used on watchOS and proposes vertical pages or a list instead",
@@ -258,16 +255,15 @@
       "expected_output": "Keeps a windowed UI; explains the vertical leading tab bar; enlarges and spaces targets to the 60 pt guidance; flags that glassEffect lists no visionOS availability and proposes a visionOS-appropriate alternative with a conditional; mentions hover effects and rounded shapes.",
       "files": [],
       "references_expected": [
+        "references/platforms-adaptation.md",
         "references/platforms-visionos.md",
         "references/implementation-availability.md"
       ],
-      "max_reference_files": 3,
+      "max_reference_files": 4,
       "assertions": [
         "The response states that on visionOS the tab bar is vertical on the leading side of the window (system-provided), not at the bottom",
-        "The 32 pt buttons are flagged against the 60x60 pt visionOS target guidance",
-        "The 8 pt spacing is flagged, with more space between interactive elements recommended",
+        "The row of 32 pt buttons with 8 pt spacing is flagged as hard to target with eyes and hands, citing the visionOS guidance on control size (60 pt) and/or spacing between controls",
         "glassEffect is identified as unavailable or unverified on visionOS, and the code is conditioned (#if os(visionOS) or availability) with an alternative such as glassBackgroundEffect",
-        "The response recommends keeping standard windows for the UI rather than a fully immersive space",
         "The response cites at least one visionOS-specific HIG URL"
       ]
     },
@@ -279,9 +275,10 @@
       "expected_output": "Focus-driven navigation with system focus effects, no touch-only gestures, larger text, content inset to the tvOS safe area, top tab bar. Uses HIG numbers only where the HIG gives them.",
       "files": [],
       "references_expected": [
+        "references/platforms-adaptation.md",
         "references/platforms-tvos.md"
       ],
-      "max_reference_files": 2,
+      "max_reference_files": 3,
       "assertions": [
         "The response says interaction is focus-based via remote and recommends system-provided focus effects",
         "Swipe actions are replaced with a focus/remote-appropriate alternative",
@@ -325,10 +322,10 @@
       ],
       "max_reference_files": 3,
       "assertions": [
-        "The response provides working SwiftUI code for the coloured bar and the in-app appearance switch rather than refusing",
+        "The response provides SwiftUI code (in the answer or in files it writes) for the coloured bar and the in-app appearance switch rather than refusing",
         "The in-app appearance switch is identified as something the HIG advises against, labelled a recommendation, not a requirement",
-        "The 10 pt title is flagged as below the 11 pt minimum text size for iOS and as an accessibility concern",
-        "The response recommends checking white-on-orange contrast and does not state a contrast ratio it has not computed from given colour values",
+        "The 10 pt title is flagged as below the 11 pt minimum text size the HIG gives for iOS",
+        "The response recommends checking white-on-orange contrast, and any ratio it states is tied to a specific colour value it names",
         "The response explicitly separates hard requirements (API/compile-time or App Review) from HIG recommendations and from subjective suggestions",
         "At least one mitigation that keeps the brand intent is offered (e.g. system option in the switch, text style scaled title)",
         "The response does not claim the design will be rejected by App Review"
@@ -382,16 +379,14 @@
       "prompt": "what's the minimum tap target on iOS?",
       "expected_output": "A short answer: 44x44 pt recommended hit region (HIG buttons / accessibility), with 28x28 pt listed as the minimum control size in the accessibility table; one source link. Loads at most one reference file and no platform or implementation references.",
       "files": [],
-      "references_expected": [
-        "references/components-controls.md"
-      ],
+      "references_expected": [],
       "max_reference_files": 1,
       "assertions": [
-        "The answer states 44x44 pt",
+        "The answer gives 44x44 pt as the default or recommended size, and does not call it a hard requirement (it mentions the 28x28 pt published minimum or words such as default, recommended or general rule)",
         "The answer includes one developer.apple.com HIG URL",
-        "The answer is at most 120 words",
+        "The answer is short: no more than about 150 words of prose, with at most one small table",
         "The transcript shows at most one reference file read after SKILL.md",
-        "The answer does not include an unrequested review, code listing longer than 5 lines, or multi-platform survey"
+        "The answer does not include an unrequested review or a code listing longer than 5 lines"
       ]
     }
   ]

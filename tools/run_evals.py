@@ -9,7 +9,8 @@
 Requires the `claude` CLI on PATH and a signed-in account. Each run starts a fresh, non-interactive session in an
 empty temporary project; the "with_skill" project has the skill copied to .claude/skills/, the "without_skill"
 project has nothing. Outputs (final answer, tool calls, files read, token usage) are written as JSON under --out.
-This script collects outputs only. Grade them against the assertions in tests/evals/evals.json separately.
+`skill_files_read` lists files opened with the Read tool; `skill_files_touched` lists files named in shell or
+search commands (a grep that matched a file may have loaded only a few lines). This script collects outputs only. Grade them against the assertions in tests/evals/evals.json separately.
 Standard library only. Runs cost real tokens: roughly 18 scenarios x 2 configurations for a full task run.
 """
 from __future__ import annotations
@@ -17,6 +18,7 @@ from __future__ import annotations
 import argparse
 import concurrent.futures as cf
 import json
+import re
 import shutil
 import subprocess
 import sys
@@ -46,7 +48,8 @@ def run_claude(prompt: str, with_skill: bool, files: list[str], timeout: int) ->
                                   stdin=subprocess.DEVNULL, check=False)
         except subprocess.TimeoutExpired:
             return {"error": f"timed out after {timeout}s"}
-        result = {"answer": "", "tool_calls": [], "skill_invoked": False, "skill_files_read": [], "edited": {}}
+        result = {"answer": "", "tool_calls": [], "skill_invoked": False, "skill_files_read": [],
+                  "skill_files_touched": [], "edited": {}}
         for line in proc.stdout.splitlines():
             try:
                 event = json.loads(line)
@@ -65,6 +68,11 @@ def run_claude(prompt: str, with_skill: bool, files: list[str], timeout: int) ->
                                 result["skill_invoked"] = True
                             else:
                                 result["skill_files_read"].append(path.split(f"skills/{SKILL.name}/")[1])
+                        elif name in ("Bash", "Grep", "Glob"):
+                            # Agents also reach skill files through the shell or search tools.
+                            for hit in re.findall(r"(?:references|examples|scripts)/[\w.-]+\.\w+", json.dumps(inp)):
+                                if (SKILL / hit).exists() and hit not in result["skill_files_touched"]:
+                                    result["skill_files_touched"].append(hit)
             elif event.get("type") == "result":
                 result["answer"] = event.get("result", "")
                 result["turns"] = event.get("num_turns")
