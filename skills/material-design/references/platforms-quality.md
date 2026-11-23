@@ -51,17 +51,13 @@ Source: https://developer.android.com/google/play/requirements/target-sdk, https
 
 ## Platform behaviour tied to targetSdk
 
-These are facts about what the OS does, not policies. They matter because the target API floor above forces apps onto them.
+- [API] These are facts about what the OS does, not policies; they matter because the target API floor above forces apps onto them. Full table of changes per level: `references/platforms-system.md`; orientation rules: `references/platforms-large-screens.md`.
 
-| Behaviour | Level | Opt-out | Tag |
-|---|---|---|---|
-| Edge-to-edge enforced on Android 15+ | targetSdk 35 | `windowOptOutEdgeToEdgeEnforcement` at 35; disabled at targetSdk 36 on Android 16 devices | [API] |
-| Cutout mode treated as always for non-floating windows | targetSdk 35 | None | [API] |
-| Predictive back on by default; `onBackPressed` and `KEYCODE_BACK` not delivered | targetSdk 36 on Android 16+ | `android:enableOnBackInvokedCallback="false"` (described as temporary) | [API] |
-| Orientation, resizability and aspect-ratio restrictions ignored at smallest width 600dp and up | targetSdk 36 | `PROPERTY_COMPAT_ALLOW_RESTRICTED_RESIZABILITY`; removed at targetSdk 37 | [API] |
-| Notification runtime permission under app control | targetSdk 33 | None | [API] |
-
-Details: `references/platforms-system.md`, `references/platforms-large-screens.md`.
+| Behaviour | Level | Opt-out |
+|---|---|---|
+| Edge-to-edge enforced on Android 15+; cutout mode always for non-floating windows | targetSdk 35 | `windowOptOutEdgeToEdgeEnforcement` at 35 (edge-to-edge only); disabled at targetSdk 36 on Android 16 devices |
+| Predictive back on by default; `onBackPressed` and `KEYCODE_BACK` not delivered | targetSdk 36 on Android 16+ | `android:enableOnBackInvokedCallback="false"` (described as temporary) |
+| Orientation, resizability and aspect-ratio restrictions ignored at smallest width 600dp and up | targetSdk 36 | `PROPERTY_COMPAT_ALLOW_RESTRICTED_RESIZABILITY`; removed at targetSdk 37 |
 
 Source: https://developer.android.com/about/versions/15/behavior-changes-15, https://developer.android.com/about/versions/16/behavior-changes-16, https://developer.android.com/about/versions/17/behavior-changes-17
 
@@ -76,7 +72,7 @@ Source: https://developer.android.com/about/versions/15/behavior-changes-15, htt
 | User interface | `Fullscreen_Display` | Fills the window in both orientations; not letterboxed after configuration changes |
 | User interface | `Orientation_Transitions` | Rapid rotation and folding without rendering problems or lost state |
 | Visual quality | `Graphic_Quality` | No distortion, blurring or pixelation; vector drawables where possible |
-| Visual quality | `Line_Length` | Text lines limited to 45 to 75 characters including spaces |
+| Visual quality | `Line_Length` | Text lines limited to 45 to 75 characters including spaces (Material's layout pages say 40 to 60: `references/foundations-layout.md`) |
 | Visual quality | `Theme_Support` | App content and web content support light and dark themes |
 | Navigation | `Back_Button_Nav` | Standard Back button; no custom on-screen back button prompts |
 | Navigation | `Back_Gesture_Nav` | Gesture navigation for Back and Home |

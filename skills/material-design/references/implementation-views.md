@@ -22,10 +22,11 @@ Verified: 2026-11-23 against the sources linked in each section (Compose Materia
 - [API] The getting-started guide asks for `compileSdk` 36.1 or later and `minSdk` 23 or later for the latest library versions.
 - [API] Activities extend `AppCompatActivity` (or use `AppCompatDelegate`) so that the Material versions of framework widgets are inflated.
 - [API] Since 1.13.0-alpha12 the library is built with non-transitive R classes: refer to AppCompat attributes as `androidx.appcompat.R.attr.colorPrimary` and to Material ones as `com.google.android.material.R.attr.colorOnPrimary` in code.
+- [API] Material's blog states that Material Views 1.14.0 is the final stable feature release of the Views library, which is now in maintenance mode (no new features, critical bug fixes only), because Material Android is Compose-first. Existing Views apps stay supported; do not promise new Views components.
 - [Unverified] The current MDC-Android release number was not checked (the Maven index was unreachable); read the version from the project's build files.
 - [Conv] Find the library version and the app theme parent (in `res/values/themes.xml` and its `values-night` variant) before recommending a widget style.
 
-Source: https://raw.githubusercontent.com/material-components/material-components-android/master/docs/getting-started.md , https://m3.material.io/develop/android/mdc-android
+Source: https://raw.githubusercontent.com/material-components/material-components-android/master/docs/getting-started.md , https://m3.material.io/develop/android/mdc-android , https://m3.material.io/blog/material-is-compose-first
 
 ## Theme parents
 

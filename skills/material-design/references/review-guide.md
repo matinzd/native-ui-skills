@@ -61,6 +61,8 @@ Use exactly one class per finding. Ask the questions in order and stop at the fi
 
 - [Conv] When a problem is both an accessibility barrier and a Material statement, class it as an accessibility
   issue and cite the page; the effect on people matters more than the label.
+- [Conv] `[Req]` has three sources: quality guidelines marked required, Google Play rules, and Material's own
+  "must" or "requires" statements (a navigation item needs a text label; the make-up of a dialog's actions).
 - [Conv] "Confirmed" means you can link the statement or the API entry. Material "Don't" captions and "should"
   sentences are recommendations, so name the strength in the Source line: requirement, recommendation, or API
   documentation.
@@ -149,8 +151,8 @@ Details: `references/components-navigation.md`, `references/components-presentat
 
 - [MD] A navigation bar has three to five destinations. For fewer than three use tabs; for more than five do
   not use a navigation bar.
-- [MD] Navigation bars are for compact and medium breakpoints only; from expanded up use a navigation rail.
-  A compact window uses a navigation bar, not a standard navigation rail.
+- [MD] A compact window uses a navigation bar, not a standard navigation rail. Medium uses a rail, though a bar
+  is allowed there (Material's pages disagree: `references/foundations-layout.md`); expanded and wider use a rail.
 - [MD] A navigation bar and a navigation rail are never shown together, and a toolbar at the bottom of the
   window is not shown at the same time as a navigation bar.
 - [Req] Every navigation item has a text label (the page says items "require" one). [MD] It is not wrapped

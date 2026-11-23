@@ -163,8 +163,8 @@ Source: https://m3.material.io/styles/typography/applying-type
 | Extra large | about 100% taller | Nastaliq |
 
 - [MD] Default to medium language height and switch by detected language.
-- [API] Components that use vertical padding adapt automatically; components with fixed heights are built for small values and may not adapt by default.
-- [MD] Do not hard-code container heights around Latin line heights: ignoring language height leads to overlapping text and broken elements.
+- [API] A Material component sized by vertical padding grows with the language height on its own; one with a fixed height is designed around the small category and may need adjusting for taller scripts.
+- [MD] Do not hard-code container heights around Latin line heights: taller scripts then collide or break the layout, which fails both internationalization and readability.
 - [API] Text in other languages averages about 1.5 times the length of English, so leave room horizontally as well.
 
 Source: https://m3.material.io/styles/typography/type-scale-tokens , https://m3.material.io/styles/typography/overview , https://m3.material.io/foundations/content-design/global-writing/word-choice

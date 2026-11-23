@@ -1,7 +1,7 @@
 # Structure and navigation in Compose
 
 Scope: Compose Material 3 code for app structure: `Scaffold` and its padding, top app bars and scroll behaviors, navigation bar, rail and drawers, `NavigationSuiteScaffold`, tabs, the search bar, window size classes and adaptive pane scaffolds, navigation libraries, Back and predictive back, edge-to-edge and window insets.
-Verified: 2026-11-23 against the sources linked in each section (Compose Material 3 1.5, BOM 2026.11.01).
+Verified: 2026-11-23 against the sources linked in each section (Compose Material 3 1.5, BOM 2026.11.01); API signatures and stability were read from the androidx public API snapshot for 1.5.0 (`1.5.0-beta01.txt`), and `references/implementation-availability.md` explains the caveat.
 
 ## Contents
 
@@ -45,7 +45,7 @@ Source: https://developer.android.com/develop/ui/compose/components/scaffold , h
 
 | API | Notes | Status |
 |---|---|---|
-| `TopAppBar(title, modifier, navigationIcon, actions, expandedHeight, windowInsets, colors, scrollBehavior, contentPadding)` | small bar; `CenterAlignedTopAppBar` has the same parameters | stable (1.4+) |
+| `TopAppBar(title, modifier, navigationIcon, actions, expandedHeight, windowInsets, colors, scrollBehavior, contentPadding)` | small bar; `CenterAlignedTopAppBar` has the same parameters | stable (1.4+; `contentPadding` 1.5+) |
 | `TopAppBar(title, subtitle, ..., titleHorizontalAlignment, ...)` | small bar with subtitle | stable, 1.5+ |
 | `MediumTopAppBar`, `LargeTopAppBar` | add `collapsedHeight`; no `contentPadding` | stable (1.4+) |
 | `MediumFlexibleTopAppBar`, `LargeFlexibleTopAppBar` | optional `subtitle`, `titleHorizontalAlignment` (Material 3 Expressive) | stable, 1.5+ |
@@ -95,7 +95,7 @@ Source: https://developer.android.com/develop/ui/compose/components/app-bars , h
 | `WideNavigationRail(state, header, ...)`, `ModalWideNavigationRail`, `WideNavigationRailItem(selected, onClick, icon, label, railExpanded, ...)` | Expressive collapsed and expanded rail | stable, 1.4+ |
 | `ModalNavigationDrawer(drawerContent, drawerState, gesturesEnabled, ...) { }` with `ModalDrawerSheet { }` and `NavigationDrawerItem(label, selected, onClick, icon, badge, ...)` | also `DismissibleNavigationDrawer`, `PermanentNavigationDrawer` | stable |
 
-- [MD] A navigation bar holds three to five top-level destinations of equal importance, in compact and medium windows; use a rail from expanded width up. Never show a bar and a rail together.
+- [MD] A navigation bar holds three to five top-level destinations of equal importance. Compact windows use the bar; medium windows use a rail, though a bar is allowed there (Material's pages disagree: details and working rule in `references/foundations-layout.md`); expanded and wider windows use a rail. Never show a bar and a rail together.
 - [MD] Every destination has an icon and a visible text label; the active one shows the indicator and a filled icon.
 - [MD] The navigation drawer is no longer recommended in the Material 3 Expressive update; an expanded navigation rail takes its role. Existing drawers remain valid API. (Material 3 Expressive)
 - [API] `DrawerState.open()` and `close()` are `suspend`: call them from `rememberCoroutineScope().launch { }`. Pass the same `drawerState` to `ModalDrawerSheet(drawerState = ...)` to get predictive back on the drawer.
@@ -109,10 +109,10 @@ Source: https://m3.material.io/components/navigation-bar/guidelines , https://m3
 
 - [API] Artifact `androidx.compose.material3:material3-adaptive-navigation-suite` (versioned with material3; no experimental annotation on its composables in 1.5), package `androidx.compose.material3.adaptive.navigationsuite`.
 - [API] Scope form: `NavigationSuiteScaffold(navigationSuiteItems = { item(selected, onClick, icon, label = ..., badge = ...) }, layoutType = ..., ...) { content }`. A second form takes `navigationItems = { NavigationSuiteItem(selected, onClick, icon, label, ...) }` plus `navigationSuiteType` and a `primaryActionContent` slot (1.4+).
-- [API] Default layout: navigation bar when the window width or height is compact or the device is in tabletop posture, navigation rail otherwise.
+- [API] Default layout: navigation bar when the window width or height is compact or the device is in tabletop posture, navigation rail otherwise (so a rail whenever the window is not compact).
+- [API] Insets: `NavigationSuiteScaffold` has no `windowInsets` or `contentWindowInsets` parameter and its `content` lambda receives no padding values. The navigation component applies its own insets, and the scaffold consumes only the insets on the side that component occupies (bottom for a bar, start for a rail; read from the androidx-main source, the guide does not say). The content must still handle the status bar, cutout and remaining sides: give each destination its own `Scaffold` or apply `Modifier.safeDrawingPadding()`.
 - [API] `NavigationSuiteType` values: `NavigationBar`, `NavigationRail`, `NavigationDrawer`, `None`, `ShortNavigationBarCompact`, `ShortNavigationBarMedium`, `WideNavigationRailCollapsed`, `WideNavigationRailExpanded`.
-- [API] To customize, compute the type yourself: start from `NavigationSuiteScaffoldDefaults.calculateFromAdaptiveInfo(currentWindowAdaptiveInfoV2())` and override for the cases you want.
-- [API] `rememberNavigationSuiteScaffoldState()` shows or hides the navigation component (for example on a full-screen detail). Complete example: `examples/AdaptiveNavigation.kt`.
+- [API] To customize, compute the type yourself: start from `NavigationSuiteScaffoldDefaults.calculateFromAdaptiveInfo(currentWindowAdaptiveInfoV2())` and override for the cases you want. `rememberNavigationSuiteScaffoldState()` shows or hides the navigation component (for example on a full-screen detail). Complete example: `examples/AdaptiveNavigation.kt`.
 
 Source: https://developer.android.com/develop/ui/compose/layouts/adaptive/build-adaptive-navigation , https://developer.android.com/reference/kotlin/androidx/compose/material3/adaptive/navigationsuite/package-summary
 
@@ -265,7 +265,7 @@ Source: https://developer.android.com/guide/navigation/custom-back/predictive-ba
 - [MD] Enable edge-to-edge in `onCreate` so older Android versions behave the same. Bars become transparent, with a translucent scrim only for three-button navigation.
 - [API] Two spellings: `ComponentActivity.enableEdgeToEdge(statusBarStyle, navigationBarStyle)` from `androidx.activity` (added in 1.8.0, not deprecated in stable 1.13, deprecated in 1.14.0-alpha03) and `WindowCompat.enableEdgeToEdge(window)` from `androidx.core`, which the 1.14 alpha notes and the Views guide name as the replacement. [Unverified] The androidx.core version that introduced the latter was not checked.
 - [API] `window.statusBarColor` and `android:statusBarColor` are deprecated and have no effect on Android 15; draw your own background behind the bar instead.
-- [API] Inside a `Scaffold`, `innerPadding` already includes the system bar insets (`contentWindowInsets`); Material bars, sheets and the navigation suite handle their own insets through `windowInsets` parameters.
+- [API] Inside a `Scaffold`, `innerPadding` already includes the system bar insets (`contentWindowInsets`); Material bars and sheets handle their own insets through `windowInsets` parameters; for `NavigationSuiteScaffold` content see that section.
 - [API] Without a `Scaffold`: `Modifier.safeDrawingPadding()` (or `windowInsetsPadding(WindowInsets.safeDrawing)`) for content that must not sit under system UI; `WindowInsets.safeGestures` for gesture-sensitive content; `WindowInsets.systemBars` includes the caption bar of desktop windows.
 - [API] Keyboard: set `android:windowSoftInputMode="adjustResize"` on the activity and apply `Modifier.imePadding()` to the scrolling container.
 - [API] Inset padding modifiers consume what they apply, so nested ones do not add up; size modifiers (`windowInsetsBottomHeight`) do not consume. `Modifier.imeNestedScroll()` is `@ExperimentalLayoutApi`.

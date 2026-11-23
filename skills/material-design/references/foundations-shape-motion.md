@@ -112,8 +112,8 @@ Source: https://m3.material.io/styles/shape/overview-principles , https://m3.mat
 | 5 | 12dp | not assigned as a resting level |
 
 - [API] Resting elevation is level 0 to 3. Levels 4 and 5 are reserved for user-interacted states such as hover and dragged.
-- [MD] Avoid changing the default elevation of Material components, and use only a small number of levels overall.
-- [MD] Elevation changes in response to interaction or system events should be consistent across similar elements. Hover or focus usually raises a component one level (a FAB goes from 3 to 4; all Material buttons rise one level on hover).
+- [MD] Keep each Material component at the resting elevation it ships with, and work with few levels overall.
+- [MD] When interaction or a system event changes elevation, similar elements should change in the same way. Hover or focus usually raises a component one level (a FAB goes from 3 to 4; all Material buttons rise one level on hover).
 - [API] Elevation tokens carry only the z-distance. They have no shadow or color of their own; each platform decides how a level is drawn.
 
 Source: https://m3.material.io/styles/elevation/tokens , https://m3.material.io/styles/elevation/applying-elevation , https://m3.material.io/styles/elevation/overview

@@ -30,11 +30,11 @@ Source: https://m3.material.io/components
 | Window size class | 3 to 5 destinations | More than 5 destinations |
 |---|---|---|
 | Compact | Navigation bar with vertical items (icon above label) | Do not overfill the bar. Reorganize related content into tabs inside a page, or put navigation behind a menu icon that opens a modal expanded navigation rail |
-| Medium | Navigation bar with horizontal items, or a collapsed navigation rail. Decide by whether horizontal or vertical space matters more; the rail page suggests the bar when there are few destinations | Collapsed rail (3 to 7 items); consider a modal expanded rail |
+| Medium | Collapsed navigation rail; a navigation bar with horizontal items is allowed. Material's pages disagree (details and working rule in `references/foundations-layout.md`): decide by whether horizontal or vertical space matters more; the rail page suggests the bar when there are few destinations | Collapsed rail (3 to 7 items); consider a modal expanded rail |
 | Expanded, large, extra-large | Navigation rail, not a navigation bar. Collapsed rail, or a standard expanded rail when there is room | Collapsed rail up to 7 items; expanded rail (standard or modal, chosen by horizontal space and destination count) can reveal secondary destinations |
 | Any, fewer than 3 destinations | Tabs, not a navigation bar | n/a |
 
-- [MD] A navigation bar is for compact and medium windows only ("mobile or tablet only"); it is not meant for desktop layouts, where a rail or tabs are used instead.
+- [MD] The navigation bar page limits the bar to compact and medium windows ("mobile or tablet only"): compact is its home, medium is allowed, and from expanded width up and in desktop layouts a rail or tabs are used instead.
 - [MD] A rail is for medium windows and larger. A standard (non-modal) rail is not used in compact windows; a modal expanded rail may open from a menu button on phones.
 - [MD] Past five destinations in a rail-based layout, consider a modal expanded rail.
 - [Conv] The pages give no rule for which destinations stay in a compact navigation bar when a product has more than five, and no upper limit for an expanded rail. Do not invent one; say the choice is the product's.

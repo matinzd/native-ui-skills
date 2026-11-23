@@ -1,7 +1,7 @@
 # Accessibility implementation in Compose and Views
 
 Scope: the code side of accessibility on Android: Compose semantics, labels and state, merging, traversal, custom actions and live regions, minimum interactive size, font scaling, short correct snippets, View equivalents, testing with TalkBack, Accessibility Scanner and Compose UI tests, and the most common implementation mistakes.
-Verified: 2026-11-23 against the sources linked in each section (Compose Material 3 1.5, BOM 2026.11.01).
+Verified: 2026-11-23 against the sources linked in each section (Compose Material 3 1.5, BOM 2026.11.01); API signatures and stability were read from the androidx public API snapshot for 1.5.0 (`1.5.0-beta01.txt`), and `references/implementation-availability.md` explains the caveat.
 
 ## Contents
 

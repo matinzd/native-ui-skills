@@ -65,9 +65,9 @@ Source: https://m3.material.io/styles/color/roles
 | Tertiary container | complementary container color, for components such as input fields |
 | On tertiary container | text and icons on tertiary container |
 
-- [MD] Primary: the most prominent components across the UI, such as the FAB, high-emphasis buttons and active states.
-- [MD] Secondary: less prominent components, such as filter chips; also elements that need no immediate attention, such as a selected navigation icon's state or a dismissive button.
-- [MD] Tertiary: contrasting accents that balance primary and secondary or draw heightened attention to a small element, such as a badge. Applied at the designer's discretion.
+- [MD] Primary: for whatever should stand out most on a screen, for example a FAB, a high-emphasis button or the active state of a control.
+- [MD] Secondary: for components that should stand out less, for example filter chips; also elements that need no immediate attention, such as a selected navigation icon's state or a dismissive button.
+- [MD] Tertiary: an accent that contrasts with primary and secondary, used to balance them or to pull the eye to one small element such as a badge. Applied at the designer's discretion.
 - [MD] Assign accent roles by importance and needed emphasis; be cautious about changing roles only for visual effect.
 
 Source: https://m3.material.io/styles/color/roles

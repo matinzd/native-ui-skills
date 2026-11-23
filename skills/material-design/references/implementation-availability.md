@@ -42,7 +42,7 @@ Source: https://developer.android.com/develop/ui/compose/bom , https://developer
 | `androidx.navigation3:navigation3-runtime`, `navigation3-ui` | 1.2.2 | 1.3.0-alpha05 |
 | `androidx.window:window-core` | 1.5.1 | 1.6.0-alpha05 |
 
-- [API] material3 1.5.0 is the first stable release that contains the Material 3 Expressive components and `MaterialExpressiveTheme`; material3 1.4.x has none of them.
+- [API] material3 1.5.0 is the first stable release with `MaterialExpressiveTheme`, `MotionScheme` and most Material 3 Expressive components. material3 1.4.x already has `ShortNavigationBar`, `WideNavigationRail` and `ModalWideNavigationRail` as stable API and nothing else from Expressive (the tables below; the 1.4 API file has no `ExperimentalMaterial3ExpressiveApi` marker).
 
 Source: https://developer.android.com/jetpack/androidx/releases/compose-material3 , https://developer.android.com/jetpack/androidx/releases/compose-material3-adaptive , https://developer.android.com/develop/ui/compose/bom/bom-mapping
 
@@ -107,7 +107,7 @@ Source: https://developer.android.com/reference/kotlin/androidx/compose/material
 | `SegmentedButton`, `SwipeToDismissBox`, `HorizontalDivider`, chips, `Card`, `Badge` | stable | stable | stable | stable |
 
 - [API] "expressive exp" needs `@OptIn(ExperimentalMaterial3ExpressiveApi::class)`.
-- [API] The 1.3, 1.4 and 1.5 columns were read from the `1.3.0-beta01`, `1.4.0-beta03` and `1.5.0-beta01` API snapshots, the closest files to each stable release that are published; a late change between beta and stable is possible.
+- [API] The 1.3, 1.4 and 1.5 columns were read from the `1.3.0-beta01`, `1.4.0-beta03` and `1.5.0-beta01` API snapshots, the closest files to each stable release that are published. A late change between beta and stable is possible but none is known: treat the tables as the answer and do not re-check them online.
 - [Unverified] The 1.5.0 release notes mention a `SplitButton` composable replacing `SplitButtonLayout` and call `SplitButtonLayout` deprecated. The API files do not agree: neither the 1.5.0-beta01 snapshot nor `current.txt` (1.6 alpha) contains a `SplitButton(` function, and `SplitButtonLayout` carries no `@Deprecated` in either. Write `SplitButtonLayout`, do not guess a `SplitButton` signature, and if the project's 1.5.x reports it as deprecated, follow the replacement the compiler message names.
 
 Source: https://developer.android.com/reference/kotlin/androidx/compose/material3/package-summary , https://developer.android.com/jetpack/androidx/releases/compose-material3
@@ -148,6 +148,8 @@ Source: https://developer.android.com/reference/kotlin/androidx/compose/material
 
 Material 2 (`androidx.compose.material.*`) is still published but has its own theme. These names are absent from every material3 API file.
 
+- [API] Material's blog states that the Compose Material 2 library (`androidx.compose.material`) is deprecated and no longer actively maintained, and that the Views library is in maintenance mode (1.14.0 is its final feature release; critical fixes only) because Material Android is now Compose-first.
+
 | Material 2 | Material 3 |
 |---|---|
 | `BottomNavigation`, `BottomNavigationItem` | `NavigationBar`, `NavigationBarItem` |
@@ -161,8 +163,9 @@ Material 2 (`androidx.compose.material.*`) is still published but has its own th
 | `TopAppBar(title, backgroundColor, elevation)` | `TopAppBar(title, colors = TopAppBarDefaults.topAppBarColors(...))` |
 
 - [MD] Do not use Material 2 and Material 3 in one app long-term; migrate imports to `androidx.compose.material3`.
+- [MD] The migration guide advises a phased approach: add the Material 3 dependency and theme beside the Material 2 ones, migrate module by module, screen by screen or composable by composable, then remove the Material 2 theme and dependency. Both libraries in one app are expected during that phase.
 
-Source: https://developer.android.com/develop/ui/compose/designsystems/material2-material3
+Source: https://developer.android.com/develop/ui/compose/designsystems/material2-material3 , https://m3.material.io/blog/compose-material-3-is-stable , https://m3.material.io/blog/material-is-compose-first
 
 ## Names that do not exist
 
@@ -182,6 +185,7 @@ Source: https://developer.android.com/reference/kotlin/androidx/compose/material
 
 ## Verify a signature yourself
 
+- [Conv] The tables in this file are the answer for every API they list: do not fetch anything to re-confirm them. Look online only for an API that appears in no table here, and try once; if that fetch fails, do not retry: say the API was not verified and which version you assumed.
 - [API] The public API of every androidx library is a text file in the `androidx/androidx` repository. Pattern: `https://raw.githubusercontent.com/androidx/androidx/androidx-main/<module path>/api/<file>` where `<file>` is `current.txt` (the next, unreleased version) or a frozen snapshot such as `1.5.0-beta01.txt`.
 - [API] Module paths: `compose/material3/material3`, `compose/material3/material3-adaptive-navigation-suite`, `compose/material3/adaptive/adaptive` (also `adaptive-layout`, `adaptive-navigation`), `compose/foundation/foundation`, `compose/foundation/foundation-layout`, `compose/ui/ui`, `activity/activity-compose`, `navigation3/navigation3-ui`, `window/window-core`.
 - [Conv] Search the file for the function name and read the whole line: parameters marked `optional` have defaults; `@ExperimentalMaterial3Api`, `@ExperimentalMaterial3ExpressiveApi` and `@Deprecated` are printed on the function or on its enclosing class. Ignore lines marked `@BytecodeOnly`.

@@ -12,7 +12,7 @@
 //   project forbids experimental API, the stable alternative is your own Row of two panes
 //   switched on currentWindowAdaptiveInfoV2().windowSizeClass.isWidthAtLeastBreakpoint(
 //   WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND), plus a BackHandler for the detail pane.
-// Resources assumed: R.string.inbox, R.string.back, R.string.select_message,
+// Resources assumed: R.string.messages, R.string.back, R.string.select_message,
 //   R.drawable.ic_arrow_back (auto-mirrored vector).
 //
 // Pages applied:
@@ -56,7 +56,7 @@ data class Message(val id: String, val sender: String, val subject: String, val 
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
-fun InboxScreen(messages: List<Message>) {
+fun MessagesScreen(messages: List<Message>) {
     // The content key (a message id) is saved with the navigator, so the open message survives
     // rotation and resizing. Use a small saveable key, not the whole object.
     val navigator = rememberListDetailPaneScaffoldNavigator<String>()
@@ -70,7 +70,7 @@ fun InboxScreen(messages: List<Message>) {
         navigator = navigator,
         listPane = {
             AnimatedPane {
-                Scaffold(topBar = { TopAppBar(title = { Text(stringResource(R.string.inbox)) }) }) { innerPadding ->
+                Scaffold(topBar = { TopAppBar(title = { Text(stringResource(R.string.messages)) }) }) { innerPadding ->
                     LazyColumn(contentPadding = innerPadding) {
                         items(messages, key = { it.id }) { message ->
                             // Selectable overload: the open row stays marked as selected when

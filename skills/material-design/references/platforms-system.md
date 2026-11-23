@@ -42,7 +42,7 @@ Source: https://developer.android.com/about/versions/15/behavior-changes-15, htt
 ## Edge-to-edge and window insets
 
 - [API] An edge-to-edge app draws behind the status bar, caption bar and navigation bar. Enforcement applies on Android 15+ devices once the app targets API 35; the docs state that the app then must handle insets or parts of the UI are hidden.
-- [MD] Call `enableEdgeToEdge()` (androidx.activity; `WindowCompat.enableEdgeToEdge(window)` in Views) so older Android versions behave the same way, and set `android:windowSoftInputMode="adjustResize"` so the app receives IME insets.
+- [MD] Call `enableEdgeToEdge()` (androidx.activity; deprecated in activity 1.14 alpha in favour of `WindowCompat.enableEdgeToEdge(window)`, which is also the Views spelling) so older Android versions behave the same way, and set `android:windowSoftInputMode="adjustResize"` so the app receives IME insets.
 - [API] Inset kinds to design for: system bars (tappable UI must not be obscured), system gestures (the OS takes priority), display cutout, and the software keyboard. In Compose: `WindowInsets.safeDrawing` (nothing drawn under system UI), `safeGestures` (no gesture clash), `safeContent` (both); `systemBars` includes the caption bar.
 - [API] Material 3 Compose components (`Scaffold`, `TopAppBar`, `BottomAppBar`, `NavigationBar`) apply insets themselves. Compose Material 2 components do not (use their `windowInsets` parameters, material 1.6.0+). Most Views Material components handle insets; `AppBarLayout` needs `android:fitsSystemWindows="true"`.
 - [MD] Draw backgrounds, dividers and scrolling content edge to edge; inset text, buttons and other controls.

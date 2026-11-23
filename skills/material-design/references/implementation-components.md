@@ -1,7 +1,7 @@
 # Components in Compose: API, status and correct calls
 
 Scope: the Compose Material 3 call for each Material component: buttons and FABs, selection controls, chips, sliders, text fields, dialogs, sheets, snackbars, menus, tooltips, pickers, cards, lists, dividers, progress, badges, carousel, pull to refresh and swipe to dismiss, with stability per library version and a component-to-API table.
-Verified: 2026-11-23 against the sources linked in each section (Compose Material 3 1.5, BOM 2026.11.01).
+Verified: 2026-11-23 against the sources linked in each section (Compose Material 3 1.5, BOM 2026.11.01); API signatures and stability were read from the androidx public API snapshot for 1.5.0 (`1.5.0-beta01.txt`), and `references/implementation-availability.md` explains the caveat.
 
 ## Contents
 

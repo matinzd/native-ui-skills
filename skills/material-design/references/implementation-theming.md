@@ -1,7 +1,7 @@
 # Theming in Compose: color, type, shape, motion, icons
 
 Scope: how to set up and read the Material 3 theme in Jetpack Compose: `MaterialTheme` and `MaterialExpressiveTheme`, color roles, dynamic color with a fallback, dark theme, contrast, typography in sp, shapes, motion, content color, icons, and tokens instead of hard-coded values.
-Verified: 2026-11-23 against the sources linked in each section (Compose Material 3 1.5, BOM 2026.11.01).
+Verified: 2026-11-23 against the sources linked in each section (Compose Material 3 1.5, BOM 2026.11.01); API signatures and stability were read from the androidx public API snapshot for 1.5.0 (`1.5.0-beta01.txt`), and `references/implementation-availability.md` explains the caveat.
 
 ## Contents
 

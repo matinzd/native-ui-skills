@@ -30,13 +30,7 @@ Source: https://developer.android.com/design/ui/mobile/guides/layout-and-content
 
 ## Window size classes
 
-| Class | Width | Typical case given by the docs |
-|---|---|---|
-| Compact | under 600dp | Phones in portrait |
-| Medium | 600dp to under 840dp | Tablets in portrait, most large unfolded inner displays in portrait |
-| Expanded | 840dp to under 1200dp | Tablets in landscape, unfolded inner displays in landscape |
-| Large | 1200dp to under 1600dp | Large tablet displays |
-| Extra-large | 1600dp and up | Desktop displays |
+- [API] Width classes: compact under 600dp, medium from 600dp, expanded from 840dp, large from 1200dp, extra-large from 1600dp. Full table with typical devices and pane counts: `references/foundations-layout.md`; code constants: `references/implementation-navigation.md`. Height classes are listed only here:
 
 | Class | Height | Typical case |
 |---|---|---|
@@ -57,19 +51,19 @@ Source: https://developer.android.com/develop/ui/compose/layouts/adaptive/use-wi
 
 | Window | Primary navigation | Tag |
 |---|---|---|
-| Compact width | Navigation bar at the bottom (three to five destinations) or a modal drawer | [MD] |
+| Compact width | Navigation bar at the bottom (three to five destinations) or a modal expanded navigation rail (the Android design page still names a modal navigation drawer, which Material no longer recommends) | [MD] |
 | Compact height (landscape phone), or tabletop posture | Navigation bar is the `NavigationSuiteScaffold` default; the design guidance also allows a rail here for ergonomics | [API] |
-| Medium width | Navigation rail, or horizontal navigation items | [MD] |
+| Medium width | Navigation rail; a navigation bar with horizontal items is allowed (Material's pages disagree: details and working rule in `references/foundations-layout.md`) | [MD] |
 | Expanded and wider | Navigation rail; on larger windows a rail that expands into a full navigation panel | [MD] |
 
 - [MD] Do not use the bottom navigation bar on large screen sizes; the rail is easier to reach while holding a large device by its sides.
 - [MD] Adaptive quality Tier 2 states that navigation rails replace navigation bars and that navigation drawers are updated to expanded navigation rails at large sizes.
 - [API] `NavigationSuiteScaffold` (artifact `material3-adaptive-navigation-suite`) switches automatically: navigation bar when width or height is compact or the device is in tabletop posture, navigation rail otherwise. The navigation type can be overridden, for example a permanent drawer at expanded width.
-- [API] In Material 3 1.5 the expanding rail is `WideNavigationRail` (with a modal variant); it is stable there.
+- [API] The expanding rail is `WideNavigationRail`, with the modal variant `ModalWideNavigationRail`; both are stable from material3 1.4.
 - [MD] In a desktop window, navigation or global actions such as search may move into the customisable middle of the window header bar.
 - [Conv] Keep the same destinations, order, icons and labels across bar and rail; only the container changes.
 
-Source: https://developer.android.com/design/ui/mobile/guides/layout-and-content/layout-and-nav-patterns, https://developer.android.com/develop/ui/compose/layouts/adaptive/build-adaptive-navigation, https://developer.android.com/develop/adaptive-apps/quality-guidelines/adaptive-app-quality/tier-2, https://developer.android.com/design/ui/desktop/guides/system/system-bars
+Source: https://developer.android.com/design/ui/mobile/guides/layout-and-content/layout-and-nav-patterns, https://developer.android.com/develop/ui/compose/layouts/adaptive/build-adaptive-navigation, https://developer.android.com/develop/adaptive-apps/quality-guidelines/adaptive-app-quality/tier-2, https://developer.android.com/design/ui/desktop/guides/system/system-bars, https://m3.material.io/foundations/layout/breakpoints/compact
 
 ## Panes and canonical layouts
 

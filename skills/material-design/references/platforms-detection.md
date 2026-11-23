@@ -70,7 +70,7 @@ Source: https://developer.android.com/docs/quality-guidelines/core-app-quality
 |---|---|---|
 | `androidx.compose.material3:material3` | Compose Material 3. With no explicit version, the Compose BOM decides it: read the BOM version and look it up on the BOM mapping page | [API] |
 | material3 at 1.5.0 or later; `MaterialExpressiveTheme`, `MotionScheme.expressive()`, `ButtonGroup`, `SplitButtonLayout`, `HorizontalFloatingToolbar` in code | Material 3 Expressive available as stable API | [API] |
-| material3 1.4.x | No Expressive API on the stable line: the 1.4.0 notes say the experimental Expressive APIs were removed and point to the 1.5.0 alphas | [API] |
+| material3 1.4.x | Only a small part of Expressive: `ShortNavigationBar`, `WideNavigationRail` and `ModalWideNavigationRail` are stable there. Everything else (expressive theme, motion scheme, button groups, FAB menu, toolbars) starts at 1.5.0; the 1.4.0 notes say the experimental Expressive APIs were removed and point to the 1.5.0 alphas | [API] |
 | `@OptIn(ExperimentalMaterial3ExpressiveApi::class)` | Still-experimental Expressive API in use (in 1.5.0 for example `LoadingIndicator`, `MaterialShapes`), or a 1.5.0 pre-release | [API] |
 | `androidx.compose.material:material` without material3 | Compose Material 2; a migration guide exists | [API] |
 | Both `material` and `material3` | Mid-migration or mixed modules; check imports of the file being edited | [Conv] |
@@ -115,18 +115,18 @@ Source: https://developer.android.com/training/wearables/packaging, https://deve
 
 ## Behaviour switches tied to targetSdk
 
-| targetSdk | What the platform does (on a device of that Android version or newer) | Tag |
-|---|---|---|
-| 33 | App controls when the `POST_NOTIFICATIONS` runtime permission dialog appears (Android 13+ devices) | [API] |
-| 35 | Edge-to-edge enforced on Android 15+; status-bar colour APIs have no effect; cutout mode treated as always for non-floating windows; opt-out attribute `windowOptOutEdgeToEdgeEnforcement` still honoured | [API] |
-| 36 | Edge-to-edge opt-out disabled on Android 16 devices; predictive back system animations on by default, `onBackPressed` not called and `KEYCODE_BACK` not dispatched; orientation, resizability and aspect-ratio restrictions ignored on displays with smallest width of 600dp or more (temporary opt-out property exists); `elegantTextHeight` ignored | [API] |
-| 37 | The large-screen opt-out is gone; widget `RemoteViews` updates over the bitmap memory ceiling throw; stricter background audio rules | [API] |
+| targetSdk | Switch to look for (on a device of that Android version or newer) |
+|---|---|
+| 33 | Notification runtime permission under app control |
+| 35 | Edge-to-edge enforced; status-bar colour APIs have no effect; opt-out attribute still honoured |
+| 36 | Edge-to-edge opt-out disabled; predictive back on by default (`onBackPressed`, `KEYCODE_BACK` not delivered); orientation and resizability restrictions ignored at smallest width 600dp and up |
+| 37 | Large-screen opt-out gone |
 
 ```bash
 grep -rnE 'windowOptOutEdgeToEdgeEnforcement|enableEdgeToEdge|statusBarColor|navigationBarColor|enableOnBackInvokedCallback|onBackPressed\(|KEYCODE_BACK|screenOrientation|resizeableActivity|(min|max)AspectRatio|setRequestedOrientation|PROPERTY_COMPAT_ALLOW_RESTRICTED_RESIZABILITY' --include='*.kt' --include='*.java' --include='*.xml' .
 ```
 
-Details: `references/platforms-system.md` (phone) and `references/platforms-large-screens.md` (orientation).
+- [API] This is a summary. Full table with every change, device-version effects and opt-outs: `references/platforms-system.md`; orientation rules: `references/platforms-large-screens.md`.
 
 Source: https://developer.android.com/about/versions/15/behavior-changes-15, https://developer.android.com/about/versions/16/behavior-changes-16, https://developer.android.com/about/versions/17/behavior-changes-17
 
@@ -147,17 +147,8 @@ As the documentation states them on 2026-11-23. Re-check release pages before qu
 | Item | Value | Tag |
 |---|---|---|
 | Android versions | Android 16 = API 36; Android 17 = API 37. The Android 17 pages describe behaviour changes and delivery to Pixel devices, while the SDK platform release notes and the versions overview still end at Android 16 | [API] |
-| Compose BOM | `2026.11.01` is the newest entry on the mapping page (the BOM how-to page still shows `2026.09.00` in its snippet) | [API] |
-| `androidx.compose.material3:material3` | 1.5.0 stable (2026-11-18), 1.6.0-alpha01 | [API] |
-| Material 3 Expressive in Compose | Mostly stable in 1.5.0 (expressive buttons, button groups, split button, FAB menu, floating toolbars, expressive theming and motion scheme). Still experimental in 1.5.0: loading indicators, `MaterialShapes`, app bar with search | [API] |
-| Compose core (ui, foundation, animation, material) | 1.13.0 stable | [API] |
-| `androidx.compose.material3.adaptive:adaptive*` | 1.3.0 stable, 1.4.0-alpha03 | [API] |
-| `androidx.window:window` | 1.5.1 stable | [API] |
-| Wear Compose (`androidx.wear.compose:*`, including `compose-material3`) | 1.7.2 stable, 1.8.0-alpha04; Wear OS 6 is based on Android 16 | [API] |
-| Compose for TV | `androidx.tv:tv-material` 1.1.0, `tv-foundation` 1.0.0; Leanback deprecated | [API] |
-| Car App Library `androidx.car.app:app` | 1.7.0 stable, 1.8.0-rc01 | [API] |
-| Jetpack Compose for XR `androidx.xr.compose:compose` | 1.0.0-rc01, no stable release yet; Glimmer (glasses) 1.0.0-alpha22 | [API] |
-| Glance (widgets) | 1.2.0 stable | [API] |
+| `androidx.compose.material3:material3` | 1.5.0 stable (2026-11-18) in BOM `2026.11.01`; Material 3 Expressive mostly stable there. Still experimental in 1.5.0: loading indicators, `MaterialShapes`, app bar with search. All other Compose library versions: `references/implementation-availability.md` | [API] |
+| Form-factor libraries | Wear Compose (`androidx.wear.compose:*`) 1.7.2 stable, 1.8.0-alpha04 (Wear OS 6 is based on Android 16); `androidx.tv:tv-material` 1.1.0, `tv-foundation` 1.0.0 (Leanback deprecated); Car App Library `androidx.car.app:app` 1.7.0 stable, 1.8.0-rc01; `androidx.xr.compose:compose` 1.0.0-rc01, no stable release yet; Glimmer (glasses) 1.0.0-alpha22; Glance (widgets) 1.2.0 stable | [API] |
 | Google Play target API from 2026-08-31 | New apps and updates: 36. Wear OS and Android Automotive OS: 35. Android TV and Android XR: 34. See `references/platforms-quality.md` | [Req] |
 
 Source: https://developer.android.com/jetpack/androidx/releases/compose-material3, https://developer.android.com/develop/ui/compose/bom/bom-mapping, https://developer.android.com/jetpack/androidx/releases/compose-material3-adaptive, https://developer.android.com/jetpack/androidx/releases/wear-compose, https://developer.android.com/jetpack/androidx/releases/tv, https://developer.android.com/jetpack/androidx/releases/car-app, https://developer.android.com/jetpack/androidx/releases/xr-compose, https://developer.android.com/google/play/requirements/target-sdk, https://developer.android.com/about/versions/17
@@ -168,7 +159,7 @@ Universal on every form factor: dp for layout and sp for text, state preserved a
 
 | Concern | Phone | Tablet, foldable | Desktop window, ChromeOS | Wear OS | TV | Car (driving) | XR |
 |---|---|---|---|---|---|---|---|
-| Primary navigation | Navigation bar (3 to 5) or modal drawer | Navigation rail | Rail that expands; content may enter the window header | Shallow and linear, inline entries | Top tabs or left navigation drawer | Tab template; screen stack of at most 5 | Rail or bar, optionally in an orbiter |
+| Primary navigation | Navigation bar (3 to 5) or modal expanded rail | Navigation rail | Rail that expands; content may enter the window header | Shallow and linear, inline entries | Top tabs or left navigation drawer | Tab template; screen stack of at most 5 | Rail or bar, optionally in an orbiter |
 | Back | System gesture or 3-button Back; Up equals Back in the task | Same | Same, plus Esc | Swipe to dismiss | Remote Back; no on-screen back | Host back button pops the screen | System gesture menu "Go back" |
 | Text input | Software keyboard, IME insets | Plus hardware keyboard, stylus handwriting | Hardware keyboard first | Voice, emoji, canned replies, small keyboard; no password entry | On-screen Gboard with voice | Search template, voice | Voice, Bluetooth keyboard |
 | Target size | 48dp touch | 48dp touch | 48dp touch; pointer targets may be smaller | 48dp, stated as required | Focus based | Host rendered | 56dp recommended |
@@ -186,7 +177,7 @@ Source: https://developer.android.com/design/ui/mobile/guides/layout-and-content
 |---|---|
 | Reading `compileSdk` as the behaviour level | Behaviour changes follow `targetSdk`; report both |
 | Assuming the material3 version from the import alone | Resolve it from the explicit version or the Compose BOM mapping |
-| Treating Expressive as "all experimental" or "all stable" | On 1.5.x most is stable, a few APIs still need `ExperimentalMaterial3ExpressiveApi`; on 1.4.x none is available |
+| Treating Expressive as "all experimental" or "all stable" | On 1.5.x most is stable, a few APIs still need `ExperimentalMaterial3ExpressiveApi`; on 1.4.x only `ShortNavigationBar` and the wide navigation rail exist |
 | Calling a `LEANBACK_LAUNCHER` app a "Leanback library" app | The launcher category marks a TV app; the toolkit is decided by `androidx.tv:tv-material` versus `androidx.leanback` |
 | Giving phone Material 3 advice to a module that declares `android.hardware.type.watch` | Wear has its own Material 3 library and rules: `references/platforms-wear.md` |
 | Deciding tablet versus phone from device model or `smallestScreenWidthDp` and fixing the layout to it | Use window size classes at runtime |
