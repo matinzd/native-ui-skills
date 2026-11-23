@@ -26,8 +26,12 @@ struct PresentationsExample: View {
 
     var body: some View {
         NavigationStack {
-            List(notes, id: \.self) { note in
-                Text(note)
+            List {
+                ForEach(notes, id: \.self) { note in
+                    Text(note)
+                }
+                // Demo only: stands in for a sync that failed, to show the alert.
+                Button("Sync Now") { showsSyncError = true }
             }
             .navigationTitle("Notes")
             .toolbar {
@@ -50,8 +54,6 @@ struct PresentationsExample: View {
             .sheet(isPresented: $isComposing) {
                 ComposeSheet { title in
                     notes.append(title)
-                    // Demo only: pretend the upload failed to show the alert.
-                    showsSyncError = true
                 }
                 // Medium plus large: the sheet can rest at half height and expand.
                 .presentationDetents([.medium, .large])
@@ -61,12 +63,12 @@ struct PresentationsExample: View {
             }
             // Alert: interrupts, so use it only for something people must know now. The
             // title says what happened; buttons are verbs, not a bare OK.
-            .alert("Couldn't Sync Note", isPresented: $showsSyncError) {
+            .alert("Couldn't Sync Notes", isPresented: $showsSyncError) {
                 Button("Try Again") { showsSyncError = false }
                 // The cancel role gives the standard Cancel behavior and keyboard handling.
                 Button("Cancel", role: .cancel) { }
             } message: {
-                Text("The note is saved on this device. Check your connection, then try again.")
+                Text("Your notes are saved on this device. Check your connection, then try again.")
             }
             // Confirmation dialog (action sheet): choices that follow an action the person
             // started on purpose. The destructive role marks the risky choice; Cancel is

@@ -61,8 +61,15 @@ struct ShipmentRow: View {
         layout {
             // Text styles, no line limits, no fixed heights: text wraps and the row grows.
             VStack(alignment: .leading, spacing: 2) {
-                Text(shipment.isFlagged ? "\(shipment.title), flagged" : shipment.title)
-                    .font(.headline)
+                HStack(spacing: 4) {
+                    Text(shipment.title)
+                    if shipment.isFlagged {
+                        // A meaningful symbol needs words for VoiceOver.
+                        Image(systemName: "flag.fill")
+                            .accessibilityLabel("Flagged")
+                    }
+                }
+                .font(.headline)
                 Text(shipment.destination)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
