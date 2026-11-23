@@ -11,8 +11,16 @@ or approved by Apple Inc. or Google LLC.
   SwiftUI, UIKit, AppKit, Xcode, SF Symbols, Dynamic Type, VoiceOver and Liquid Glass are trademarks of Apple Inc.
   They are used here only to refer to Apple's products and technologies. iOS is a trademark of Cisco, used by Apple
   under license.
-- To the authors' knowledge, no content was copied from other skills or repositories. The competitive analysis in `docs/apple-hig/research/` describes
-  other projects and links to them.
+- Material Design guidelines and the Android developer documentation are published by Google LLC. Google states
+  that Material 3 content is available under the Apache 2.0 or CC BY 4.0 license, and that Android developer
+  documentation is licensed under Apache 2.0 (code samples) and Creative Commons Attribution 2.5 (other content).
+  This repository does not reproduce those texts either: it contains original summaries, short factual values
+  (such as dp sizes and breakpoints), API names, and links. Google's pages are the authoritative source.
+- Android, Google Play, Material Design, Jetpack Compose, Wear OS, Android TV, Android Auto, and Google TV are
+  trademarks of Google LLC, used here only to refer to Google's products and technologies.
+- To the authors' knowledge, no content was copied from other skills or repositories. The competitive analyses under `docs/` describe other projects and
+  link to them.
 - The MIT license in `LICENSE` covers this repository's original text and code only.
 
-Following this guide does not guarantee that an app meets Apple's guidelines or passes App Review.
+Following these guides does not guarantee that an app meets Apple's or Google's guidelines, or passes App Review
+or Google Play review.
