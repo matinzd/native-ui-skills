@@ -76,7 +76,7 @@ The Accessibility page names two measurement standards, WCAG and APCA, and says 
 - [HIG] Never rely on color alone to distinguish objects, show interactivity or state, or carry essential information. Add shapes, icons or text. Red-green and blue-orange are the pairings the HIG names as hard for color-blind people.
 - [HIG] For toggles and custom switches, make on and off differ by more than hue (fill, shape, checkmark), and keep a custom switch color distinguishable from the off state.
 - [HIG] Consider letting people customise color schemes such as chart colors or game characters.
-- [HIG] Liquid Glass and materials (OS 26+): their appearance changes when people reduce transparency or increase contrast, so never pick a material for the color it seems to produce. Use the regular glass variant where text legibility is at risk, use system vibrant colors on materials, avoid the quaternary vibrancy level on thin and ultra-thin materials, and keep the resting state of content under controls legible.
+- [HIG] Liquid Glass and materials (OS 26+): their appearance changes when people reduce transparency or increase contrast, so never pick a material for the color it seems to produce. Use the regular glass variant where text legibility is at risk, use system vibrant colors on materials, avoid the quaternary vibrancy level on thin and ultra-thin materials (stated for iOS and iPadOS), and keep the resting state of content under controls legible.
 - [Unverified] Smart Invert and Differentiate Without Color are not mentioned in the current HIG pages read for this file; any rule about them (for example excluding photos from inversion) must come from the API documentation, not the HIG.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/accessibility , https://developer.apple.com/design/human-interface-guidelines/dark-mode , https://developer.apple.com/design/human-interface-guidelines/color , https://developer.apple.com/design/human-interface-guidelines/materials , https://developer.apple.com/design/human-interface-guidelines/toggles
@@ -102,7 +102,7 @@ Navigation:
 - [HIG] Keep a grabber on resizable sheets: it lets VoiceOver users resize the sheet.
 - [HIG] Offer non-drag ways to do drag-and-drop tasks (menu commands, for example); on iOS and iPadOS, accessibility APIs can expose drag sources and drop points.
 
-Source: https://developer.apple.com/design/human-interface-guidelines/voiceover , https://developer.apple.com/design/human-interface-guidelines/charts , https://developer.apple.com/design/human-interface-guidelines/feedback , https://developer.apple.com/design/human-interface-guidelines/gauges , https://developer.apple.com/design/human-interface-guidelines/sheets , https://developer.apple.com/design/human-interface-guidelines/drag-and-drop
+Source: https://developer.apple.com/design/human-interface-guidelines/voiceover , https://developer.apple.com/design/human-interface-guidelines/charts , https://developer.apple.com/design/human-interface-guidelines/feedback , https://developer.apple.com/design/human-interface-guidelines/gauges , https://developer.apple.com/design/human-interface-guidelines/sheets , https://developer.apple.com/design/human-interface-guidelines/drag-and-drop , https://developer.apple.com/design/human-interface-guidelines/icons , https://developer.apple.com/design/human-interface-guidelines/sf-symbols
 
 ## Mobility: control size and spacing
 
@@ -155,7 +155,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/accessibil
 - [HIG] Pair audio cues (success chime, error sound, game feedback) with matching haptics for people who cannot hear them or have sound off. On iOS and iPadOS, Music Haptics and Audio Graphs are additional options.
 - [HIG] Add visual cues to audio cues, especially in games and spatial apps where the event may be off screen; when sound guides people to an action, also show where to interact.
 - [HIG] Keep haptics optional: people can turn them off, so the app must remain usable without them. Use system haptic patterns only for their documented meanings.
-- [HIG] In SharePlay sessions keep volume and subtitle settings per participant.
+- [HIG] In SharePlay sessions (stated for visionOS) keep volume and subtitle settings per participant.
 - [HIG] The system video player's transport controls expose subtitles and audio language in tvOS and visionOS, and the RealityKit video player supports closed captions; prefer system players so these come for free.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/accessibility , https://developer.apple.com/design/human-interface-guidelines/playing-haptics , https://developer.apple.com/design/human-interface-guidelines/playing-audio , https://developer.apple.com/design/human-interface-guidelines/playing-video , https://developer.apple.com/design/human-interface-guidelines/shareplay
@@ -256,9 +256,11 @@ Run each item against the design or code; the bracket names the section that hol
 19. [HIG] The app remains fully usable with haptics off. (Hearing)
 20. [HIG] Nothing essential auto-dismisses on a timer. (Cognitive: simplicity, time limits, media)
 21. [HIG] Media does not autoplay without visible start and stop controls; video honors Dim Flashing Lights. (Cognitive: simplicity, time limits, media)
-22. [HIG] With Reduce Motion on, zooms, scaling, parallax, bounce and blur transitions are reduced or replaced by fades. (Cognitive: motion)
+22. [HIG] With Reduce Motion on, zooming, scaling, peripheral motion, bounce and blur transitions are reduced or replaced by fades. (Cognitive: motion)
 23. [HIG] No information is conveyed only by animation; no excessive flashing or blinking. (Cognitive: motion)
 24. [HIG] visionOS only: nothing is head-anchored, nothing needs a specific posture or two hands, custom gestures have alternatives under VoiceOver. (Platform notes)
+
+Source: https://developer.apple.com/design/human-interface-guidelines/accessibility , https://developer.apple.com/design/human-interface-guidelines/voiceover , https://developer.apple.com/design/human-interface-guidelines/typography
 
 ## Common mistakes
 

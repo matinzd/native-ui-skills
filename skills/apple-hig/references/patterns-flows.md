@@ -30,7 +30,7 @@ Verified: 2026-11-23 against the sources linked in each section (SDK cycle: OS 2
 | First run | [HIG] Optional, short, interactive onboarding after launch completes; splash screen (if any) at its start |
 | Permissions | [HIG] In onboarding only if the app cannot function without them; otherwise when the feature is first used |
 | Sign-in | [HIG] As late as possible; only if core functionality needs an account |
-| Rating or purchase prompts | [HIG] After people have experienced the app; never at first launch or during onboarding |
+| Rating or purchase prompts | [HIG] Preferably after people have experienced the app; avoid asking for a rating at first launch or during onboarding |
 | Setup and customization | [HIG] Postponed; good defaults first |
 
 Source: https://developer.apple.com/design/human-interface-guidelines/launching, https://developer.apple.com/design/human-interface-guidelines/onboarding, https://developer.apple.com/design/human-interface-guidelines/managing-accounts, https://developer.apple.com/design/human-interface-guidelines/ratings-and-reviews
@@ -207,7 +207,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/offering-h
 
 ## Ratings and reviews
 
-- [HIG] Ask only after demonstrated engagement (a completed level or significant task); never at first launch or during onboarding.
+- [HIG] Ask only after demonstrated engagement (a completed level or significant task); avoid asking at first launch or during onboarding.
 - [HIG] Do not interrupt a task or gameplay; pick natural pauses.
 - [HIG] Do not pester: leave at least a week or two between requests and wait for further engagement.
 - [HIG] Prefer the system-provided prompt (iOS, iPadOS, macOS; `RequestReviewAction`).

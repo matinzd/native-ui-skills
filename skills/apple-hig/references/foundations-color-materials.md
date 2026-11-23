@@ -145,6 +145,7 @@ float above content. Standard components adopt it automatically.
   `references/foundations-icons-images.md`.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/materials
+Source: https://developer.apple.com/design/human-interface-guidelines/app-icons
 Source: https://developer.apple.com/design/human-interface-guidelines/motion
 
 ## Color on Liquid Glass

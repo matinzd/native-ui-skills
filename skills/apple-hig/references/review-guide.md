@@ -123,12 +123,16 @@ Details: `references/foundations-layout.md`, `references/foundations-color-mater
   current design (OS 26+, Liquid Glass) and its scroll edge effects.
 - [HIG] Liquid Glass (OS 26+) is used for navigation and controls, not for content such as cards and rows.
 - [HIG] Light font weights (Ultralight, Thin, Light) are avoided, especially at small sizes.
-- [HIG] Layout mirrors correctly for right-to-left languages: use leading and trailing, not left and right.
+- [HIG] Layout mirrors correctly for right-to-left languages. [Conv] In code that means leading and trailing,
+  not left and right.
 
 Source: https://developer.apple.com/design/human-interface-guidelines/layout
 Source: https://developer.apple.com/design/human-interface-guidelines/color
 Source: https://developer.apple.com/design/human-interface-guidelines/dark-mode
 Source: https://developer.apple.com/design/human-interface-guidelines/materials
+Source: https://developer.apple.com/design/human-interface-guidelines/toolbars
+Source: https://developer.apple.com/design/human-interface-guidelines/typography
+Source: https://developer.apple.com/design/human-interface-guidelines/right-to-left
 
 ## Checkable rules: navigation and presentation
 
@@ -136,16 +140,18 @@ Details: `references/components-navigation.md`, `references/components-presentat
 
 - [HIG] A tab bar is for navigation between sections, not for actions. Tabs are not hidden or disabled when
   their content is unavailable; explain the empty state instead.
-- [HIG] Tabs do not overflow into a More tab in the default configuration. The HIG gives no fixed maximum count.
+- [HIG] Tabs do not overflow into a More tab (iOS, iPadOS). The HIG gives no fixed maximum count; its only
+  number is a default of five or fewer tabs when people can customize the iPad tab bar.
 - [HIG] The system tab bar, toolbar, and navigation containers are used rather than hand-built replicas, so
   the interface keeps system behaviour (adaptation on iPad, glass appearance, accessibility).
 - [HIG] Toolbar titles are short (the HIG suggests under 15 characters) and do not repeat the app name.
-- [HIG] Every modal presentation has an obvious way to dismiss it. Sheets that change data offer both a
-  confirming and a cancelling action.
+- [HIG] Every modal presentation has an obvious way to dismiss it. A sheet with a Done button also has a
+  Cancel button (or a Back button in a multi-step flow), never Done alone.
 - [HIG] Alerts are for important, actionable situations: not for routine information, not at launch, and not
   for actions that can be undone. An alert has a title, optional message, and at most three buttons.
-- [HIG] Alert button titles are specific verbs; the button that cancels is titled Cancel; a destructive action
-  is styled as destructive and is not the default.
+- [HIG] Alert button titles are specific verbs; the button that cancels is titled Cancel and is not the
+  default; an alert with a destructive action includes Cancel. The destructive style marks a destructive
+  action the person did not deliberately choose (not one they just asked for, such as Empty Trash).
 - [HIG] A resizable sheet shows a grabber.
 - [HIG] A choice that follows a person's action (for example confirming a deletion) uses an action sheet or
   confirmation dialog rather than an alert with many buttons.
@@ -166,13 +172,14 @@ Details: `references/components-controls.md`, `references/patterns-flows.md`,
 `references/implementation-availability.md`.
 
 - [HIG] A view has one or two prominent buttons at most, used for the most likely action. A destructive action
-  is not given the prominent style.
-- [HIG] On iOS, the switch style of toggle appears in list rows.
+  is not given the primary role.
+- [HIG] On iOS and iPadOS, the switch style of toggle appears only in list rows; outside a list, use a button
+  that behaves like a toggle.
 - [HIG] A segmented control has about five segments or fewer on iPhone and does not mix actions with selection.
-- [HIG] Text fields have a visible label or clear placeholder plus the right keyboard and content type;
-  passwords use secure fields.
-- [Req] An app that lets people create an account must also let them delete it within the app. The HIG states
-  this as an obligation.
+- [HIG] Text fields have a visible label or clear placeholder plus the appropriate keyboard type; passwords
+  use secure fields.
+- [Req] An app that lets people create an account must also help them delete it (not just deactivate it): in
+  the app, or failing that through a direct, easy-to-find link to the web page. The HIG words both as "must".
 - [HIG] Permission requests appear in context, when the feature needs them, with a clear purpose string.
 - [HIG] Sign-in is delayed until the app needs it.
 - [API] No API newer than the minimum OS is used without an availability check and a working fallback.
@@ -183,6 +190,7 @@ Details: `references/components-controls.md`, `references/patterns-flows.md`,
 Source: https://developer.apple.com/design/human-interface-guidelines/buttons
 Source: https://developer.apple.com/design/human-interface-guidelines/toggles
 Source: https://developer.apple.com/design/human-interface-guidelines/segmented-controls
+Source: https://developer.apple.com/design/human-interface-guidelines/text-fields
 Source: https://developer.apple.com/design/human-interface-guidelines/managing-accounts
 Source: https://developer.apple.com/design/human-interface-guidelines/privacy
 Source: https://developer.apple.com/documentation/swiftui/button
