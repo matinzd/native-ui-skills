@@ -8,7 +8,10 @@
       "prompt": "Build me a settings screen for my app. Needs notifications on/off, theme (system / light / dark), account, and about.",
       "expected_output": "Notices that toolkit (Compose or Views), form factor and Material library version are unstated. Inspects the project, asks one concise question, or proceeds on an explicit assumption (for example phone and tablet, Jetpack Compose, material3 1.5.0). Builds the screen from Material 3 components with theme colours and typography.",
       "files": [],
-      "references_expected": [],
+      "references_expected": [
+        "references/platforms-detection.md",
+        "references/implementation-components.md"
+      ],
       "max_reference_files": 3,
       "assertions": [
         "The response either asks about, or explicitly states the assumption it made for, the UI toolkit (Jetpack Compose or Views) and the form factor or device class",
@@ -26,7 +29,10 @@
       "prompt": "No code yet. Android app for a local news outlet with five top-level sections: Top stories, Local, Sport, Saved, Podcasts. It has to work on phones, foldables and tablets. Which navigation component should show at each window size, and where are the breakpoints?",
       "expected_output": "Navigation bar at compact width, bar or rail at medium, navigation rail at expanded and larger; breakpoints at 600dp and 840dp; five destinations is inside the three-to-five range; keyed on window size class, not device type. Cites sources.",
       "files": [],
-      "references_expected": [],
+      "references_expected": [
+        "references/components-navigation.md",
+        "references/foundations-layout.md"
+      ],
       "max_reference_files": 3,
       "assertions": [
         "The response recommends a navigation bar for compact-width windows",
@@ -45,7 +51,9 @@
       "prompt": "Three moments in my Android notes app. Which component for each, and why? (1) 'Note moved to trash', with a way to undo. (2) 'Delete all 42 notes forever?'. (3) A list of actions for one note on a phone: Share, Duplicate, Move to folder, Export as PDF, Add label, Print. No code.",
       "expected_output": "(1) Snackbar with an Undo action. (2) Basic dialog with explicit confirm and dismiss actions. (3) Modal bottom sheet (a menu is an acceptable alternative). Reasons tied to message priority and how interruptive each component is, with sources.",
       "files": [],
-      "references_expected": [],
+      "references_expected": [
+        "references/components-presentation.md"
+      ],
       "max_reference_files": 2,
       "assertions": [
         "For (1) the response recommends a snackbar with an Undo action and does not recommend a dialog",
@@ -63,7 +71,10 @@
       "prompt": "Compose, material3 1.5.0, minSdk 26, phones. Write a sign-up form: email, password, confirm password and a Create account button. Validate inline and show errors the Material way. Full composable please.",
       "expected_output": "OutlinedTextField or TextField (or the secure variants) with labels, isError plus supportingText for error messages, obscured password input, theme colours only, and nothing that needs an alpha release. Brief notes with sources.",
       "files": [],
-      "references_expected": [],
+      "references_expected": [
+        "references/components-controls.md",
+        "references/implementation-components.md"
+      ],
       "max_reference_files": 3,
       "assertions": [
         "Every input is a material3 TextField, OutlinedTextField, SecureTextField or OutlinedSecureTextField with a label",
@@ -83,7 +94,9 @@
       "files": [
         "tests/evals/material-design/files/InboxScreen.kt"
       ],
-      "references_expected": [],
+      "references_expected": [
+        "references/review-guide.md"
+      ],
       "max_reference_files": 4,
       "assertions": [
         "Every finding carries exactly one of the skill's five classification labels, a severity, a concrete fix, and a source URL or an explicit note that no source exists",
@@ -104,7 +117,10 @@
       "files": [
         "tests/evals/material-design/files/fragment_appointment.xml"
       ],
-      "references_expected": [],
+      "references_expected": [
+        "references/review-guide.md",
+        "references/implementation-views.md"
+      ],
       "max_reference_files": 4,
       "assertions": [
         "All fixes are given as XML or View-system changes; the response does not rewrite the layout in Jetpack Compose",
@@ -125,7 +141,9 @@
       "files": [
         "tests/evals/material-design/files/ForecastCard.kt"
       ],
-      "references_expected": [],
+      "references_expected": [
+        "references/implementation-theming.md"
+      ],
       "max_reference_files": 2,
       "assertions": [
         "No Color(0xFF...) literal remains in the edited composable",
@@ -145,7 +163,10 @@
       "files": [
         "tests/evals/material-design/files/QuantityStepper.kt"
       ],
-      "references_expected": [],
+      "references_expected": [
+        "references/accessibility-guidelines.md",
+        "references/accessibility-implementation.md"
+      ],
       "max_reference_files": 3,
       "assertions": [
         "The two controls are flagged as having no accessible name (contentDescription = null and no click label), with a description or onClickLabel as the fix",
@@ -165,7 +186,11 @@
       "files": [
         "tests/evals/material-design/files/TrailShell.kt"
       ],
-      "references_expected": [],
+      "references_expected": [
+        "references/platforms-adaptation.md",
+        "references/platforms-large-screens.md",
+        "references/implementation-navigation.md"
+      ],
       "max_reference_files": 4,
       "assertions": [
         "The new code uses NavigationSuiteScaffold, or chooses between NavigationBar and NavigationRail from the window size class (for example currentWindowAdaptiveInfo().windowSizeClass)",
@@ -183,7 +208,11 @@
       "prompt": "Our Compose phone app is a workout timer: a list of routines, a routine detail screen with start / pause, and a bottom navigation bar with Routines, History, Settings. We now need a Wear OS version and an Android TV version. What changes in navigation, components and input on each? Outline first; short code only where the API differs.",
       "expected_output": "Wear OS: the Wear Compose Material 3 library, no bottom bar, swipe-to-dismiss navigation, a watch list component inside the Wear scaffolds. TV: the TV Material library, D-pad focus navigation with every control reachable, overscan-safe margins. Does not carry the phone navigation bar to either.",
       "files": [],
-      "references_expected": [],
+      "references_expected": [
+        "references/platforms-adaptation.md",
+        "references/platforms-wear.md",
+        "references/platforms-tv.md"
+      ],
       "max_reference_files": 4,
       "assertions": [
         "For Wear OS the response says to use the Wear Compose Material 3 library (androidx.wear.compose) rather than the phone androidx.compose.material3 components",
@@ -202,7 +231,9 @@
       "prompt": "We're still on androidx.compose.material and planning the move to material3 1.5.0. What do BottomNavigation, scaffoldState.snackbarHostState, ContentAlpha.medium and Scaffold's backgroundColor become? And can we migrate screen by screen, or is it all at once?",
       "expected_output": "BottomNavigation and BottomNavigationItem become NavigationBar and NavigationBarItem; ScaffoldState is gone, use SnackbarHostState with the snackbarHost slot; ContentAlpha does not exist, use colour roles such as onSurfaceVariant; backgroundColor is containerColor. A phased migration is possible, but the two libraries should not coexist long-term. Cites the migration guide.",
       "files": [],
-      "references_expected": [],
+      "references_expected": [
+        "references/implementation-availability.md"
+      ],
       "max_reference_files": 2,
       "assertions": [
         "The response maps BottomNavigation / BottomNavigationItem to NavigationBar / NavigationBarItem",
@@ -220,7 +251,9 @@
       "prompt": "We're pinned to androidx.compose.material3:material3:1.5.0. Stable releases only, and every @OptIn needs tech-lead sign-off. I want (a) the morphing LoadingIndicator for pull-to-refresh, (b) a ModalBottomSheet for filters, (c) FadeThroughNavigationTransitions with predictive back. Which can I use as is, which need an opt-in, and which aren't there?",
       "expected_output": "(a) LoadingIndicator exists in 1.5.0 but is experimental: needs @OptIn(ExperimentalMaterial3ExpressiveApi::class). (b) ModalBottomSheet exists but is annotated @ExperimentalMaterial3Api. (c) FadeThroughNavigationTransitions is not in 1.5.0; it first appears in 1.6.0-alpha01. Offers an alternative for (a) that needs no opt-in and does not push an alpha upgrade against the stated policy.",
       "files": [],
-      "references_expected": [],
+      "references_expected": [
+        "references/implementation-availability.md"
+      ],
       "max_reference_files": 2,
       "assertions": [
         "The response says LoadingIndicator is experimental in 1.5.0 and needs an opt-in to ExperimentalMaterial3ExpressiveApi",
@@ -238,7 +271,9 @@
       "prompt": "Brand rules for our Android app, non-negotiable according to the brand team: (1) the bottom navigation bar shows icons only, no labels; (2) links are brand lime #C6FF00 on our white background; (3) every icon button is 36dp and they sit edge to edge in a row; (4) dynamic colour off, our palette only. Implement it in Compose with material3 1.5.0 and tell me which of these are real problems and which are just 'not Material'.",
       "expected_output": "Separates accessibility problems (lime links at about 1.2:1 on white; 36dp touch targets packed together) from departures from Material recommendations (no labels) and non-issues (dynamic colour is optional). Pushes back on the accessibility items with a concrete alternative, then implements what the user decides, with content descriptions on label-less navigation icons.",
       "files": [],
-      "references_expected": [],
+      "references_expected": [
+        "references/foundations-color.md"
+      ],
       "max_reference_files": 3,
       "assertions": [
         "The response says Material guidance asks for labels on navigation bar items, and presents removing them as a departure from a recommendation rather than a hard requirement",
@@ -293,7 +328,9 @@
       "prompt": "We're porting our iOS app to Android in Compose (material3 1.5.0). On iPhone it has a UITabBar with five tabs - Home, Search, a centre + that opens the composer, Inbox, Me - a large title that collapses on scroll, and swipe from the left edge to go back. The designer wants the Android app to look identical. What should I build?",
       "expected_output": "Applies Android conventions instead of copying iOS chrome: a Material navigation bar with labelled destinations (rail on wider windows), the composer action moved out of the destinations (for example a FAB), a collapsing Material top app bar, and the system back gesture instead of a custom edge swipe. Explains the trade-off of an identical look once and leaves the decision to the user.",
       "files": [],
-      "references_expected": [],
+      "references_expected": [
+        "references/platforms-adaptation.md"
+      ],
       "max_reference_files": 3,
       "assertions": [
         "The response recommends the Material 3 NavigationBar with labelled destinations rather than a custom replica of the iOS tab bar",

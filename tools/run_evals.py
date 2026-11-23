@@ -123,6 +123,8 @@ def cmd_tasks(args) -> int:
 
 def cmd_triggers(args) -> int:
     queries = json.loads((EVALS / "trigger-queries.json").read_text())
+    if args.split:
+        queries = [q for q in queries if q.get("split") == args.split]
     if args.limit:
         pos = [q for q in queries if q["should_trigger"]][: args.limit // 2]
         neg = [q for q in queries if not q["should_trigger"]][: args.limit - len(pos)]
@@ -138,8 +140,10 @@ def cmd_triggers(args) -> int:
             ok = bool(res.get("skill_invoked")) == q["should_trigger"] and "error" not in res
             correct += ok
             rows.append({"query": q["query"], "should_trigger": q["should_trigger"],
-                         "triggered": res.get("skill_invoked"), "correct": ok, "error": res.get("error")})
-            print(f"{'ok  ' if ok else 'MISS'} expect={q['should_trigger']!s:<5} got={res.get('skill_invoked')!s:<5} {q['query'][:80]}")
+                         "triggered": res.get("skill_invoked"), "other_skills": res.get("other_skills_invoked"),
+                         "correct": ok, "error": res.get("error")})
+            print(f"{'ok  ' if ok else 'MISS'} expect={q['should_trigger']!s:<5} got={res.get('skill_invoked')!s:<5} "
+                  f"other={','.join(res.get('other_skills_invoked') or []) or '-':<16} {q['query'][:70]}")
     args.out.mkdir(parents=True, exist_ok=True)
     (args.out / "triggers.json").write_text(json.dumps({"correct": correct, "total": len(rows), "rows": rows}, indent=2))
     print(f"{correct}/{len(rows)} correct")
@@ -159,6 +163,7 @@ def main() -> int:
     sub.choices["tasks"].add_argument("--ids", type=int, nargs="*")
     sub.choices["tasks"].add_argument("--configs", nargs="*", default=["with_skill", "without_skill"])
     sub.choices["triggers"].add_argument("--limit", type=int, default=0)
+    sub.choices["triggers"].add_argument("--split", choices=("train", "validation"), help="run only this split")
     args = ap.parse_args()
     global SKILL, EVALS, INSTALL_ALL
     SKILL, EVALS, INSTALL_ALL = SKILLS_DIR / args.skill, ROOT / "tests" / "evals" / args.skill, args.all_skills

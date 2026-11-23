@@ -4,7 +4,7 @@
 // side by side when the window is wide enough, with back navigation handled by the scaffold.
 //
 // Library versions: Compose BOM 2026.11.01; material3 1.5.x (ListItem overloads with a
-//   trailing content lambda; on 1.4.x use the headlineContent overload inside a clickable row); androidx.compose.material3.adaptive:adaptive,
+//   trailing content lambda; fallback on 1.4.x: the headlineContent overload in a clickable row); androidx.compose.material3.adaptive:adaptive,
 //   adaptive-layout and adaptive-navigation 1.3.0 (the calls below exist since 1.1.0).
 // Opt-ins: ExperimentalMaterial3AdaptiveApi. The pane scaffolds, AnimatedPane and the navigator
 //   are experimental in every adaptive release to date, including "stable" 1.3.0. If the
