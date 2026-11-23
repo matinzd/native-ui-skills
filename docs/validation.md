@@ -11,13 +11,13 @@ Xcode, and no other coding agent. Raw outputs are in [`eval-results/`](eval-resu
 | Agent Skills reference validator (`skills-ref` 0.1.1, command `agentskills validate`) | Valid. Run locally and in CI |
 | Claude Code plugin validator (`claude plugin validate`) | Passed for the plugin and the marketplace manifest. Run locally only, not in CI |
 | Repository validator, offline | 0 errors, 0 warnings. Run locally and in CI |
-| Repository validator, online | Every Apple URL cited in the skill resolved to an existing page. Run locally; in CI on a weekly schedule only |
+| Repository validator, online | All 326 Apple URLs cited in the skill (references, examples, linter) resolved to an existing page. Run locally; in CI on a weekly schedule only |
 | Linter self-test | Passed (fixtures, 19 crafted cases, exit codes). Run locally and in CI |
 | Independent accuracy audit against Apple's live pages | 16 corrections in 4 files; all applied |
 | Independent Swift review (no compiler) | 9 corrections in 6 files; all applied |
 | Independent architecture and consistency review | 10 major and 34 minor findings; majors addressed, see below |
 | Activation in Claude Code, held-out queries | 12 of 14 correct (7 of 7 negatives, 5 of 7 positives), one run each |
-| Task scenarios in Claude Code, 8 of 18 | With the skill 47 of 50 assertions passed; without it 38 of 49. One run each, before the fixes that the results prompted |
+| Task scenarios in Claude Code, 8 of 18 | With the skill 47 of 50 assertions passed; without it 38 of 49. One run each, before the fixes that the results prompted; three scenarios re-run afterwards and inspected by hand |
 | Swift examples compiled | **Not done.** No toolchain |
 | Other agents (Codex, Cursor, Copilot, Gemini CLI, and so on) | **Not tested** |
 
@@ -144,8 +144,16 @@ How to read this:
 - Several assertions were ambiguous or over-specific and have been rewritten; the grader's notes are in
   [`eval-results/iteration-1-grading-summary.md`](eval-results/iteration-1-grading-summary.md).
 
-Not run: scenarios 1 to 5, 7, 9 to 11, and 13; repeated runs for variance; other models; a re-run after the
-fixes.
+**Re-run after the fixes.** Scenarios 6, 16, and 18 were run again with the skill only, and inspected by hand
+rather than graded. In scenario 6 the informational alert is now classed "Recommended improvement", the
+hand-built bar "Platform convention mismatch", and only the deprecated APIs "Confirmed guideline or API
+violation"; the menu image and the small tap targets are separate findings again
+([output](eval-results/iteration-2-eval-06-with-skill.md)). Scenario 16 took 6 turns instead of 9 and still
+rejected the made-up modifier. Scenario 18 again answered from `SKILL.md` without opening a reference. This
+run used the rewritten review example, so scenario 6 was no longer contaminated.
+
+Not run: scenarios 1 to 5, 7, 9 to 11, and 13; repeated runs for variance; other models; a graded
+with-and-without comparison after the fixes.
 
 ## Eval file format
 

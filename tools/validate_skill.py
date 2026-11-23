@@ -411,6 +411,8 @@ def check_online(rep: Report, files: list[Path]) -> None:
             probe = ("https://developer.apple.com/tutorials/data/design/human-interface-guidelines"
                      + (f"/{slug}" if slug else "") + ".json")
         elif url.startswith(doc):
+            if url == doc:
+                continue  # a base URL used to build links in code, not a page
             probe = "https://developer.apple.com/tutorials/data/documentation/" + url[len(doc):].strip("/").lower() + ".json"
         else:
             continue
