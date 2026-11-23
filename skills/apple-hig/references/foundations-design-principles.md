@@ -69,7 +69,7 @@ Page last changed 2026-09-09 (refined brand-color guidance). No platform-specifi
   status indicators such as an unread badge or the selected tab's icon.
 - [HIG] (OS 26+, Liquid Glass) To express brand through color, move the color into the content layer, where it
   scrolls under glass controls and is picked up by them, instead of tinting the controls.
-- [HIG] Make sure a custom brand font stays legible at all sizes and supports Bold Text and Dynamic Type. A workable split
+- [HIG] Make sure a custom brand font stays legible at all sizes and supports Bold Text and Dynamic Type. A good split
   is custom font for headlines and subheadings, system font for body and captions.
 - [HIG] Express brand with familiar components. If a component's appearance is customized, keep its sizing,
   placement and behaviour familiar for the platform.

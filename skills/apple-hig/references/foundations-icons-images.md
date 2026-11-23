@@ -92,12 +92,9 @@ Source: https://developer.apple.com/design/human-interface-guidelines/sf-symbols
 - [HIG] An interface icon (glyph) expresses one concept with a simplified, familiar shape. Keep all icons in an
   app consistent in size, detail, stroke weight and perspective, whether custom, system or mixed.
 - [HIG] Add padding inside the asset to center asymmetric icons optically.
-- [HIG] Do not supply selected-state versions for icons in standard components (toolbars, tab bars, buttons); the
-  system draws selection.
-- [HIG] Include text in an icon only when essential; localize characters; for a passage of text use an abstract
-  representation and provide a flipped version for RTL.
-- [HIG] Use a vector format (PDF or SVG) for custom icons; PNG needs one file per scale factor. A custom SF Symbol
-  is the alternative when the icon should match text.
+- [HIG] Do not supply selected-state icons for standard components (toolbars, tab bars, buttons).
+- [HIG] Include text in an icon only when essential; localize characters; flip abstract text glyphs for RTL.
+- [HIG] Use a vector format (PDF or SVG) for custom icons, or a custom SF Symbol; PNG needs a file per scale.
 - [HIG] Do not depict Apple hardware; if unavoidable use Apple Design Resources images or the matching symbols.
 - [HIG] macOS document icons: supply a background fill (16, 32, 128, 256, 512 px at @1x and @2x), a center image
   (half the canvas, about a 10% margin) and optional short text; keep the fill's top-right corner free.
@@ -162,8 +159,7 @@ Source: https://developer.apple.com/design/human-interface-guidelines/images
 
 - [HIG] One simple core idea, few shapes, simple background; keep the design consistent across platforms.
 - [HIG] Text only when essential to the brand; never instructions ("Watch", "Play") or context terms ("New").
-- [HIG] Prefer illustration to photos; no screenshots or replicas of UI components; avoid very thin lines and
-  sharp corners.
+  Prefer illustration to photos; no screenshots or UI-component replicas; avoid very thin lines.
 - [Req] Do not use replicas of Apple hardware (the page says they are copyrighted and cannot be reproduced).
 - [HIG] Keep primary content centered, especially for the circular visionOS and watchOS masks.
 - [HIG] Appearances (iOS, iPadOS, macOS): people choose default, dark, clear or tinted. Provide the variants or
