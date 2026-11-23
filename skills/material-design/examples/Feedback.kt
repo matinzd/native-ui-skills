@@ -4,9 +4,10 @@
 // before continuing (destructive confirmation), a modal bottom sheet for a short list of
 // secondary actions, and a snackbar for low-priority, non-blocking confirmation with Undo.
 //
-// Library versions: Compose BOM 2026.11.01; material3 1.5.x (also valid on 1.4.x: the sheet
-//   uses its default state, so neither rememberBottomSheetState (1.5+) nor the 1.4 state
-//   factory that 1.5 deprecates is called). ListItem(onClick) needs 1.5.
+// Library versions: Compose BOM 2026.11.01; material3 1.5.x. Only the two ListItem(onClick)
+//   rows need 1.5 (fallback on 1.4.x: ListItem(headlineContent = ...) with Modifier.clickable).
+//   The rest is identical on 1.4.x: the sheet uses its default state, so neither
+//   rememberBottomSheetState (1.5+) nor the 1.4 state factory that 1.5 deprecates is called.
 // Opt-ins: ExperimentalMaterial3Api for ModalBottomSheet only (experimental in 1.4, 1.5 and
 //   1.6 alpha). AlertDialog, Snackbar and Scaffold are stable.
 // Resources assumed: R.string.more_actions, archive, delete, cancel, undo, archived_message,

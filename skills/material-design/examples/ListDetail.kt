@@ -3,8 +3,9 @@
 // Purpose: a list-detail layout that shows one pane in compact windows and list plus detail
 // side by side when the window is wide enough, with back navigation handled by the scaffold.
 //
-// Library versions: Compose BOM 2026.11.01; material3 1.5.x (ListItem overloads with a
-//   trailing content lambda; fallback on 1.4.x: the headlineContent overload in a clickable row); androidx.compose.material3.adaptive:adaptive,
+// Library versions: Compose BOM 2026.11.01; material3 1.5.x for the ListItem(selected, onClick)
+//   overload with a trailing content lambda (fallback on 1.4.x: ListItem(headlineContent = ...)
+//   with Modifier.selectable); androidx.compose.material3.adaptive:adaptive,
 //   adaptive-layout and adaptive-navigation 1.3.0 (the calls below exist since 1.1.0).
 // Opt-ins: ExperimentalMaterial3AdaptiveApi. The pane scaffolds, AnimatedPane and the navigator
 //   are experimental in every adaptive release to date, including "stable" 1.3.0. If the
@@ -28,6 +29,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
@@ -118,7 +121,11 @@ fun InboxScreen(messages: List<Message>) {
                         Text(
                             text = selected.body,
                             style = MaterialTheme.typography.bodyLarge,
-                            modifier = Modifier.padding(innerPadding).padding(16.dp),
+                            // Scrolls: a long message or a large font size must stay readable.
+                            modifier = Modifier
+                                .padding(innerPadding)
+                                .verticalScroll(rememberScrollState())
+                                .padding(16.dp),
                         )
                     }
                 }

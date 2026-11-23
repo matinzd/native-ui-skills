@@ -266,7 +266,7 @@ Source: https://developer.android.com/guide/topics/ui/accessibility/principles ,
 // ui-test-junit4 1.13, ui-test-junit4-accessibility; test device API 34+ for the checks. Not compiled.
 @get:Rule val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
-@Test fun favoriteToggle_exposesNameStateAndSize() {
+@SdkSuppress(minSdkVersion = 34) @Test fun favoriteToggle_exposesNameStateAndSize() { // checks need API 34
     composeTestRule.setContent { AppTheme { FavoriteToggle(favorite = false, onFavoriteChange = {}) } }
     composeTestRule.enableAccessibilityChecks()
     composeTestRule.onNodeWithContentDescription("Favorite")

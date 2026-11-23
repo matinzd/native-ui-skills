@@ -108,7 +108,7 @@ Source: https://developer.android.com/reference/kotlin/androidx/compose/material
 
 - [API] "expressive exp" needs `@OptIn(ExperimentalMaterial3ExpressiveApi::class)`.
 - [API] The 1.3, 1.4 and 1.5 columns were read from the `1.3.0-beta01`, `1.4.0-beta03` and `1.5.0-beta01` API snapshots, the closest files to each stable release that are published; a late change between beta and stable is possible.
-- [Unverified] The 1.5.0 release notes mention a `SplitButton` composable replacing `SplitButtonLayout`; no `SplitButton(` function is in the 1.5.0-beta01 or current API file. Use `SplitButtonLayout` and check the project's version.
+- [Unverified] The 1.5.0 release notes mention a `SplitButton` composable replacing `SplitButtonLayout` and call `SplitButtonLayout` deprecated. The API files do not agree: neither the 1.5.0-beta01 snapshot nor `current.txt` (1.6 alpha) contains a `SplitButton(` function, and `SplitButtonLayout` carries no `@Deprecated` in either. Write `SplitButtonLayout`, do not guess a `SplitButton` signature, and if the project's 1.5.x reports it as deprecated, follow the replacement the compiler message names.
 
 Source: https://developer.android.com/reference/kotlin/androidx/compose/material3/package-summary , https://developer.android.com/jetpack/androidx/releases/compose-material3
 
@@ -203,6 +203,7 @@ Source: https://developer.android.com/reference/kotlin/androidx/compose/material
 
 ```kotlin
 // material3 1.2+; no opt-in. Not compiled.
+val context = LocalContext.current
 val colorScheme = when {
     dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ->
         if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
