@@ -1,0 +1,14 @@
+{
+  "name": "apple-hig-skill",
+  "owner": { "name": "matinzd" },
+  "description": "Marketplace for the apple-hig Agent Skill.",
+  "plugins": [
+    {
+      "name": "apple-hig",
+      "source": "./",
+      "description": "Design, implement, review and adapt native Apple-platform UIs per Apple's Human Interface Guidelines.",
+      "category": "design",
+      "tags": ["apple", "hig", "swiftui", "uikit", "appkit"]
+    }
+  ]
+}

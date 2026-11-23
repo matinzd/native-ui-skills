@@ -1,0 +1,10 @@
+{
+  "name": "apple-hig",
+  "displayName": "Apple HIG",
+  "version": "0.1.0",
+  "description": "Agent Skill for designing, implementing, reviewing and adapting native Apple-platform UIs per Apple's Human Interface Guidelines.",
+  "author": { "name": "matinzd" },
+  "repository": "https://github.com/matinzd/apple-hig-skill",
+  "license": "MIT",
+  "keywords": ["apple", "hig", "swiftui", "uikit", "appkit", "ios", "macos", "accessibility", "design"]
+}

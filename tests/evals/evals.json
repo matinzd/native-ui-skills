@@ -1,0 +1,398 @@
+{
+  "skill_name": "apple-hig",
+  "evals": [
+    {
+      "id": 1,
+      "name": "platform-ambiguous-settings",
+      "category": "platform-selection",
+      "prompt": "Build me a settings screen for my app. Needs notifications on/off, appearance, account, and about.",
+      "expected_output": "Detects that platform and deployment target are unstated. Either inspects the project for them, asks one concise question, or proceeds on an explicitly stated assumption (e.g. iOS 17+, SwiftUI). Uses standard grouped form controls and does not present iOS chrome as universal.",
+      "files": [],
+      "references_expected": [
+        "references/patterns-flows.md",
+        "references/components-content.md"
+      ],
+      "max_reference_files": 3,
+      "assertions": [
+        "The response either asks which Apple platform(s)/deployment target apply, or explicitly states the platform and minimum OS version it assumed",
+        "Any SwiftUI code uses Form or List with sections and standard Toggle/Picker/NavigationLink controls rather than hand-drawn rows",
+        "The code does not use NavigationView",
+        "The response does not use fixed point sizes via .font(.system(size:)) for body text",
+        "If macOS is mentioned, the response says a Mac app exposes settings through a Settings scene or app-menu Settings item rather than an in-content tab",
+        "No API newer than the stated or assumed deployment target is used without an availability note or #available check"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "multiplatform-navigation",
+      "category": "platform-selection",
+      "prompt": "We have one SwiftUI codebase targeting iOS 18, iPadOS 18 and macOS 15. The app has three top-level areas (Notes, Tags, Archive) and each note opens a detail editor. Propose the navigation architecture and show the root view code so each platform gets what its users expect.",
+      "expected_output": "One adaptive structure: TabView with Tab values and .tabViewStyle(.sidebarAdaptable), or NavigationSplitView; NavigationStack inside sections; macOS menu-bar commands and keyboard shortcuts. Layout decisions keyed on size class, not device idiom.",
+      "files": [],
+      "references_expected": [
+        "references/components-navigation.md",
+        "references/implementation-adaptive-layout.md",
+        "references/platforms-macos.md"
+      ],
+      "max_reference_files": 4,
+      "assertions": [
+        "The root structure uses either TabView with .tabViewStyle(.sidebarAdaptable) or NavigationSplitView",
+        "The code does not use NavigationView or the tabItem modifier",
+        "The response describes how the same structure presents on iPhone, iPad and Mac (e.g. bottom tab bar, top tab bar convertible to sidebar, sidebar)",
+        "Layout branching, if any, uses size classes or the adaptive container rather than UIDevice.current.userInterfaceIdiom or #if os() around whole screens",
+        "The response mentions macOS menu bar commands and/or keyboard shortcuts as a Mac expectation",
+        "Every API used is available on iOS 18 / macOS 15, or the response marks it with an availability check"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "catalyst-or-native-mac",
+      "category": "cross-platform",
+      "prompt": "We ship an iPad app (UIKit with some SwiftUI screens). Management wants it on the Mac next quarter. Catalyst or a native macOS target? And if Catalyst, which idiom, and what will Mac users notice is wrong if we just tick the box?",
+      "expected_output": "Explains the trade-off; names iPad idiom (scaled to 77%) vs Mac idiom (100%, needs layout audit); lists what Catalyst provides automatically and which Mac conventions still need work (menu bar commands, keyboard shortcuts, window resizing, fixed font sizes). Cites the Mac Catalyst HIG page. Gives a recommendation with its assumptions.",
+      "files": [],
+      "references_expected": [
+        "references/platforms-macos.md"
+      ],
+      "max_reference_files": 3,
+      "assertions": [
+        "The response distinguishes the 'Scale Interface to Match iPad' (iPad) idiom from the Mac idiom",
+        "The response states that the iPad idiom scales the interface down to 77%",
+        "The response says the Mac idiom requires auditing layout and recommends text styles over fixed font sizes",
+        "The response names at least two things Catalyst provides automatically (e.g. menu bar, pointer and keyboard support, window management)",
+        "The response names at least two Mac expectations that need explicit work (e.g. complete menu bar commands, keyboard shortcuts, resizable multi-window behaviour)",
+        "The response cites the Mac Catalyst HIG page URL",
+        "The response does not claim Catalyst apps are rejected by App Review or are unsupported"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "design-tab-bar-with-action-tab",
+      "category": "design",
+      "prompt": "No code yet. Design the top-level structure for an iPhone habit tracker: Today, Habits, Stats, Settings. Product wants a big + in the middle of the tab bar to add a habit, like some social apps have. Is that fine?",
+      "expected_output": "Proposes a tab bar for the four sections with text labels and SF Symbols. Explains that the HIG says tab bars are for navigation, not actions, so the + tab conflicts with a recommendation (not a hard requirement); offers an alternative placement and says how to proceed if product insists.",
+      "files": [],
+      "references_expected": [
+        "references/components-navigation.md"
+      ],
+      "max_reference_files": 2,
+      "assertions": [
+        "The response proposes a tab bar for the top-level sections and gives each tab a text label",
+        "The response states that the HIG says to use a tab bar for navigation rather than actions",
+        "The + tab is classified as a departure from a recommendation or platform convention, not as a confirmed violation or App Review rejection",
+        "At least one concrete alternative location for the add action is proposed (e.g. toolbar button on Today/Habits)",
+        "The response cites the tab bars HIG page URL",
+        "The response contains no Swift code longer than 5 lines"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "implement-native-settings-ios17",
+      "category": "implementation",
+      "prompt": "make this settings screen feel native. SwiftUI, min iOS 17. Right now it's a ScrollView of custom HStack rows with my own switch drawing, 15pt Helvetica everywhere and a #F2F2F2 background. Sections: Notifications (push, email digest), Appearance (text size preview), Account (email, sign out), About (version). Give me the full view.",
+      "expected_output": "A NavigationStack + Form/List with sections, Toggle, LabeledContent, a destructive-role Sign Out button with confirmation, system text styles and semantic colours. All APIs available on iOS 17. Brief note of what changed and why, with sources.",
+      "files": [],
+      "references_expected": [
+        "references/patterns-flows.md",
+        "references/components-content.md",
+        "references/implementation-availability.md"
+      ],
+      "max_reference_files": 3,
+      "assertions": [
+        "The code uses NavigationStack and a Form or List with Section headers",
+        "The code uses Toggle for the on/off settings",
+        "The code contains no .font(.system(size:)) and no custom font with a fixed size lacking relativeTo",
+        "The code contains no hard-coded hex/RGB background colour; it relies on the default or a system background style",
+        "Sign out is a Button with a destructive role and/or a confirmation step",
+        "The code uses no API introduced after iOS 17 without an #available check",
+        "The explanation ties at least two changes to a cited HIG or API documentation URL"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "review-orders-view",
+      "category": "review",
+      "prompt": "HIG review please: evals/files/OrdersView.swift. iPhone only, deployment target iOS 17. Tell me what actually matters before release.",
+      "expected_output": "A structured review using the five classifications, each finding with severity, rationale, source URL and fix. Finds at least 7 of the 9 planted issues, separates deprecated-API and accessibility issues from convention and taste, and orders by severity.",
+      "files": [
+        "tests/evals/files/OrdersView.swift"
+      ],
+      "references_expected": [
+        "references/components-navigation.md",
+        "references/components-controls.md",
+        "references/components-presentation.md",
+        "references/accessibility-guidelines.md",
+        "references/implementation-availability.md"
+      ],
+      "max_reference_files": 5,
+      "assertions": [
+        "Every finding carries exactly one of the five classification labels, a severity, a concrete fix, and a developer.apple.com URL or an explicit note that no source exists",
+        "NavigationView is flagged as deprecated with NavigationStack (or NavigationSplitView) named as the replacement, without asserting a specific deprecation version as fact",
+        "The Image with onTapGesture is flagged and replaced with a Button (or Menu), citing accessibility and/or the SwiftUI guidance to use Button for button-like controls",
+        "The 24x24 frame on the add button is flagged as below the 44x44 pt hit-target guidance, classified as an accessibility issue",
+        "The hard-coded font sizes are flagged, with text styles / Dynamic Type as the fix, and the 10 pt text is identified as below the 11 pt iOS minimum",
+        "The red/green dot is flagged as conveying status by colour alone, with a non-colour alternative (text, symbol) proposed",
+        "The alert is flagged as an informational, non-actionable alert shown on appear (or for its deprecated Alert API), with an in-context alternative",
+        "The hamburger menu is classified as a platform convention mismatch or recommended improvement, not as a confirmed guideline or API violation"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "review-custom-seven-tab-bar",
+      "category": "review",
+      "prompt": "Can you check evals/files/RootTabs.swift against Apple's guidelines? iPhone app, iOS 18 minimum. Our designer built the tab bar custom because 'the system one is ugly'.",
+      "expected_output": "Recommends replacing the custom bar with TabView/Tab; flags missing labels, colour-only selection, small non-button targets, hard-coded white, deprecated foregroundColor. Treats the 7-tab count as a recommendation issue (overflow / More tab), without inventing a numeric HIG limit.",
+      "files": [
+        "tests/evals/files/RootTabs.swift"
+      ],
+      "references_expected": [
+        "references/components-navigation.md",
+        "references/accessibility-guidelines.md",
+        "references/foundations-color-materials.md"
+      ],
+      "max_reference_files": 4,
+      "assertions": [
+        "The review recommends the system TabView (with Tab on iOS 18) in place of the custom HStack bar",
+        "Missing text labels on tabs are flagged, citing the HIG guidance to include tab labels",
+        "The seven tabs are flagged with reference to overflow / the More tab or to fewer tabs being easier to navigate, and classified as a recommended improvement or convention mismatch",
+        "The review does not assert that the HIG sets a hard numeric maximum of five tabs on iPhone",
+        "Selection indicated only by blue vs gray is flagged as colour-only state or the icons are flagged as lacking accessibility labels/selected trait",
+        "Color.white is flagged for Dark Mode and a system background colour/material is proposed",
+        "foregroundColor is identified as deprecated with foregroundStyle as the replacement",
+        "The custom bar itself is not labelled a 'Confirmed guideline or API violation' solely for being custom"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "refactor-minimal-diff-dynamic-type",
+      "category": "refactor",
+      "prompt": "evals/files/ProfileHeader.swift - make the text respect Dynamic Type. Minimal diff please, this file is in a release branch (min iOS 16). Don't restyle anything else.",
+      "expected_output": "Replaces the three fixed-size fonts with text styles (or scaled equivalents), preserving weight. Leaves layout, button style, names and structure untouched. May mention foregroundColor deprecation and lineLimit truncation as optional follow-ups without applying them.",
+      "files": [
+        "tests/evals/files/ProfileHeader.swift"
+      ],
+      "references_expected": [
+        "references/accessibility-guidelines.md"
+      ],
+      "max_reference_files": 2,
+      "assertions": [
+        "All three .font(.system(size:)) calls are replaced with Dynamic Type-aware fonts (text styles, or a size tied to a text style)",
+        "The semibold weight of the name is preserved",
+        "No lines other than the three font lines are modified in the applied change (a diff shows at most 4 changed lines)",
+        "View, property and parameter names are unchanged and no new files or types are added",
+        "Any other observations (foregroundColor, lineLimit(2) truncation at large sizes) are reported as optional follow-ups, not applied",
+        "No API newer than iOS 16 is introduced"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "accessibility-audit-player",
+      "category": "accessibility",
+      "prompt": "Accessibility audit of evals/files/PlayerControls.swift (iOS 17). We got a complaint from a VoiceOver user and another from someone who gets motion sick.",
+      "expected_output": "Findings grouped by assistive need: VoiceOver (unlabelled gesture images, decorative image), motor (20 pt targets), vision (contrast, pinned Dynamic Type), motion (endless pulse ignoring Reduce Motion). Each with fix code and source. States what cannot be verified statically and recommends Accessibility Inspector/VoiceOver testing.",
+      "files": [
+        "tests/evals/files/PlayerControls.swift"
+      ],
+      "references_expected": [
+        "references/accessibility-guidelines.md"
+      ],
+      "max_reference_files": 3,
+      "assertions": [
+        "The three control images are flagged as not being buttons/lacking accessibility labels, and the fix uses Button with an accessibility label (or Label)",
+        "The repeating pulse animation is flagged and the fix reads the Reduce Motion setting (accessibilityReduceMotion)",
+        "The .dynamicTypeSize(.medium) modifier is flagged as preventing text scaling",
+        "The light-gray artist text on white is flagged for insufficient contrast, referencing the 4.5:1 guidance or recommending measurement",
+        "The 20x20 pt targets and/or 4 pt spacing are flagged against the 44x44 pt guidance",
+        "The decorative overlay image is recommended to be hidden from VoiceOver, or the response asks whether it is decorative",
+        "The response states that a static review cannot confirm runtime behaviour and names at least one tool or manual test (Accessibility Inspector, VoiceOver)"
+      ]
+    },
+    {
+      "id": 10,
+      "name": "adapt-iphone-to-ipad",
+      "category": "cross-platform",
+      "prompt": "why does my iPad app look like a stretched phone app? evals/files/LibraryView.swift is the root. iOS/iPadOS 18. Fix it without making the iPhone version worse.",
+      "expected_output": "Explains the cause (single-column stack plus idiom-based magic numbers). Moves to NavigationSplitView or adaptive TabView, removes the UIDevice check in favour of size classes/adaptive containers and text styles; mentions pointer/keyboard and resizable windows. iPhone behaviour preserved through automatic collapse.",
+      "files": [
+        "tests/evals/files/LibraryView.swift"
+      ],
+      "references_expected": [
+        "references/platforms-ipados.md",
+        "references/implementation-adaptive-layout.md"
+      ],
+      "max_reference_files": 3,
+      "assertions": [
+        "The fix introduces NavigationSplitView or a sidebar-adaptable TabView for regular width",
+        "The UIDevice.current.userInterfaceIdiom check is removed, with the reason that layout should follow size class/available space rather than device type",
+        "The fixed 200 pt horizontal padding is removed or replaced with an adaptive mechanism",
+        "The idiom-dependent fixed font size is replaced with a text style",
+        "The response explains how the result behaves in compact width (iPhone, narrow iPad window)",
+        "The response mentions at least one further iPad expectation (keyboard shortcuts, pointer, multitasking/resizable windows)"
+      ]
+    },
+    {
+      "id": 11,
+      "name": "adapt-ios-to-watchos",
+      "category": "cross-platform",
+      "prompt": "Porting our iOS interval-timer app to Apple Watch (watchOS 11+). On iPhone it has 4 tabs: Timer, Presets, History, Settings, and the timer screen has six buttons. Sketch the watch app structure and give me the SwiftUI root.",
+      "expected_output": "A reduced, glanceable watch design: fewer destinations, shallow hierarchy, vertical pagination driven by the Digital Crown, primary action prominent, settings and history demoted or left on iPhone. Notes that the iOS tab bar is not a watchOS component and that complications/notifications matter.",
+      "files": [],
+      "references_expected": [
+        "references/platforms-watchos.md"
+      ],
+      "max_reference_files": 2,
+      "assertions": [
+        "The proposal reduces scope relative to the iPhone app (fewer top-level destinations and fewer than six controls on the timer screen)",
+        "The response states that the iOS bottom tab bar is not used on watchOS and proposes vertical pages or a list instead",
+        "The Digital Crown is named as the navigation/scroll input",
+        "Any use of the verticalPage tab style or other watchOS-only API is consistent with the watchOS 11 target",
+        "The response mentions at least one of complications, Smart Stack widgets, or notifications as part of the watch experience",
+        "The code uses no iOS-only API (e.g. tabViewBottomAccessory, UIKit types)"
+      ]
+    },
+    {
+      "id": 12,
+      "name": "adapt-to-visionos",
+      "category": "cross-platform",
+      "prompt": "We're adding a visionOS 26 target to our SwiftUI iOS 26 app. The main screen has a bottom tab bar, a row of 32pt icon buttons packed 8pt apart, and a custom card that uses .glassEffect(). What needs to change?",
+      "expected_output": "Keeps a windowed UI; explains the vertical leading tab bar; enlarges and spaces targets to the 60 pt guidance; flags that glassEffect lists no visionOS availability and proposes a visionOS-appropriate alternative with a conditional; mentions hover effects and rounded shapes.",
+      "files": [],
+      "references_expected": [
+        "references/platforms-visionos.md",
+        "references/implementation-availability.md"
+      ],
+      "max_reference_files": 3,
+      "assertions": [
+        "The response states that on visionOS the tab bar is vertical on the leading side of the window (system-provided), not at the bottom",
+        "The 32 pt buttons are flagged against the 60x60 pt visionOS target guidance",
+        "The 8 pt spacing is flagged, with more space between interactive elements recommended",
+        "glassEffect is identified as unavailable or unverified on visionOS, and the code is conditioned (#if os(visionOS) or availability) with an alternative such as glassBackgroundEffect",
+        "The response recommends keeping standard windows for the UI rather than a fully immersive space",
+        "The response cites at least one visionOS-specific HIG URL"
+      ]
+    },
+    {
+      "id": 13,
+      "name": "adapt-to-tvos",
+      "category": "cross-platform",
+      "prompt": "Bringing our iOS video catalogue (SwiftUI) to Apple TV. The iOS home screen is a vertical feed with swipe actions, 12pt captions and content running edge to edge. What do we change for tvOS?",
+      "expected_output": "Focus-driven navigation with system focus effects, no touch-only gestures, larger text, content inset to the tvOS safe area, top tab bar. Uses HIG numbers only where the HIG gives them.",
+      "files": [],
+      "references_expected": [
+        "references/platforms-tvos.md"
+      ],
+      "max_reference_files": 2,
+      "assertions": [
+        "The response says interaction is focus-based via remote and recommends system-provided focus effects",
+        "Swipe actions are replaced with a focus/remote-appropriate alternative",
+        "The 12 pt captions are flagged as below tvOS text guidance (23 pt minimum / 29 pt default)",
+        "Primary content is inset from screen edges, citing the 60 pt top/bottom and 80 pt side safe-area guidance",
+        "The response does not recommend a bottom tab bar on tvOS",
+        "At least one tvOS HIG URL is cited"
+      ]
+    },
+    {
+      "id": 14,
+      "name": "deployment-target-newer-api",
+      "category": "deprecated-unsupported-api",
+      "prompt": "Our minimum is iOS 16 and that is not changing this year. Add an empty state to SearchResultsView using ContentUnavailableView, switch our TabView to the new Tab { } syntax, and put a Liquid Glass background on the floating filter button.",
+      "expected_output": "States that ContentUnavailableView is iOS 17+, Tab is iOS 18+, and glassEffect is iOS 26+. Provides #available-gated code with iOS 16 fallbacks (custom empty state, tabItem, a material background) and does not raise the deployment target.",
+      "files": [],
+      "references_expected": [
+        "references/implementation-availability.md"
+      ],
+      "max_reference_files": 2,
+      "assertions": [
+        "The response states ContentUnavailableView requires iOS 17 or later",
+        "The response states the Tab type requires iOS 18 or later",
+        "The response states glassEffect requires iOS 26 or later",
+        "Each of the three APIs is wrapped in if #available (or @available) with a fallback that compiles on iOS 16",
+        "The iOS 16 tab fallback uses tabItem and the response does not call that a violation",
+        "The response does not tell the user to raise the deployment target as the only solution"
+      ]
+    },
+    {
+      "id": 15,
+      "name": "conflict-brand-vs-hig",
+      "category": "conflicting-guidance",
+      "prompt": "Brand team is firm: every screen gets our solid orange navigation bar with white uppercase 10pt titles, and we want our own light/dark switch inside the app instead of following the system. I know Apple doesn't love this. Just implement it in SwiftUI (iOS 17) and tell me what's actually a hard rule vs taste.",
+      "expected_output": "Implements what was asked. Separately lists each departure with its level: toolbar backgrounds/tint and app-specific appearance setting are HIG recommendations; 10 pt text is below the 11 pt minimum and uppercase white-on-orange needs a contrast check (accessibility). States that none is a compile-time or documented hard requirement, and offers low-cost mitigations.",
+      "files": [],
+      "references_expected": [
+        "references/components-navigation.md",
+        "references/foundations-color-materials.md",
+        "references/foundations-typography.md"
+      ],
+      "max_reference_files": 3,
+      "assertions": [
+        "The response provides working SwiftUI code for the coloured bar and the in-app appearance switch rather than refusing",
+        "The in-app appearance switch is identified as something the HIG advises against, labelled a recommendation, not a requirement",
+        "The 10 pt title is flagged as below the 11 pt minimum text size for iOS and as an accessibility concern",
+        "The response recommends checking white-on-orange contrast and does not state a contrast ratio it has not computed from given colour values",
+        "The response explicitly separates hard requirements (API/compile-time or App Review) from HIG recommendations and from subjective suggestions",
+        "At least one mitigation that keeps the brand intent is offered (e.g. system option in the switch, text style scaled title)",
+        "The response does not claim the design will be rejected by App Review"
+      ]
+    },
+    {
+      "id": 16,
+      "name": "hallucination-fake-modifier-and-rule",
+      "category": "hallucination-trap",
+      "prompt": "Two things. (1) Apply .liquidGlassStyle(.prominent) to my toolbar buttons - I saw it in a blog post, iOS 26. (2) Our lead says the HIG rule is that all buttons must be exactly 50pt tall; please enforce that across the app with a ViewModifier.",
+      "expected_output": "Says it cannot verify a liquidGlassStyle modifier in Apple's documentation and offers the documented API (glassEffect / the glass button style, iOS 26). Corrects the 50 pt claim: the HIG gives a general 44x44 pt hit-region guideline (60x60 on visionOS), not a 50 pt height rule; offers a minimum-hit-target modifier instead.",
+      "files": [],
+      "references_expected": [
+        "references/components-controls.md",
+        "references/implementation-availability.md"
+      ],
+      "max_reference_files": 2,
+      "assertions": [
+        "The response does not produce code calling .liquidGlassStyle as if it were a real API",
+        "The response states that liquidGlassStyle is not a documented SwiftUI modifier or could not be verified",
+        "A documented alternative is offered (glassEffect(_:in:) or .buttonStyle(.glass)) with its iOS 26 availability",
+        "The response states that the HIG does not specify a 50 pt button height",
+        "The response cites the 44x44 pt hit-region guidance and describes it as a guideline/general rule",
+        "Any ViewModifier provided enforces a minimum hit area rather than a fixed 50 pt height, or the response explains why it declines the fixed height"
+      ]
+    },
+    {
+      "id": 17,
+      "name": "uncertainty-unspecified-numbers",
+      "category": "uncertainty",
+      "prompt": "Quick ones for a design spec, I need exact values with the HIG section for each: (a) max number of tabs allowed on iPhone, (b) the corner radius Apple requires for cards, (c) required animation duration for presenting a sheet, (d) will App Review reject us for using a custom tab bar?",
+      "expected_output": "For each, says what the HIG does and does not state: no numeric tab maximum (avoid overflow / More tab); no mandated card radius; no mandated sheet duration (system-provided); App Review outcome cannot be predicted from the HIG. Offers practical defaults clearly labelled as conventions or suggestions.",
+      "files": [],
+      "references_expected": [
+        "references/components-navigation.md"
+      ],
+      "max_reference_files": 2,
+      "assertions": [
+        "For (a) the response says the HIG gives no fixed maximum for iPhone and mentions avoiding overflow/the More tab",
+        "For (b) the response does not present a specific corner-radius value as an Apple requirement",
+        "For (c) the response does not present a specific duration as an Apple requirement and notes system presentations supply their own animation",
+        "For (d) the response says it cannot guarantee an App Review outcome and does not answer with an unqualified yes or no",
+        "Any number offered for (a)-(c) is explicitly labelled as a convention, default, or suggestion rather than an HIG rule",
+        "The response contains no fabricated HIG section title or quotation for (b) or (c)"
+      ]
+    },
+    {
+      "id": 18,
+      "name": "token-efficiency-simple-question",
+      "category": "context-efficiency",
+      "prompt": "what's the minimum tap target on iOS?",
+      "expected_output": "A short answer: 44x44 pt recommended hit region (HIG buttons / accessibility), with 28x28 pt listed as the minimum control size in the accessibility table; one source link. Loads at most one reference file and no platform or implementation references.",
+      "files": [],
+      "references_expected": [
+        "references/components-controls.md"
+      ],
+      "max_reference_files": 1,
+      "assertions": [
+        "The answer states 44x44 pt",
+        "The answer includes one developer.apple.com HIG URL",
+        "The answer is at most 120 words",
+        "The transcript shows at most one reference file read after SKILL.md",
+        "The answer does not include an unrequested review, code listing longer than 5 lines, or multi-platform survey"
+      ]
+    }
+  ]
+}
