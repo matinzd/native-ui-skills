@@ -213,7 +213,7 @@ Source: https://developer.android.com/guide/topics/ui/accessibility/principles ,
 | XR | targets 56x56dp or larger with a 48x48dp or larger visual and a 4dp offset; no overlapping targets; body text at least 14dp; high contrast against passthrough; seated, standing and reclined use | `references/platforms-auto-xr.md` |
 | Cars | host-rendered templates with their own contrast requirements | `references/platforms-auto-xr.md` |
 
-Source: https://m3.material.io/foundations/layout/breakpoints/medium , https://m3.material.io/foundations/designing/structure , https://m3.material.io/foundations/desktop/interaction , https://developer.android.com/docs/quality-guidelines/wear-app-quality , https://m3.material.io/foundations/watches/layout , https://m3.material.io/foundations/xr/design/accessibility , https://developer.android.com/training/tv/accessibility/talkback
+Source: https://m3.material.io/foundations/layout/breakpoints/medium , https://m3.material.io/foundations/designing/structure , https://m3.material.io/foundations/desktop/interaction , https://developer.android.com/develop/adaptive-apps/quality-guidelines/adaptive-app-quality/tier-2 , https://developer.android.com/docs/quality-guidelines/wear-app-quality , https://m3.material.io/foundations/watches/layout , https://m3.material.io/foundations/xr/design/accessibility , https://developer.android.com/training/tv/accessibility/talkback
 
 ## Accessibility review checklist
 

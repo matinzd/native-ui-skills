@@ -137,6 +137,7 @@ Source: https://developer.android.com/reference/kotlin/androidx/compose/material
 | `BasicTextField(value, onValueChange)` | deprecated in Foundation 1.13 | `BasicTextField(state: TextFieldState)` |
 | `semantics { invisibleToUser() }`, `isContainer = true` | deprecated | `hideFromAccessibility()`, `isTraversalGroup = true` |
 | Accompanist `rememberSystemUiController()`, `window.statusBarColor = ...` | [Unverified] Accompanist status not re-checked; status bar color has no effect on Android 15+ | `enableEdgeToEdge()` and window insets |
+| `ComponentActivity.enableEdgeToEdge()` (`androidx.activity`) | fine through activity 1.13; deprecated in 1.14.0-alpha03 | `WindowCompat.enableEdgeToEdge(window)` (`androidx.core`) once the project is on activity 1.14 |
 | `onBackPressed()` override, intercepting `KEYCODE_BACK` | not supported with predictive back | `BackHandler`, `PredictiveBackHandler`, `OnBackPressedCallback` |
 
 - [Conv] When 1.4 must be supported, the deprecated-in-1.5 form is the correct fallback there; mark it: `// Fallback for material3 1.4: ListItem(headlineContent = ...)`.

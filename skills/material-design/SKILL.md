@@ -128,7 +128,9 @@ All of these are recommendations unless a reference says otherwise (verified 202
 | 1200 to 1599dp | Large | Navigation rail | Up to two |
 | 1600dp and wider | Extra-large | Navigation rail | Up to three |
 
-Breakpoints describe the window, not the device: the same app is compact in split screen and expanded when
+Material's pages disagree about medium width (the navigation bar page allows a bar or a rail; the navigation
+rail and desktop pages say rail) and about pane counts at the largest sizes; `references/foundations-layout.md`
+gives each page's wording. Breakpoints describe the window, not the device: the same app is compact in split screen and expanded when
 unfolded. Material renamed "window size classes" to "breakpoints" in 2026; the Android libraries still say window
 size class.
 

@@ -24,8 +24,7 @@ Verified: 2026-11-23 against the sources linked in each section (Compose Materia
 - [API] The `content` lambda receives `PaddingValues` that cover the bars and `contentWindowInsets`. Content that ignores them is drawn under the top bar, the bottom bar and the system bars.
 - [Conv] Scrolling content: pass the padding as `contentPadding = innerPadding` to `LazyColumn` so items scroll behind the bars but rest clear of them. Non-scrolling content: `Modifier.padding(innerPadding)`.
 - [API] Add `Modifier.consumeWindowInsets(innerPadding)` on the content so nested inset modifiers (`imePadding()`, `safeDrawingPadding()`) do not apply the same insets twice.
-- [Conv] One `Scaffold` per screen. Snackbars go in `snackbarHost`, the FAB in `floatingActionButton`; do not overlay them with your own `Box`.
-- [Conv] Worked example: `examples/SettingsScreen.kt`.
+- [Conv] One `Scaffold` per screen. Snackbars go in `snackbarHost`, the FAB in `floatingActionButton`; do not overlay them with your own `Box`. Worked example: `examples/SettingsScreen.kt`.
 
 ```kotlin
 // material3 1.4+; no opt-in. Not compiled.
@@ -113,8 +112,7 @@ Source: https://m3.material.io/components/navigation-bar/guidelines , https://m3
 - [API] Default layout: navigation bar when the window width or height is compact or the device is in tabletop posture, navigation rail otherwise.
 - [API] `NavigationSuiteType` values: `NavigationBar`, `NavigationRail`, `NavigationDrawer`, `None`, `ShortNavigationBarCompact`, `ShortNavigationBarMedium`, `WideNavigationRailCollapsed`, `WideNavigationRailExpanded`.
 - [API] To customize, compute the type yourself: start from `NavigationSuiteScaffoldDefaults.calculateFromAdaptiveInfo(currentWindowAdaptiveInfoV2())` and override for the cases you want.
-- [API] `rememberNavigationSuiteScaffoldState()` shows or hides the navigation component (for example on a full-screen detail).
-- [Conv] Complete example: `examples/AdaptiveNavigation.kt`.
+- [API] `rememberNavigationSuiteScaffoldState()` shows or hides the navigation component (for example on a full-screen detail). Complete example: `examples/AdaptiveNavigation.kt`.
 
 Source: https://developer.android.com/develop/ui/compose/layouts/adaptive/build-adaptive-navigation , https://developer.android.com/reference/kotlin/androidx/compose/material3/adaptive/navigationsuite/package-summary
 
@@ -211,8 +209,7 @@ Source: https://developer.android.com/develop/ui/compose/layouts/adaptive/use-wi
 - [API] Wrap each pane's content in `AnimatedPane { }`. Packages: scaffold roles and `AnimatedPane` in `androidx.compose.material3.adaptive.layout`, navigator and `Navigable...` scaffolds in `androidx.compose.material3.adaptive.navigation`.
 - [MD] List-detail: one pane in compact width, list and detail side by side in expanded width; selecting in the list updates the detail without leaving the screen.
 - [Conv] If the project forbids experimental API, build two panes in a `Row` switched on the width breakpoint (previous section) and handle Back with `BackHandler`; say that this trades away pane animation, hinge awareness and predictive back.
-- [API] adaptive 1.3.0 adds `adaptive-navigation3` (`rememberListDetailSceneStrategy`) for apps on Navigation 3.
-- [Conv] Complete example: `examples/ListDetail.kt`.
+- [API] adaptive 1.3.0 adds `adaptive-navigation3` (`rememberListDetailSceneStrategy`) for apps on Navigation 3. Complete example: `examples/ListDetail.kt`.
 
 Source: https://developer.android.com/develop/ui/compose/layouts/adaptive/list-detail , https://developer.android.com/develop/ui/compose/layouts/adaptive/canonical-layouts , https://m3.material.io/foundations/layout/canonical-layouts
 
@@ -256,7 +253,7 @@ Source: https://developer.android.com/guide/navigation/navigation-3 , https://de
 - [MD] Back always returns to the previous destination or dismisses the top surface; do not use it for confirmation-only interstitials except to protect unsaved input.
 
 ```kotlin
-// activity-compose 1.6+; no opt-in. Not compiled.
+// activity-compose; no opt-in. Not compiled.
 BackHandler(enabled = hasUnsavedChanges) { showDiscardDialog = true }
 ```
 
@@ -265,7 +262,8 @@ Source: https://developer.android.com/guide/navigation/custom-back/predictive-ba
 ## Edge-to-edge and window insets
 
 - [Req] Edge-to-edge is enforced on Android 15+ devices for apps targeting SDK 35; apps targeting API 36 cannot opt out on Android 16. The app must handle insets.
-- [MD] Call `enableEdgeToEdge()` (`androidx.activity`, optional `statusBarStyle` and `navigationBarStyle: SystemBarStyle`) in `onCreate` so older Android versions behave the same. Bars become transparent, with a translucent scrim only for three-button navigation.
+- [MD] Enable edge-to-edge in `onCreate` so older Android versions behave the same. Bars become transparent, with a translucent scrim only for three-button navigation.
+- [API] Two spellings: `ComponentActivity.enableEdgeToEdge(statusBarStyle, navigationBarStyle)` from `androidx.activity` (added in 1.8.0, not deprecated in stable 1.13, deprecated in 1.14.0-alpha03) and `WindowCompat.enableEdgeToEdge(window)` from `androidx.core`, which the 1.14 alpha notes and the Views guide name as the replacement. [Unverified] The androidx.core version that introduced the latter was not checked.
 - [API] `window.statusBarColor` and `android:statusBarColor` are deprecated and have no effect on Android 15; draw your own background behind the bar instead.
 - [API] Inside a `Scaffold`, `innerPadding` already includes the system bar insets (`contentWindowInsets`); Material bars, sheets and the navigation suite handle their own insets through `windowInsets` parameters.
 - [API] Without a `Scaffold`: `Modifier.safeDrawingPadding()` (or `windowInsetsPadding(WindowInsets.safeDrawing)`) for content that must not sit under system UI; `WindowInsets.safeGestures` for gesture-sensitive content; `WindowInsets.systemBars` includes the caption bar of desktop windows.
@@ -274,7 +272,7 @@ Source: https://developer.android.com/guide/navigation/custom-back/predictive-ba
 - [Conv] Backgrounds and lists extend edge to edge; text and controls stay inside the safe area. Do not pad the whole screen and leave blank bars.
 
 ```kotlin
-// activity 1.8+ (enableEdgeToEdge), Compose foundation 1.13; no opt-in. Not compiled.
+// activity 1.8 to 1.13 (on 1.14 alpha use WindowCompat.enableEdgeToEdge(window)); no opt-in. Not compiled.
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
